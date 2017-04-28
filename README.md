@@ -1,7 +1,7 @@
 # Fallout
 
 Projektarbeit: C#:
-Allgemein
+Allgemein\n
 • Die Darstellungsart ist frei wählbar, solange die Kriterien erfüllt werden (z.B. Console, Wpf).
 • Das Programm muss in C# programmiert werden.
 • Das Programm muss objektorientiert erstellt werden.
