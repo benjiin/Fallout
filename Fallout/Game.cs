@@ -8,24 +8,25 @@ namespace Fallout
 {
     class Game
     {
-        private Room room;
+        private Room room = new Room();
 
         public void Init()
         {
-            // Vault Bunker 2
-            for(int i=1; i>7; i++)
-            {
-                for(int j=1; j>11; j++)
-                {
-                    string rname = i.ToString() + j.ToString();
-                    Room room = new Room();
-                    this.room.Name = rname;
-                }
-                Console.WriteLine(room.Name);
-                Console.ReadKey();
-            }
-            
-
+            Room roomA1 = new Room();
+            Room roomA2 = new Room();
+            Room roomA3 = new Room();
+            Room roomA4 = new Room();
+            Room roomA5 = new Room();
+            Room roomA6 = new Room();
+            Room roomA7 = new Room();
+            Room roomA8 = new Room();
+            Room roomA9 = new Room();
+            Room roomA10 = new Room();
+            Room roomA11 = new Room();
         }
+        
+        
+        
     }   
 }
+

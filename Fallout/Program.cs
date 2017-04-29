@@ -12,6 +12,8 @@ namespace Fallout
         {
             Game game = new Game();
             game.Init();
+            Console.WriteLine();
+            Console.ReadKey();
         }
     }
 }
