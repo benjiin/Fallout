@@ -11,13 +11,13 @@ namespace Fallout
         /*
          * 7 Reihen Felder & 11 Spalten in Array gepackt  
          */
-        Room[] roomA = new Room[10];
-        Room[] roomB = new Room[10];
-        Room[] roomC = new Room[10];
-        Room[] roomD = new Room[10];
-        Room[] roomE = new Room[10];
-        Room[] roomF = new Room[10];
-        Room[] roomG = new Room[10];
+        Room[] roomA = new Room[11];
+        Room[] roomB = new Room[11];
+        Room[] roomC = new Room[11];
+        Room[] roomD = new Room[11];
+        Room[] roomE = new Room[11];
+        Room[] roomF = new Room[11];
+        Room[] roomG = new Room[11];
         //Room[][] rooms = new Room[7][];
 
 
@@ -30,15 +30,15 @@ namespace Fallout
              * Spalte 3 4 5 6 = Vault 2
              * Spalte 7 8 9 10 = Vault 3
              */
-            for (int i = 0; i < 10; i++)
+            for (int i=0; i<=10; i++)
             {
-                roomA[i] = new Room("A" + (i + 1));
-                roomB[i] = new Room("B" + (i + 1));
-                roomC[i] = new Room("C" + (i + 1));
-                roomD[i] = new Room("D" + (i + 1));
-                roomE[i] = new Room("E" + (i + 1));
-                roomF[i] = new Room("F" + (i + 1));
-                roomG[i] = new Room("G" + (i + 1));
+                roomA[i] = new Room("A" + (i));
+                roomB[i] = new Room("B" + (i));
+                roomC[i] = new Room("C" + (i));
+                roomD[i] = new Room("D" + (i));
+                roomE[i] = new Room("E" + (i));
+                roomF[i] = new Room("F" + (i));
+                roomG[i] = new Room("G" + (i));
             }
             //rooms[0] = new Room[11];
             //rooms[1] = new Room[11];
@@ -82,6 +82,69 @@ namespace Fallout
             roomA[5].PathEast = roomB[6];
             roomA[5].PathWest = roomB[4];
 
+            roomA[6].PathNorth = roomB[6];
+            roomA[6].PathWest = roomB[5];
+
+            roomB[3].PathEast = roomB[4];
+            roomB[3].PathSouth = roomA[3];
+
+            roomB[4].PathSouth = roomB[4];
+            roomB[4].PathWest = roomB[3];
+
+            roomB[5].PathSouth = roomA[5];
+
+            roomB[6].PathSouth = roomA[6];
+            roomB[5].PathUp = roomC[5];
+            // Vault 3
+            roomA[7].PathNorth = roomB[7];
+            roomA[7].PathEast = roomA[8];
+
+            roomA[8].PathNorth = roomB[8];
+            roomA[8].PathEast = roomA[9];
+            roomA[8].PathWest = roomA[7];
+
+            roomA[9].PathEast = roomA[10];
+            roomA[9].PathWest = roomA[8];
+
+            roomA[10].PathNorth = roomB[10];
+            roomA[10].PathWest = roomA[9];
+      
+            roomB[7].PathEast = roomB[8];
+            roomB[7].PathSouth = roomA[7];
+
+            roomB[8].PathEast = roomB[9];
+            roomB[8].PathSouth = roomA[8];
+            roomB[8].PathWest = roomB[7];
+
+            roomB[9].PathWest = roomB[8];
+
+            roomB[10].PathSouth = roomA[10];
+            roomB[10].PathUp = roomF[9];
+            // Commonwealth 
+            roomC[0].PathNorth = roomD[0];
+            roomC[0].PathEast = roomC[1];
+
+            roomC[1].PathNorth = roomD[1];
+            roomC[1].PathWest = roomD[0];
+
+            roomC[2].PathNorth = roomD[2];
+            roomC[2].PathEast = roomC[3];
+
+            roomC[3].PathNorth = roomD[3];
+            roomC[3].PathEast = roomC[4];
+            roomC[3].PathWest = roomC[2];
+
+            roomC[4].PathNorth = roomD[4];
+            roomC[4].PathEast = roomD[5];
+            roomC[4].PathWest = roomD[3];
+
+            roomC[5].PathEast = roomC[6];
+            roomC[5].PathWest = roomC[4];
+
+            roomC[6].PathEast = roomD[7];
+            roomC[6].PathWest = roomC[5];
+
+            
 
 
 
@@ -96,13 +159,6 @@ namespace Fallout
 
 
         }
-
-        public string getRoomName()
-        {
-            return this.roomA[0].Name;
-        }
-
-
 
 
 

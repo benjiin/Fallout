@@ -47,8 +47,8 @@ namespace Fallout
 
         public Room PathNorth
         {
-            get { return pathUp; }
-            set { pathUp = value; }
+            get { return pathNorth; }
+            set { pathNorth = value; }
         }
 
         private Room pathEast;
