@@ -9,13 +9,18 @@ namespace Fallout
     class Room
     {
         public string Name { get; set; }
-        public Room PathNorth { get; set; } = null;
-        public Room PathEast { get; set; } = null;
-        public Room PathSouth { get; set; } = null;
-        public Room PathWest { get; set; } = null;
-        public Room PathUp { get; set; } = null;
-        public Room PathDown { get; set; } = null;
+        private Room PathNorth { get; set; } = null;
+        private Room PathEast { get; set; } = null;
+        private Room PathSouth { get; set; } = null;
+        private Room PathWest { get; set; } = null;
+        private Room PathUp { get; set; } = null;
+        private Room PathDown { get; set; } = null;
         
+        public string getName()
+        {
+            return this.Name;
+        }
+
 
         public Room()
         {

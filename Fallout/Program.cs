@@ -12,7 +12,7 @@ namespace Fallout
         {
             Game game = new Game();
             game.Init();
-            Console.WriteLine(game.r);
+            Console.WriteLine(game.Init();
             Console.ReadKey();
         }
     }
