@@ -15,6 +15,7 @@ namespace Fallout
         public Room PathWest { get; set; } = null;
         public Room PathUp { get; set; } = null;
         public Room PathDown { get; set; } = null;
+        
 
         public Room()
         {

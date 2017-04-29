@@ -23,7 +23,11 @@ namespace Fallout
             Room roomA9 = new Room();
             Room roomA10 = new Room();
             Room roomA11 = new Room();
+            roomA1.Name = "sds";
+            this.room.Name = "sds";
         }
+
+        
         
         
         
