@@ -11,9 +11,10 @@ namespace Fallout
         static void Main(string[] args)
         {
             Game game = new Game();
-            game.Init();
-            Console.WriteLine(game.Init();
+            Console.WriteLine(game.getRoomName());
             Console.ReadKey();
+
+
         }
     }
 }
