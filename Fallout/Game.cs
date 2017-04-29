@@ -141,10 +141,115 @@ namespace Fallout
             roomC[5].PathEast = roomC[6];
             roomC[5].PathWest = roomC[4];
 
-            roomC[6].PathEast = roomD[7];
+            roomC[6].PathEast = roomC[7];
             roomC[6].PathWest = roomC[5];
 
-            
+            roomC[7].PathEast = roomC[8];
+            roomC[7].PathWest = roomC[6];
+
+            roomC[8].PathEast = roomC[9];
+            roomC[8].PathWest = roomC[7];
+
+            roomC[9].PathNorth = roomC[8];
+            roomC[9].PathEast = roomC[9];
+            roomC[9].PathWest = roomC[7];
+
+            roomC[10].PathNorth = roomD[10];
+            roomC[10].PathWest  = roomC[9];
+
+            roomD[0].PathNorth = roomE[0];
+            roomD[0].PathEast = roomD[1];
+            roomD[0].PathSouth = roomC[0];
+
+            roomD[1].PathNorth = roomE[1];
+            roomD[1].PathWest = roomD[0];
+            roomD[1].PathSouth = roomC[1];
+
+            roomD[2].PathNorth = roomE[2];
+            roomD[2].PathSouth = roomC[2];
+
+            roomD[3].PathNorth = roomE[3];
+            roomD[3].PathSouth = roomC[3];
+
+            roomD[4].PathNorth = roomE[4];
+            roomD[4].PathSouth = roomC[4];
+
+            roomD[5].PathNorth = roomE[5];
+            roomD[5].PathEast = roomD[6];
+
+            roomD[6].PathEast = roomD[7];
+            roomD[6].PathWest = roomD[5];
+
+            roomD[7].PathEast = roomD[8];
+            roomD[7].PathWest = roomD[6];
+
+            roomD[8].PathEast = roomD[9];
+            roomD[8].PathWest = roomD[7];
+
+            roomD[9].PathNorth = roomE[9];
+            roomD[9].PathWest = roomD[8];
+            roomD[9].PathSouth = roomC[9];
+
+            roomD[10].PathNorth = roomE[10];
+            roomD[10].PathSouth = roomC[10];
+
+            roomE[0].PathNorth = roomF[0];
+            roomE[0].PathEast = roomE[1];
+            roomE[0].PathSouth = roomD[0];
+
+            roomE[1].PathEast = roomE[2];
+            roomE[1].PathSouth = roomD[1];
+            roomE[1].PathWest = roomE[0];
+
+            roomE[2].PathNorth = roomF[2];
+            roomE[2].PathEast = roomE[3];
+            roomE[2].PathSouth = roomD[2];
+            roomE[2].PathWest = roomE[1];
+
+            roomE[3].PathEast = roomE[4];
+            roomE[3].PathSouth = roomD[3];
+            roomE[3].PathWest = roomE[2];
+
+            roomE[4].PathEast = roomE[5];
+            roomE[4].PathSouth = roomD[4];
+            roomE[4].PathWest = roomE[3];
+
+            roomE[5].PathEast = roomE[6];
+            roomE[5].PathSouth = roomD[5];
+            roomE[5].PathWest = roomE[4];
+
+            roomE[6].PathNorth = roomF[6];
+            roomE[6].PathEast = roomE[7];
+            roomE[6].PathWest = roomE[5];
+
+            roomE[7].PathNorth = roomF[7];
+            roomE[7].PathEast = roomE[8];
+            roomE[7].PathWest = roomE[6];
+
+            roomE[8].PathEast = roomE[9];
+            roomE[8].PathWest = roomE[7];
+
+            roomE[9].PathEast = roomE[10];
+            roomE[9].PathSouth = roomD[9];
+            roomE[9].PathWest = roomE[8];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
