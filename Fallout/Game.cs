@@ -9,6 +9,8 @@ namespace Fallout
     class Game
     {
         Human player = new Human();
+        Dice dice = new Dice();
+
 
         /*
          * 7 Reihen Felder & 11 Spalten in Array gepackt  

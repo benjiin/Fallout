@@ -8,13 +8,11 @@ namespace Fallout
 {
     class Dice
     {
-        public int Eyes { get; set; }
+        Random rnd = new Random();
 
-        public int W6()
+        public int DiceTrow(int eyes)
         {
-            Random rnd = new Random();
-
-            return rnd.Next(1,7);
+            return rnd.Next(1, eyes+1);
         }
     }
 }
