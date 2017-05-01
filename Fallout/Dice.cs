@@ -10,9 +10,11 @@ namespace Fallout
     {
         public int Eyes { get; set; }
 
-        public int W6(int eyes)
+        public int W6()
         {
+            Random rnd = new Random();
 
+            return rnd.Next(1,7);
         }
     }
 }

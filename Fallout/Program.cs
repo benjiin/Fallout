@@ -10,8 +10,14 @@ namespace Fallout
     {
         static void Main(string[] args)
         {
+            Dice dice = new Dice(); ;
             Game game = new Game();
-            Console.WriteLine(game.getRoomName());
+            dice.W6();
+            Console.WriteLine(dice.W6());
+            dice.W6();
+            Console.WriteLine(dice.W6());
+            dice.W6();
+            Console.WriteLine(dice.W6());
             Console.ReadKey();
 
 
