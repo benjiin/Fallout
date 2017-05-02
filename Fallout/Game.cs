@@ -61,7 +61,7 @@ namespace Fallout
                 roomB[1].PathWest = roomB[0];
 
                 roomB[2].PathSouth = roomA[2];
-                roomB[2].PathUp = roomG[2];
+                roomB[2].PathUp = roomG[1];
                 // Vault 2 
                 roomA[3].PathNorth = roomB[3];
                 roomA[3].PathEast = roomA[4];
@@ -86,7 +86,7 @@ namespace Fallout
                 roomB[5].PathSouth = roomA[5];
 
                 roomB[6].PathSouth = roomA[6];
-                roomB[5].PathUp = roomC[5];
+                roomB[6].PathUp = roomC[5];
                 // Vault 3
                 roomA[7].PathNorth = roomB[7];
                 roomA[7].PathEast = roomA[8];
@@ -132,6 +132,7 @@ namespace Fallout
 
                 roomC[5].PathEast = roomC[6];
                 roomC[5].PathWest = roomC[4];
+                roomC[5].PathDown = roomB[6];
 
                 roomC[6].PathEast = roomC[7];
                 roomC[6].PathWest = roomC[5];
@@ -142,9 +143,9 @@ namespace Fallout
                 roomC[8].PathEast = roomC[9];
                 roomC[8].PathWest = roomC[7];
 
-                roomC[9].PathNorth = roomD[8];
-                roomC[9].PathEast = roomC[9];
-                roomC[9].PathWest = roomC[7];
+                roomC[9].PathNorth = roomD[9];
+                roomC[9].PathEast = roomC[10];
+                roomC[9].PathWest = roomC[8];
 
                 roomC[10].PathNorth = roomD[10];
                 roomC[10].PathWest = roomC[9];
@@ -231,7 +232,7 @@ namespace Fallout
 
                 roomF[0].PathNorth = roomG[0];
                 roomF[0].PathEast = roomF[1];
-                roomF[0].PathSouth = roomE[1];
+                roomF[0].PathSouth = roomE[0];
 
                 roomF[1].PathEast = roomF[2];
                 roomF[1].PathWest = roomF[0];
@@ -265,6 +266,7 @@ namespace Fallout
 
                 roomF[9].PathEast = roomF[10];
                 roomF[9].PathWest = roomF[8];
+                roomF[9].PathDown = roomB[10];
 
                 roomF[10].PathNorth = roomG[10];
                 roomF[10].PathWest = roomF[9];
@@ -275,6 +277,7 @@ namespace Fallout
 
                 roomG[1].PathEast = roomG[2];
                 roomG[1].PathWest = roomG[0];
+                roomG[1].PathDown = roomB[2];
 
                 roomG[2].PathEast = roomG[3];
                 roomG[2].PathSouth = roomF[2];
@@ -308,7 +311,7 @@ namespace Fallout
                 roomG[10].PathSouth = roomF[10];
                 roomG[10].PathWest = roomG[9];
 
-                this.player.CurrentRoom = roomB[5];
+                this.player.CurrentRoom = roomA[0];
 
             } // Ende der Räume
 
@@ -328,37 +331,85 @@ namespace Fallout
         {
             if(this.player.CurrentRoom.PathNorth != null)
             {
-                Console.WriteLine("N");
+                Console.WriteLine("N = North " + this.player.CurrentRoom.PathNorth.Name);
             }
-            if (this.player.CurrentRoom.PathEast != null)
+            if(this.player.CurrentRoom.PathEast != null)
             {
-                Console.WriteLine("E");
+                Console.WriteLine("E = East " + this.player.CurrentRoom.PathEast.Name);
             }
-            if (this.player.CurrentRoom.PathSouth != null)
+            if(this.player.CurrentRoom.PathSouth != null)
             {
-                Console.WriteLine("S");
+                Console.WriteLine("S = South " + this.player.CurrentRoom.PathSouth.Name);
             }
-            if (this.player.CurrentRoom.PathWest != null)
+            if(this.player.CurrentRoom.PathWest != null)
             {
-                Console.WriteLine("W");
+                Console.WriteLine("W = West " + this.player.CurrentRoom.PathWest.Name);
+            }
+            if (this.player.CurrentRoom.PathUp != null)
+            {
+                Console.WriteLine("U = Up " + this.player.CurrentRoom.PathUp.Name);
+            }
+            if (this.player.CurrentRoom.PathDown != null)
+            {
+                Console.WriteLine("D = Down " + this.player.CurrentRoom.PathDown.Name);
             }
         }
 
         public void MovePlayer()
         {
-            while(true)
+            bool run = false;
+            while(!run)
             {
                 try
                 {
-                    char input = Console.ReadKey().KeyChar;
-                    switch (input)
+                    Console.WriteLine("CurrentRoom = " + this.GetCurrent());
+                    Console.WriteLine("Possilbe Location: ");
+                    ShowRooms();
+                    Console.WriteLine("Enter a Location");
+                    ConsoleKeyInfo input = Console.ReadKey();
+                    Console.WriteLine();
+                    switch (input.Key)
                     {
-                        case 'N':
-                            Console.WriteLine("n");
+                        case ConsoleKey.N:
+                            if (this.player.CurrentRoom.PathNorth != null)
+                            {
+                                this.player.CurrentRoom = this.player.CurrentRoom.PathNorth;
+                            }
+                            break;
+                        case ConsoleKey.E:
+                            if (this.player.CurrentRoom.PathEast != null)
+                            {
+                                this.player.CurrentRoom = this.player.CurrentRoom.PathEast;
+                            }
+                            break;
+                        case ConsoleKey.S:
+                            if (this.player.CurrentRoom.PathSouth != null)
+                            {
+                                this.player.CurrentRoom = this.player.CurrentRoom.PathSouth;
+                            }
+                            break;
+                        case ConsoleKey.W:
+                            if (this.player.CurrentRoom.PathWest != null)
+                            {
+                                this.player.CurrentRoom = this.player.CurrentRoom.PathWest;
+                            }
+                            break;
+                        case ConsoleKey.U:
+                            if (this.player.CurrentRoom.PathUp != null)
+                            {
+                                this.player.CurrentRoom = this.player.CurrentRoom.PathUp;
+                            }
+                            break;
+                        case ConsoleKey.D:
+                            if (this.player.CurrentRoom.PathDown != null)
+                            {
+                                this.player.CurrentRoom = this.player.CurrentRoom.PathDown;
+                            }
                             break;
                         default:
                             break;
                     }
+
                 }
                 catch (FormatException)
                 {
@@ -366,15 +417,6 @@ namespace Fallout
                 }
             }
         }
-
-
-
-
-
-
-
-
-
     }   
 }
 
