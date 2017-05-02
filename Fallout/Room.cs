@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Fallout
 {
-    class Room
+    class Room : Game
     {
         public Room(string name)
         {

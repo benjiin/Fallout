@@ -9,8 +9,7 @@ namespace Fallout
     class Game
     {
         Human player = new Human();
-        Dice dice = new Dice();
-
+        Random rnd = new Random();
 
         /*
          * 7 Reihen Felder & 11 Spalten in Array gepackt  
@@ -309,14 +308,15 @@ namespace Fallout
 
                 roomG[10].PathSouth = roomF[10];
                 roomG[10].PathWest = roomG[9];
-            }
-            
 
-
-
-
+            } // Ende der Räume
 
         }
+        public int DiceTrow(int eyes)
+        {
+            return rnd.Next(1, eyes + 1);
+        }
+
 
 
 
