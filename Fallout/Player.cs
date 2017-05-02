@@ -8,11 +8,16 @@ namespace Fallout
 {
     class Player : Human
     {
+        Dice dice = new Dice();
+
         public Player()
         {
             this.Name = Name;
+            this.Strength = dice.DiceTrow(3);
             this.CurrentRoom = this.CurrentRoom; 
+
         }
+
 
 
     }

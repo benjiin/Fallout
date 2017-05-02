@@ -8,7 +8,7 @@ namespace Fallout
 {
     class Game
     {
-        Random rnd = new Random();
+        Dice dice = new Dice();
         Player player = new Player();
         /*
          * 7 Reihen Felder & 11 Spalten in Array gepackt  
@@ -326,9 +326,13 @@ namespace Fallout
 
 
         }
-        public int DiceTrow(int eyes)
+        public int getrt()
         {
-            return rnd.Next(1, eyes + 1);
+            return this.player.Strength;
+        }
+        public int testi()
+        {
+            return dice.DiceTrow(3) + dice.DiceTrow(3) + dice.DiceTrow(3);
         }
 
         public string GetCurrent()
@@ -371,7 +375,7 @@ namespace Fallout
         public void MovePlayer()
         {
             bool run = false;
-            while(!run)
+            while (!run)
             {
                 try
                 {
