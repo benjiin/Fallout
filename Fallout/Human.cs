@@ -23,8 +23,9 @@ namespace Fallout
         public int Gold { get; set; }
         public int Experience { get; set; }
         public int Level { get; set; }
+        public double InventoryWeight { get; set; }
         public Room CurrentRoom { get; set; }
-        public List<Object> Inventory { get; set; }
+        public List<Stuff> Inventory { get; set; }
         public List<Quest> QuestLog { get; set; }
 
         public Human()
@@ -41,6 +42,7 @@ namespace Fallout
             this.Dodge = Dodge;
             this.LifePoint = LifePoint;
             this.HitPoints = HitPoints;
+            this.InventorySpace = InventorySpace;
             this.Gold = Gold;
             this.Experience = Experience;
             this.CurrentRoom = CurrentRoom;

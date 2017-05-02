@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Fallout
 {
-    class Potions
+    class Potions : Stuff
     {
+
     }
 }

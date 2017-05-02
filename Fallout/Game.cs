@@ -311,7 +311,16 @@ namespace Fallout
                 roomG[10].PathSouth = roomF[10];
                 roomG[10].PathWest = roomG[9];
 
-                this.player.CurrentRoom = roomA[0];
+                //Testing Attention Please
+                this.player.CurrentRoom = roomA[1];
+                Crap paper = new Crap();
+                paper.Name = "Papier";
+                paper.Weight = 0.01;
+                Weapon gun = new Weapon();
+                gun.Name = "Revolver";
+                gun.Weight = 0.2;
+                this.roomA[0].Things.Add(paper);
+                this.roomA[2].Things.Add(gun);
 
             } // Ende der Räume
 
@@ -352,6 +361,10 @@ namespace Fallout
             if (this.player.CurrentRoom.PathDown != null)
             {
                 Console.WriteLine("D = Down " + this.player.CurrentRoom.PathDown.Name);
+            }
+            if(this.player.CurrentRoom.Things != null)
+            {
+                this.player.CurrentRoom.GetStuff();
             }
         }
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Fallout
 {
-    class Objects
+    class Weapon : Stuff
     {
     }
 }

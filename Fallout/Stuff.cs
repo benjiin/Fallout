@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace Fallout
 {
-    class Crap
+    class Stuff
     {
+        public string  Name { get; set; }
+        public int Value { get; set; }
+        public double Weight { get; set; }
+
     }
 }

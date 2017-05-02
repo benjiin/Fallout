@@ -8,17 +8,14 @@ namespace Fallout
 {
     class Room 
     {
-        public Room(string name)
+        private List<Stuff> things = new List<Stuff>();
+
+        public List<Stuff> Things
         {
-            this.Name = name;
-            this.PathUp = PathUp;
-            this.PathDown = PathDown;
-            this.PathNorth = PathNorth;
-            this.PathEast = PathEast;
-            this.PathSouth = PathSouth;
-            this.PathWest = PathWest;
+            get { return things; }
+            set { things = value; }
         }
-        //private string Name { get; set; }
+
         private string name;
 
         public string Name
@@ -75,8 +72,25 @@ namespace Fallout
             set { pathWest = value; }
         }
 
+        public Room(string name)
+        {
+            this.Name = name;
+            this.PathUp = PathUp;
+            this.PathDown = PathDown;
+            this.PathNorth = PathNorth;
+            this.PathEast = PathEast;
+            this.PathSouth = PathSouth;
+            this.PathWest = PathWest;
+            this.things = Things;
+        }
 
-
+        public void GetStuff()
+        {
+            foreach (var item in things)
+            {
+                Console.WriteLine(item.Name);
+            }
+        }
 
 
 
