@@ -42,7 +42,7 @@ namespace Fallout
             this.Dodge = Dodge;
             this.LifePoint = LifePoint;
             this.HitPoints = HitPoints;
-            this.InventorySpace = InventorySpace;
+            this.InventoryWeight = InventoryWeight;
             this.Gold = Gold;
             this.Experience = Experience;
             this.CurrentRoom = CurrentRoom;
