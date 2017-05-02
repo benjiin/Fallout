@@ -41,7 +41,7 @@ namespace Fallout
                 roomF[i] = new Room("F" + (i));
                 roomG[i] = new Room("G" + (i));
             }
-            /*
+            /* 
              * Räume verbinden
              */
             {  // Vault 1 
