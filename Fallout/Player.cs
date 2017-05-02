@@ -6,7 +6,14 @@ using System.Threading.Tasks;
 
 namespace Fallout
 {
-    class Player
+    class Player : Human
     {
+        public Player()
+        {
+            this.Name = Name;
+            this.CurrentRoom = this.CurrentRoom; 
+        }
+
+
     }
 }

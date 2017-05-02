@@ -8,9 +8,8 @@ namespace Fallout
 {
     class Game
     {
-        Human player = new Human();
         Random rnd = new Random();
-
+        Player player = new Player();
         /*
          * 7 Reihen Felder & 11 Spalten in Array gepackt  
          */
@@ -309,13 +308,65 @@ namespace Fallout
                 roomG[10].PathSouth = roomF[10];
                 roomG[10].PathWest = roomG[9];
 
+                this.player.CurrentRoom = roomB[5];
+
             } // Ende der Räume
+
 
         }
         public int DiceTrow(int eyes)
         {
             return rnd.Next(1, eyes + 1);
         }
+
+        public string GetCurrent()
+        {
+            return this.player.CurrentRoom.Name;
+        }
+
+        public void ShowRooms()
+        {
+            if(this.player.CurrentRoom.PathNorth != null)
+            {
+                Console.WriteLine("N");
+            }
+            if (this.player.CurrentRoom.PathEast != null)
+            {
+                Console.WriteLine("E");
+            }
+            if (this.player.CurrentRoom.PathSouth != null)
+            {
+                Console.WriteLine("S");
+            }
+            if (this.player.CurrentRoom.PathWest != null)
+            {
+                Console.WriteLine("W");
+            }
+        }
+
+        public void MovePlayer()
+        {
+            while(true)
+            {
+                try
+                {
+                    char input = Console.ReadKey().KeyChar;
+                    switch (input)
+                    {
+                        case 'N':
+                            Console.WriteLine("n");
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Enter a valid Char");
+                }
+            }
+        }
+
 
 
 

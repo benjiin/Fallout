@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Fallout
 {
-    class Human : Game
+    class Human
     {
         //public int Intelligence { get; set; }
         //public int Mana { get; set; }
@@ -18,7 +18,7 @@ namespace Fallout
         public int Size { get; set; }
         public int Dexterity { get; set; }
         public int Dodge { get; set; }
-        private int LifePoint { get; set; }
+        public  int LifePoint { get; set; }
         public int HitPoints { get; set; }
         public int Gold { get; set; }
         public int Experience { get; set; }
@@ -47,6 +47,8 @@ namespace Fallout
             this.Inventory = Inventory;
             this.QuestLog = QuestLog;
         }
+
+    
 
 
 
