@@ -384,36 +384,42 @@ namespace Fallout
                     switch (input.Key)
                     {
                         case ConsoleKey.N:
+                        case ConsoleKey.UpArrow:
                             if (this.player.CurrentRoom.PathNorth != null)
                             {
                                 this.player.CurrentRoom = this.player.CurrentRoom.PathNorth;
                             }
                             break;
                         case ConsoleKey.E:
+                        case ConsoleKey.RightArrow:
                             if (this.player.CurrentRoom.PathEast != null)
                             {
                                 this.player.CurrentRoom = this.player.CurrentRoom.PathEast;
                             }
                             break;
                         case ConsoleKey.S:
+                        case ConsoleKey.DownArrow:
                             if (this.player.CurrentRoom.PathSouth != null)
                             {
                                 this.player.CurrentRoom = this.player.CurrentRoom.PathSouth;
                             }
                             break;
                         case ConsoleKey.W:
+                        case ConsoleKey.LeftArrow:
                             if (this.player.CurrentRoom.PathWest != null)
                             {
                                 this.player.CurrentRoom = this.player.CurrentRoom.PathWest;
                             }
                             break;
                         case ConsoleKey.U:
+                        case ConsoleKey.Add:
                             if (this.player.CurrentRoom.PathUp != null)
                             {
                                 this.player.CurrentRoom = this.player.CurrentRoom.PathUp;
                             }
                             break;
                         case ConsoleKey.D:
+                        case ConsoleKey.Subtract:
                             if (this.player.CurrentRoom.PathDown != null)
                             {
                                 this.player.CurrentRoom = this.player.CurrentRoom.PathDown;
