@@ -18,9 +18,9 @@ namespace Fallout
         public int Size { get; set; }
         public int Dexterity { get; set; }
         public int Dodge { get; set; }
-        public  int LifePoint { get; set; }
+        public int LifePoint { get; set; }
         public int HitPoints { get; set; }
-        public int Gold { get; set; }
+        public double Money { get; set; }
         public int Experience { get; set; }
         public int Level { get; set; }
         public double InventoryWeight { get; set; }
@@ -43,7 +43,7 @@ namespace Fallout
             this.LifePoint = LifePoint;
             this.HitPoints = HitPoints;
             this.InventoryWeight = InventoryWeight;
-            this.Gold = Gold;
+            this.Money = Money;
             this.Experience = Experience;
             this.CurrentRoom = CurrentRoom;
             this.Inventory = Inventory;

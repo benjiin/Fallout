@@ -8,5 +8,16 @@ namespace Fallout
 {
     class Crap : Stuff
     {
+           
+        public Crap(string name, double value, double weight, int dropChance)
+        {
+            this.Name = name;
+            this.Value = value;
+            this.Weight = weight;
+            this.DropChance = dropChance;
+        }
+
+
+
     }
 }

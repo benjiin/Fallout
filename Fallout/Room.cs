@@ -16,7 +16,7 @@ namespace Fallout
             set { things = value; }
         }
 
-        private List<Container> container;
+        private List<Container> container = new List<Container>();
 
         public List<Container> Container
         {
@@ -104,6 +104,7 @@ namespace Fallout
                 Console.WriteLine(item.Name);
             }
         }
+z
 
 
 

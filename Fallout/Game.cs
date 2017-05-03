@@ -11,6 +11,7 @@ namespace Fallout
         Dice dice = new Dice();
         Player player = new Player();
         Menu menu = new Menu();
+        Container box = new Container();
         /*
          * 7 Reihen Felder & 11 Spalten in Array gepackt  
          */
@@ -313,33 +314,30 @@ namespace Fallout
                 roomG[10].PathWest = roomG[9];
 
                 //Testing Attention Please
-                this.player.CurrentRoom = roomA[1];
-                Crap paper = new Crap();
-                paper.Name = "Papier";
-                paper.Weight = 0.01;
-                Weapon gun = new Weapon();
-                gun.Name = "Revolver";
-                gun.Weight = 0.2;
+
+                
+               this.player.CurrentRoom = roomA[1];
+
+
+                
+
+                // Ende der Räume
+                /*
+                 * Objekte : Name, Wert pro Einheit, Gewicht pro Einheit, Dropchance
+                 */
+                Crap can = new Crap("Dose", 0.1, 0.1, 80);
+                Crap paper = new Crap("Papier", 0.1, 0.1, 75);
+                Container box = new Container();
+                box.Name = "Kiste";
+                box.HaveCrap.Add(can);
+                roomA[2].Things.Add(box);
                 this.roomA[0].Things.Add(paper);
-                this.roomA[2].Things.Add(gun);
 
-            } // Ende der Räume 
 
-    
-        }
-        public void ConsoleMenu()
-        {
-            Console.WriteLine("Hauptmenu");
-            Console.WriteLine("1. Bewegen");
-            Console.WriteLine("2. Schauen");
-        }
-        public int getsd()
-        {
-            return this.player.Strength;
-        }
-        public int getsss()
-        {
-            return this.player.Dexterity;
+
+            }
+
+
         }
 
         public string GetCurrent()
@@ -406,9 +404,13 @@ namespace Fallout
                                 this.player.CurrentRoom = this.player.CurrentRoom.PathDown;
                             }
                             break;
+                        case ConsoleKey.O:
+                            this.box.GetCrap();
+                            break;
                         default:
                             Console.WriteLine("Ich habe Ihre Eingabe nicht verstanden");
                             break;
+
                     }
 
                 }
