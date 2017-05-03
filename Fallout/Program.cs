@@ -13,8 +13,11 @@ namespace Fallout
             Game game = new Game();
 
             //game.MovePlayer();
-            game.ConsoleMenu();
-            
+            //game.ConsoleMenu();
+
+
+
+
             Console.ReadKey();
 
 

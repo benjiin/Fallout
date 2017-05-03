@@ -323,7 +323,7 @@ namespace Fallout
                 this.roomA[0].Things.Add(paper);
                 this.roomA[2].Things.Add(gun);
 
-            } // Ende der Räume
+            } // Ende der Räume 
 
     
         }
@@ -333,7 +333,14 @@ namespace Fallout
             Console.WriteLine("1. Bewegen");
             Console.WriteLine("2. Schauen");
         }
-
+        public int getsd()
+        {
+            return this.player.Strength;
+        }
+        public int getsss()
+        {
+            return this.player.Dexterity;
+        }
 
         public string GetCurrent()
         {

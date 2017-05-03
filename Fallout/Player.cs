@@ -13,7 +13,8 @@ namespace Fallout
         public Player()
         {
             this.Name = Name;
-            this.Strength = dice.DiceTrow(3);
+            this.Strength = (dice.DiceTrow(6) + dice.DiceTrow(6));
+            this.Dexterity = dice.DiceTrow(6);
             this.CurrentRoom = this.CurrentRoom;
         }
 
