@@ -325,53 +325,22 @@ namespace Fallout
 
             } // Ende der Räume
 
+    
+        }
+        public void ConsoleMenu()
+        {
+            Console.WriteLine("Hauptmenu");
+            Console.WriteLine("1. Bewegen");
+            Console.WriteLine("2. Schauen");
+        }
 
-        }
-        public int getrt()
-        {
-            return this.player.Strength;
-        }
-        public int testi()
-        {
-            return dice.DiceTrow(3) + dice.DiceTrow(3) + dice.DiceTrow(3);
-        }
 
         public string GetCurrent()
         {
             return this.player.CurrentRoom.Name;
         }
 
-        public void ShowRooms()
-        {
-            if(this.player.CurrentRoom.PathNorth != null)
-            {
-                Console.WriteLine("N = North " + this.player.CurrentRoom.PathNorth.Name);
-            }
-            if(this.player.CurrentRoom.PathEast != null)
-            {
-                Console.WriteLine("E = East " + this.player.CurrentRoom.PathEast.Name);
-            }
-            if(this.player.CurrentRoom.PathSouth != null)
-            {
-                Console.WriteLine("S = South " + this.player.CurrentRoom.PathSouth.Name);
-            }
-            if(this.player.CurrentRoom.PathWest != null)
-            {
-                Console.WriteLine("W = West " + this.player.CurrentRoom.PathWest.Name);
-            }
-            if (this.player.CurrentRoom.PathUp != null)
-            {
-                Console.WriteLine("U = Up " + this.player.CurrentRoom.PathUp.Name);
-            }
-            if (this.player.CurrentRoom.PathDown != null)
-            {
-                Console.WriteLine("D = Down " + this.player.CurrentRoom.PathDown.Name);
-            }
-            if(this.player.CurrentRoom.Things != null)
-            {
-                this.player.CurrentRoom.GetStuff();
-            }
-        }
+
 
         public void MovePlayer()
         {
@@ -442,6 +411,39 @@ namespace Fallout
                 }
             }
         }
+
+        public void ShowRooms()
+        {
+            if (this.player.CurrentRoom.PathNorth != null)
+            {
+                Console.WriteLine("N = North " + this.player.CurrentRoom.PathNorth.Name);
+            }
+            if (this.player.CurrentRoom.PathEast != null)
+            {
+                Console.WriteLine("E = East " + this.player.CurrentRoom.PathEast.Name);
+            }
+            if (this.player.CurrentRoom.PathSouth != null)
+            {
+                Console.WriteLine("S = South " + this.player.CurrentRoom.PathSouth.Name);
+            }
+            if (this.player.CurrentRoom.PathWest != null)
+            {
+                Console.WriteLine("W = West " + this.player.CurrentRoom.PathWest.Name);
+            }
+            if (this.player.CurrentRoom.PathUp != null)
+            {
+                Console.WriteLine("U = Up " + this.player.CurrentRoom.PathUp.Name);
+            }
+            if (this.player.CurrentRoom.PathDown != null)
+            {
+                Console.WriteLine("D = Down " + this.player.CurrentRoom.PathDown.Name);
+            }
+            if (this.player.CurrentRoom.Things != null) // Sachen anzeigen
+            {
+                this.player.CurrentRoom.GetStuff();
+            }
+        }
     }   
+
 }
 

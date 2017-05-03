@@ -8,6 +8,11 @@ namespace Fallout
 {
     class Menu
     {
-        public List<Menuitem> menuitems = new List<Menuitem>();
+        public List<String> Menuitem { get; set; }
+
+        public Menu()
+        {
+            this.Menuitem = Menuitem;
+        }
     }
 }
