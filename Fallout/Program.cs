@@ -12,7 +12,9 @@ namespace Fallout
         {
             Game game = new Game();
 
-            game.MovePlayer();
+            //game.MovePlayer();
+            Console.WriteLine(game.getrt());
+            Console.WriteLine(game.testi());
             Console.ReadKey();
 
 
