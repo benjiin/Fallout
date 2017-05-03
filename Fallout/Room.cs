@@ -16,6 +16,15 @@ namespace Fallout
             set { things = value; }
         }
 
+        private List<Container> container;
+
+        public List<Container> Container
+        {
+            get { return container; }
+            set { container = value; }
+        }
+
+
         private string name;
 
         public string Name
@@ -72,6 +81,8 @@ namespace Fallout
             set { pathWest = value; }
         }
 
+        public bool IsContaminated { get; set; }
+
         public Room(string name)
         {
             this.Name = name;
@@ -82,6 +93,8 @@ namespace Fallout
             this.PathSouth = PathSouth;
             this.PathWest = PathWest;
             this.things = Things;
+            this.Container = Container;
+            this.IsContaminated = IsContaminated;
         }
 
         public void GetStuff()
