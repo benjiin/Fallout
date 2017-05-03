@@ -426,6 +426,7 @@ namespace Fallout
                             }
                             break;
                         default:
+                            Console.WriteLine("Ich habe Ihre Eingabe nicht verstanden");
                             break;
                     }
 
