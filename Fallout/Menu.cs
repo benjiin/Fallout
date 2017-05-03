@@ -8,5 +8,6 @@ namespace Fallout
 {
     class Menu
     {
+        public List<Menuitem> menuitems = new List<Menuitem>();
     }
 }

@@ -49,6 +49,7 @@
     <Compile Include="Game.cs" />
     <Compile Include="Human.cs" />
     <Compile Include="Menu.cs" />
+    <Compile Include="Menuitem.cs" />
     <Compile Include="Monster.cs" />
     <Compile Include="NPC.cs" />
     <Compile Include="Stuff.cs" />

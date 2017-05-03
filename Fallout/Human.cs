@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Fallout
 {
-    class Human
+    class Human : Menu
     {
         //public int Intelligence { get; set; }
         //public int Mana { get; set; }
