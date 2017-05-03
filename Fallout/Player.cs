@@ -14,9 +14,9 @@ namespace Fallout
         {
             this.Name = Name;
             this.Strength = dice.DiceTrow(3);
-            this.CurrentRoom = this.CurrentRoom; 
-
+            this.CurrentRoom = this.CurrentRoom;
         }
+
 
 
 

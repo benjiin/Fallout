@@ -15,6 +15,7 @@ namespace Fallout
             //game.MovePlayer();
             //Console.WriteLine(game.getrt());
             //Console.WriteLine(game.testi());
+            
             Console.ReadKey();
 
 

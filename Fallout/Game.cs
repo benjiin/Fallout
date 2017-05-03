@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace Fallout
 {
-    class Game
+    class Game : Menu
     {
         Dice dice = new Dice();
         Player player = new Player();
+        Menu menu = new Menu();
         /*
          * 7 Reihen Felder & 11 Spalten in Array gepackt  
          */
