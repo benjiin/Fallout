@@ -22,9 +22,14 @@ namespace Fallout
             AllCrap.Remove(this);
         }
 
-        public void GetAll()
+        public int GetAllCrap()
         {
+            return AllCrap.Count();
+        }
 
+        public Crap GetSpecificItem(int index)
+        {
+            return AllCrap.ElementAt(index-1);
         }
 
 

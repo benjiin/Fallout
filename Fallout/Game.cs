@@ -27,6 +27,7 @@ namespace Fallout
         {
             //Alle Raumelemente in eine weiteres Array zum angreifen
             Room[][] allRoom = { roomA, roomB, roomC, roomD, roomE, roomF, roomG };
+            
 
             /*
              * Räume erstellen
@@ -392,7 +393,7 @@ namespace Fallout
                  * Wenn eines von diesen im Raum vorkommt, wird diese gleich mit zufälligen 
                  * Gegenständen befüllt.
                  */
-                for (int i = 2; i < 5; i++)
+                for (int i = 2; i <7; i++)
                 {
                     for (int j = 0; j<11; j++)
                     {
@@ -400,10 +401,30 @@ namespace Fallout
                         {
                             Container bag = new Container("Beutel", false);
                             allRoom[i][j].Container.Add(bag);
-                            allRoom[i][j].Things.Add(paper);
-                            //HIER WEITER MACHEN MIT DEN BEFÜLLEN
-                            if(dice.DiceTrow(100) > 50)bag.HaveStuff.Add(alarmClock);
-
+                            /*
+                             * Zufälliges Crap Item in den Beutel packen. Die Crap-Liste wird gezählt (Alle Items),
+                             * diese Zahl dient als maximale Augenzahl für den Würfel um so dann ein Item am Index (Ergebnis Würfelwurf)
+                             * auszuwählen
+                             * 
+                             * Beutel Inhalt:
+                             * 1. Crap Item 
+                             * 2. Kronkorken (Anzahl wird durch den Value erwürfelt)
+                             * 
+                             * Kiste Inhalt:
+                             * 1. 1x Crap Item 
+                             * 1.1 1x Crap Item (mit Dropchancenwurf)                         
+                             * 2. Kronkorken (Anzahl wird durch den Value erwürfelt)
+                             * 3. Ein Verbrauchsitem (mit Dropchancenwurf)  
+                             * 4. Lockpicks (mit Dropchancenwurf)  
+                             * 
+                             * Truhe Inhalt:
+                             * 1. Kronkorken x2
+                             * 2. Universal Schlüssel wenn der Drop es zulässt
+                             * 3. Waffe wenn der Drop es zulässt
+                             */
+                            bag.HaveStuff.Add(skull.GetSpecificItem(dice.DiceTrow(skull.GetAllCrap())));
+                            bag.HaveStuff.Add(bottlecaps);
+                            bag.HaveStuff
                         }
                         if (dice.DiceTrow(100) > 35)
                         {
@@ -418,6 +439,10 @@ namespace Fallout
                     }   
                 }
 
+                /*
+                 * Den Raum mit Sachen befüllen
+                            allRoom[i][j].Things.Add(paper);
+                 */
 
             }
 
@@ -425,14 +450,14 @@ namespace Fallout
         }
         public void Ger()
         {
-            Console.WriteLine();
+            //Crap hj = new Crap("sdsd", 11, 11, 11);
+            //crap.
         }
 
         public string GetCurrent()
         {
             return this.player.CurrentRoom.Name;
         }
-
 
 
         public void MovePlayer()
@@ -452,6 +477,7 @@ namespace Fallout
                     {
                         case ConsoleKey.N:
                         case ConsoleKey.UpArrow:
+                            Console.Clear();
                             if (this.player.CurrentRoom.PathNorth != null)
                             {
                                 this.player.CurrentRoom = this.player.CurrentRoom.PathNorth;
@@ -459,6 +485,7 @@ namespace Fallout
                             break;
                         case ConsoleKey.E:
                         case ConsoleKey.RightArrow:
+                            Console.Clear();
                             if (this.player.CurrentRoom.PathEast != null)
                             {
                                 this.player.CurrentRoom = this.player.CurrentRoom.PathEast;
@@ -466,6 +493,7 @@ namespace Fallout
                             break;
                         case ConsoleKey.S:
                         case ConsoleKey.DownArrow:
+                            Console.Clear();
                             if (this.player.CurrentRoom.PathSouth != null)
                             {
                                 this.player.CurrentRoom = this.player.CurrentRoom.PathSouth;
@@ -473,6 +501,7 @@ namespace Fallout
                             break;
                         case ConsoleKey.W:
                         case ConsoleKey.LeftArrow:
+                            Console.Clear();
                             if (this.player.CurrentRoom.PathWest != null)
                             {
                                 this.player.CurrentRoom = this.player.CurrentRoom.PathWest;
@@ -480,6 +509,7 @@ namespace Fallout
                             break;
                         case ConsoleKey.U:
                         case ConsoleKey.Add:
+                            Console.Clear();
                             if (this.player.CurrentRoom.PathUp != null)
                             {
                                 this.player.CurrentRoom = this.player.CurrentRoom.PathUp;
@@ -487,12 +517,14 @@ namespace Fallout
                             break;
                         case ConsoleKey.D:
                         case ConsoleKey.Subtract:
+                            Console.Clear();
                             if (this.player.CurrentRoom.PathDown != null)
                             {
                                 this.player.CurrentRoom = this.player.CurrentRoom.PathDown;
                             }
                             break;
                         case ConsoleKey.O:
+                            Console.Clear();
                             foreach (Stuff item in this.player.CurrentRoom.Container)
                             {
                                 if(item is Container)
