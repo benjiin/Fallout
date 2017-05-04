@@ -14,13 +14,13 @@ namespace Fallout
         /*
          * 7 Reihen Felder & 11 Spalten in Array gepackt  
          */
-        public Room[] roomA = new Room[11];
-        public Room[] roomB = new Room[11];
-        public Room[] roomC = new Room[11];
-        public Room[] roomD = new Room[11];
-        public Room[] roomE = new Room[11];
-        public Room[] roomF = new Room[11];
-        public Room[] roomG = new Room[11];
+        Room[] roomA = new Room[11];
+        Room[] roomB = new Room[11];
+        Room[] roomC = new Room[11];
+        Room[] roomD = new Room[11];
+        Room[] roomE = new Room[11];
+        Room[] roomF = new Room[11];
+        Room[] roomG = new Room[11];
 
         public Game()
         {
