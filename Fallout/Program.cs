@@ -18,7 +18,6 @@ namespace Fallout
 
 
 
-
             Console.ReadKey();
 
 
