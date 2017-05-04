@@ -14,13 +14,13 @@ namespace Fallout
         /*
          * 7 Reihen Felder & 11 Spalten in Array gepackt  
          */
-        Room[] roomA = new Room[11];
-        Room[] roomB = new Room[11];
-        Room[] roomC = new Room[11];
-        Room[] roomD = new Room[11];
-        Room[] roomE = new Room[11];
-        Room[] roomF = new Room[11];
-        Room[] roomG = new Room[11];
+        public Room[] roomA = new Room[11];
+        public Room[] roomB = new Room[11];
+        public Room[] roomC = new Room[11];
+        public Room[] roomD = new Room[11];
+        public Room[] roomE = new Room[11];
+        public Room[] roomF = new Room[11];
+        public Room[] roomG = new Room[11];
 
         public Game()
         {
@@ -35,35 +35,16 @@ namespace Fallout
              */
             for (int i = 0; i <= 10; i++)
             {
-                int conta = dice.DiceTrow(100);
-                roomA[i] = new Room("A" + (i), false);
-                roomB[i] = new Room("B" + (i), false);
-                if(conta>50)
-                {
-                    roomC[i] = new Room("C" + (i), true);
-                    roomD[i] = new Room("D" + (i), true);
-                    roomE[i] = new Room("E" + (i), true);
-                    roomF[i] = new Room("F" + (i), true);
-                    roomG[i] = new Room("G" + (i), true);
-                }
-                else
-                {
-                    roomC[i] = new Room("C" + (i), false);
-                    roomD[i] = new Room("D" + (i), false);
-                    roomE[i] = new Room("E" + (i), false);
-                    roomF[i] = new Room("F" + (i), false);
-                    roomG[i] = new Room("G" + (i), false);
-                }
+                roomA[i] = new Room("A" + (i));
+                roomB[i] = new Room("B" + (i));
+                roomC[i] = new Room("C" + (i));
+                roomD[i] = new Room("D" + (i));
+                roomE[i] = new Room("E" + (i));
+                roomF[i] = new Room("F" + (i));
+                roomG[i] = new Room("G" + (i));
 
             }
-            foreach (var item in roomC)
-            {
-                int conta = dice.DiceTrow(100);
-                if(conta>50)
-                {
-                    item.IsContaminated = true;
-                }
-            }
+
             /* 
              * Räume verbinden
              */

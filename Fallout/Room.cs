@@ -83,7 +83,7 @@ namespace Fallout
 
         public bool IsContaminated { get; set; }
 
-        public Room(string name, bool contamineated)
+        public Room(string name)
         {
             this.Name = name;
             this.PathUp = PathUp;
@@ -94,7 +94,7 @@ namespace Fallout
             this.PathWest = PathWest;
             this.things = Things;
             this.Container = Container;
-            this.IsContaminated = contamineated;
+            this.IsContaminated = false;
         }
 
         public void GetStuff()
