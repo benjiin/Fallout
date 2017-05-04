@@ -18,11 +18,18 @@ namespace Fallout
             this.Locked = locked;
             this.HaveStuff = HaveStuff;
         }
-        public void GetCrap()
+        public void GetStuff()
         {
             foreach (var item in HaveStuff)
             {
-                Console.WriteLine(item.Name);
+                if(item.Amount >2)
+                {
+                    Console.WriteLine(item.Name + " (" + item.Amount + ")");
+                }
+                else
+                {
+                    Console.WriteLine(item.Name);
+                }
             }
         }
 

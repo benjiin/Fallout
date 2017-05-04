@@ -371,9 +371,9 @@ namespace Fallout
 
                 //Tools / Benutzbares (Haarklammern, Schlüssel...)
                 //Name, Wert der Einheit, Dropchance
-                Tools bobbypin = new Tools("Haarklammer", 1, 45);
-                Tools key = new Tools("Universal Schlüssel", 50, 10);
-                Tools bottlecaps = new Tools("Kronkorken", dice.DiceTrow(25), 100);
+                Tools key = new Tools("Universal Schlüssel", 50, 10, 1);
+                Tools bobbypin;
+                Tools bottlecaps;
 
                 //Weapons // Einfache Waffen, erstmal ohne Schusswaffen sondern nur Verbesseung der Stats. 
                 //Name, Wert der Einheit, Gewicht, Dopchance, Schadenmultiplikator
@@ -397,44 +397,62 @@ namespace Fallout
                 {
                     for (int j = 0; j<11; j++)
                     {
-                        if (dice.DiceTrow(100) > 0)
+                        /*
+                         * Zufälliges Crap Item in den Beutel packen. Die Crap-Liste wird gezählt (Alle Items),
+                         * diese Zahl dient als maximale Augenzahl für den Würfel um so dann ein Item am Index (Ergebnis Würfelwurf)
+                         * auszuwählen
+                         * 
+                         * Beutel Inhalt:
+                         * 1. Crap      2x Crap Item                         
+                         * 2. Tools     Kronkorken (Anzahl wird durch den Value erwürfelt * 10)
+                         * 
+                         * Kiste Inhalt:
+                         * 1. Crap      2x Crap 
+                         * 2. Tools     Kronkorken (Anzahl wird durch den Value erwürfelt * 20)
+                         * 3. Tools     Lockpicks 
+                         * 4. Potions   Ein Verbrauchsitem 
+                         * * 
+                         * Truhe Inhalt:
+                         * 1. Tools     Universal Schlüssel  
+                         * 2. Tools     Kronkorken (Anzahl wird durch den Value erwürfelt *40)
+                         * 3. Tools     Lockpicks 
+                         * 4. Potions   2x Verbrauchsitem 
+                         * 5. Weapons   Waffe (mit Dropchancenwurf) 
+                         */
+                        if (dice.DiceTrow(100) > 100) //60
                         {
+                      
                             Container bag = new Container("Beutel", false);
                             allRoom[i][j].Container.Add(bag);
-                            /*
-                             * Zufälliges Crap Item in den Beutel packen. Die Crap-Liste wird gezählt (Alle Items),
-                             * diese Zahl dient als maximale Augenzahl für den Würfel um so dann ein Item am Index (Ergebnis Würfelwurf)
-                             * auszuwählen
-                             * 
-                             * Beutel Inhalt:
-                             * 1. Crap Item 
-                             * 2. Kronkorken (Anzahl wird durch den Value erwürfelt)
-                             * 
-                             * Kiste Inhalt:
-                             * 1. 1x Crap Item 
-                             * 1.1 1x Crap Item (mit Dropchancenwurf)                         
-                             * 2. Kronkorken (Anzahl wird durch den Value erwürfelt)
-                             * 3. Ein Verbrauchsitem (mit Dropchancenwurf)  
-                             * 4. Lockpicks (mit Dropchancenwurf)  
-                             * 
-                             * Truhe Inhalt:
-                             * 1. Kronkorken x2
-                             * 2. Universal Schlüssel wenn der Drop es zulässt
-                             * 3. Waffe wenn der Drop es zulässt
-                             */
                             bag.HaveStuff.Add(skull.GetSpecificItem(dice.DiceTrow(skull.GetAllCrap())));
-                            bag.HaveStuff.Add(bottlecaps);
-                            bag.HaveStuff
+                            bag.HaveStuff.Add(skull.GetSpecificItem(dice.DiceTrow(skull.GetAllCrap())));
+                            bag.HaveStuff.Add(bottlecaps = new Tools("Kronkorke/n", 1, 100, dice.DiceTrow(10)));
                         }
-                        if (dice.DiceTrow(100) > 35)
+                        if (dice.DiceTrow(100) > 100) // 35
                         {
                             Container box = new Container("Kiste", false);
-                            allRoom[i][j].Things.Add(box);
+                            allRoom[i][j].Container.Add(box);
+                            box.HaveStuff.Add(skull.GetSpecificItem(dice.DiceTrow(skull.GetAllCrap())));
+                            box.HaveStuff.Add(skull.GetSpecificItem(dice.DiceTrow(skull.GetAllCrap())));
+                            box.HaveStuff.Add(bottlecaps = new Tools("Kronkorke/n", 1, 100, dice.DiceTrow(20)));
+                            box.HaveStuff.Add(bobbypin = new Tools("Haarklammer", 1, 45, 1));
+                            box.HaveStuff.Add(radaway.GetSpecificItem(dice.DiceTrow(radaway.GetAllPotions())));
+
+
                         }
-                        if (dice.DiceTrow(100) > 15)
+                        if (dice.DiceTrow(100) > 0) // 15
                         {
-                            Container chest = new Container("Truhe", true);
-                            allRoom[i][j].Things.Add(chest);
+                            Container chest = new Container("Truhe", false);
+                            allRoom[i][j].Container.Add(chest);
+                            if(dice.DiceTrow(100) < key.DropChance)
+                            {
+                                chest.HaveStuff.Add(key);
+                            }
+                            chest.HaveStuff.Add(bottlecaps = new Tools("Kronkorke/n", 1, 100, dice.DiceTrow(40)));
+                            chest.HaveStuff.Add(bobbypin = new Tools("Haarklammer", 1, 45, 1));
+                            chest.HaveStuff.Add(radaway.GetSpecificItem(dice.DiceTrow(radaway.GetAllPotions())));
+                            chest.HaveStuff.Add(radaway.GetSpecificItem(dice.DiceTrow(radaway.GetAllPotions())));
+                            chest.HaveStuff.Add(bat.GetSpecificItem(dice.DiceTrow(bat.GetAllWeapons())));
                         }
                     }   
                 }
@@ -529,12 +547,14 @@ namespace Fallout
                             {
                                 if(item is Container)
                                 {
-                                    ((Container)item).GetCrap();
+                                    ((Container)item).GetStuff();
+
                                 }
                             }
                             
                             break;
                         default:
+                            Console.Clear();
                             Console.WriteLine("Ich habe Ihre Eingabe nicht verstanden");
                             break;
 
