@@ -22,8 +22,12 @@ namespace Fallout
         Room[] roomF = new Room[11];
         Room[] roomG = new Room[11];
 
+
         public Game()
         {
+            //Alle Raumelemente in eine weiteres Array zum angreifen
+            Room[][] allRoom = { roomA, roomB, roomC, roomD, roomE, roomF, roomG };
+
             /*
              * Räume erstellen
              * Reihe A und B werden die "Vaults" (Die Schutzräume unabhängig von dem Commonwealth) und Reihe C-G das Commomwealth
@@ -31,7 +35,7 @@ namespace Fallout
              * Spalte 3 4 5 6 = Vault 2
              * Spalte 7 8 9 10 = Vault 3
              * 
-             *Die vaults können nicht Kontaminiert sein mit der Strahlung während es im Commonwealth zufällig zu strahlung kommen kann
+             *Die Vaults sind NICHT kontaminiert mit der Strahlung während es im Commonwealth zufällig zu Strahlung kommen kann.
              */
             for (int i = 0; i <= 10; i++)
             {
@@ -62,12 +66,9 @@ namespace Fallout
                 {
                     roomG[i].IsContaminated = true;
                 }
-
-
             }
-
             /* 
-             * Räume verbinden
+             * Räume verbinden (Siehe Bild Anhang: Raumplan.png)
              */
             {  // Vault 1 
                 roomA[0].PathNorth = roomB[0];
@@ -336,20 +337,16 @@ namespace Fallout
 
                 roomG[10].PathSouth = roomF[10];
                 roomG[10].PathWest = roomG[9];
-
-                //Testing Attention Please
-
-                
-               this.player.CurrentRoom = roomA[1];
-
-
-
-
                 // Ende der Räume
+
+                //Startposition des Spieler
+                this.player.CurrentRoom = roomC[0];
+
+                //Items erstellen
 
                 //Crap 
                 //Name, Wert pro Einheit, Gewicht pro Einheit, Dropchance
-                
+
                 Crap alarmClock = new Crap("Alter Wecker", 10, 1, 90);
                 Crap aluminiumCan = new Crap("Aliminium Dose", 0.1, 0.1, 80);
                 Crap babyrattle = new Crap("Babyrassel", 2, 0.5, 98);
@@ -372,26 +369,55 @@ namespace Fallout
                 Potions radaway = new Potions("Radaway", 20, 0, 50, 0, 0, 10);
 
                 //Tools / Benutzbares (Haarklammern, Schlüssel...)
-                Tools bobbypin = new Tools("Haarklammer", 1, 0, 45);
-                Tools key = new Tools("Universal Schlüssel", 50, 0, 10);
-                Tools bottlecaps = new Tools("Kronkorken", 1, 0, 100);
+                //Name, Wert der Einheit, Dropchance
+                Tools bobbypin = new Tools("Haarklammer", 1, 45);
+                Tools key = new Tools("Universal Schlüssel", 50, 10);
+                Tools bottlecaps = new Tools("Kronkorken", dice.DiceTrow(25), 100);
 
                 //Weapons // Einfache Waffen, erstmal ohne Schusswaffen sondern nur Verbesseung der Stats. 
+                //Name, Wert der Einheit, Gewicht, Dopchance, Schadenmultiplikator
 
-                Weapon bat = new Weapon();
+                Weapon bat = new Weapon("Knüppel", 10, 1, 25, dice.DiceTrow(3));
+                Weapon knuckleduster = new Weapon("Schlagring", 10, 1, 25, dice.DiceTrow(5));
 
+                //Behälter, die ebenfalls Sachen beinhalten können
+                Container bag = new Container("Beutel", false, 60);
+                Container box = new Container("Kiste", false, 35);
+                Container chest = new Container("Truhe", false, 10);
 
-                Container box = new Container();
-                box.Name = "Kiste";
                 box.HaveStuff.Add(aluminiumCan);
-                roomA[2].Things.Add(box);
                 this.roomA[0].Things.Add(paper);
 
+                /*Jeden Raum eine mögliche Kiste, Beutel geben beginnend mit dem Index 2 da 
+                 * A und B /die Vaults) keine Random kisten bekommen sollten
+                 */
+                for (int i = 2; i < 5; i++)
+                {
+                    for (int j = 0; j<11; j++)
+                    {
+                        if (dice.DiceTrow(100) < bag.DropChance)
+                        {
+                            allRoom[i][j].Things.Add(bag);
+                        }
+                        if (dice.DiceTrow(100) < box.DropChance)
+                        {
+                            allRoom[i][j].Things.Add(box);
+                        }
+                        if (dice.DiceTrow(100) < chest.DropChance)
+                        {
+                            allRoom[i][j].Things.Add(chest);
+                        }
+                    }   
+                }
 
 
             }
 
 
+        }
+        public void Ger()
+        {
+            Console.WriteLine();
         }
 
         public string GetCurrent()

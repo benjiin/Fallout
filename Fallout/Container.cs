@@ -11,8 +11,12 @@ namespace Fallout
         public bool Locked { get; set; }
         public List<Stuff> HaveStuff { get; set; } = new List<Stuff>();
 
-
-
+        public Container(string name, bool locked, int drop)
+        {
+            this.Name = name;
+            this.Locked = locked;
+            this.DropChance = drop;
+        }
         public void GetCrap()
         {
             foreach (var item in HaveStuff)

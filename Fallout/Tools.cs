@@ -8,11 +8,10 @@ namespace Fallout
 {
     class Tools : Stuff   
     {
-        public Tools(string name, double value, double weight, int dropchance)
+        public Tools(string name, int value, int dropchance)
         {
             this.Name = name;
             this.Value = value;
-            this.Weight = weight;
             this.DropChance = dropchance;
         }
     }
