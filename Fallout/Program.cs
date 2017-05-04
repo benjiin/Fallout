@@ -15,14 +15,7 @@ namespace Fallout
             //game.MovePlayer();
             //game.ConsoleMenu();
             //game.ShowRooms();
-            foreach (var item in game.roomA)
-            {
-                Console.WriteLine(item.Name + " " + item.IsContaminated);
-            }
-            foreach (var item in game.roomB)
-            {
-                Console.WriteLine(item.Name + " " + item.IsContaminated);
-            }
+
             foreach (var item in game.roomC)
             {
                 Console.WriteLine(item.Name + " " + item.IsContaminated);

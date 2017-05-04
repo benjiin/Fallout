@@ -38,10 +38,31 @@ namespace Fallout
                 roomA[i] = new Room("A" + (i));
                 roomB[i] = new Room("B" + (i));
                 roomC[i] = new Room("C" + (i));
+                if (dice.DiceTrow(100) < 50)
+                {
+                    roomC[i].IsContaminated = true;
+                }
                 roomD[i] = new Room("D" + (i));
+                if (dice.DiceTrow(100) < 50)
+                {
+                    roomD[i].IsContaminated = true;
+                }
                 roomE[i] = new Room("E" + (i));
+                if (dice.DiceTrow(100) < 50)
+                {
+                    roomE[i].IsContaminated = true;
+                }
                 roomF[i] = new Room("F" + (i));
+                if (dice.DiceTrow(100) < 50)
+                {
+                    roomF[i].IsContaminated = true;
+                }
                 roomG[i] = new Room("G" + (i));
+                if (dice.DiceTrow(100) < 50)
+                {
+                    roomG[i].IsContaminated = true;
+                }
+
 
             }
 
