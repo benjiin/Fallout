@@ -103,6 +103,11 @@ namespace Fallout
             {
                 Console.WriteLine(item.Name);
             }
+
+            foreach (var item in container)
+            {
+                Console.WriteLine(item.Name);
+            }
         }
 
 

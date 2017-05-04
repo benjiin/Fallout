@@ -380,31 +380,39 @@ namespace Fallout
                 Weapon bat = new Weapon("Knüppel", 10, 1, 25, dice.DiceTrow(3));
                 Weapon knuckleduster = new Weapon("Schlagring", 10, 1, 25, dice.DiceTrow(5));
 
-                //Behälter, die ebenfalls Sachen beinhalten können
-                Container bag = new Container("Beutel", false, 60);
-                Container box = new Container("Kiste", false, 35);
-                Container chest = new Container("Truhe", false, 10);
+                ////Behälter, die ebenfalls Sachen beinhalten können
+                //Container bag = new Container("Beutel", false, 60);
+                //Container box = new Container("Kiste", false, 35);
+                //Container chest = new Container("Truhe", false, 15);
 
-                box.HaveStuff.Add(aluminiumCan);
                 this.roomA[0].Things.Add(paper);
 
-                /*Jeden Raum eine mögliche Kiste, Beutel geben beginnend mit dem Index 2 da 
-                 * A und B /die Vaults) keine Random kisten bekommen sollten
+                /* 
+                 * Jeder Raum bekommt einen Beutel, Kiste oder Truhe.
+                 * Wenn eines von diesen im Raum vorkommt, wird diese gleich mit zufälligen 
+                 * Gegenständen befüllt.
                  */
                 for (int i = 2; i < 5; i++)
                 {
                     for (int j = 0; j<11; j++)
                     {
-                        if (dice.DiceTrow(100) < bag.DropChance)
+                        if (dice.DiceTrow(100) > 0)
                         {
-                            allRoom[i][j].Things.Add(bag);
+                            Container bag = new Container("Beutel", false);
+                            allRoom[i][j].Container.Add(bag);
+                            allRoom[i][j].Things.Add(paper);
+                            //HIER WEITER MACHEN MIT DEN BEFÜLLEN
+                            if(dice.DiceTrow(100) > 50)bag.HaveStuff.Add(alarmClock);
+
                         }
-                        if (dice.DiceTrow(100) < box.DropChance)
+                        if (dice.DiceTrow(100) > 35)
                         {
+                            Container box = new Container("Kiste", false);
                             allRoom[i][j].Things.Add(box);
                         }
-                        if (dice.DiceTrow(100) < chest.DropChance)
+                        if (dice.DiceTrow(100) > 15)
                         {
+                            Container chest = new Container("Truhe", true);
                             allRoom[i][j].Things.Add(chest);
                         }
                     }   
@@ -485,7 +493,7 @@ namespace Fallout
                             }
                             break;
                         case ConsoleKey.O:
-                            foreach (Stuff item in this.player.CurrentRoom.Things)
+                            foreach (Stuff item in this.player.CurrentRoom.Container)
                             {
                                 if(item is Container)
                                 {

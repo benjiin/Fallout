@@ -22,6 +22,12 @@ namespace Fallout
             AllCrap.Remove(this);
         }
 
+        public void GetAll()
+        {
+
+        }
+
+
 
 
     }

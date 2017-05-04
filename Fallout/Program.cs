@@ -10,6 +10,8 @@ namespace Fallout
     {
         static void Main(string[] args)
         {
+            //Console.BackgroundColor = ConsoleColor.DarkGreen;
+            //Console.Beep 
             Game game = new Game();
 
             game.MovePlayer();

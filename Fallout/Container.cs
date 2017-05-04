@@ -8,14 +8,15 @@ namespace Fallout
 {
     class Container : Stuff
     {
+
         public bool Locked { get; set; }
         public List<Stuff> HaveStuff { get; set; } = new List<Stuff>();
 
-        public Container(string name, bool locked, int drop)
+        public Container(string name, bool locked)
         {
             this.Name = name;
             this.Locked = locked;
-            this.DropChance = drop;
+            this.HaveStuff = HaveStuff;
         }
         public void GetCrap()
         {
