@@ -21,6 +21,7 @@ namespace Fallout
         public int LifePoint { get; set; }
         public int HitPoints { get; set; }
         public double Money { get; set; }
+        public int XrayRadiation { get; set; }
         public int Experience { get; set; }
         public int Level { get; set; }
         public double InventoryWeight { get; set; }

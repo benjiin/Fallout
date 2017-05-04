@@ -11,7 +11,6 @@ namespace Fallout
         Dice dice = new Dice();
         Player player = new Player();
         Menu menu = new Menu();
-        Container box = new Container();
         /*
          * 7 Reihen Felder & 11 Spalten in Array gepackt  
          */
@@ -31,16 +30,26 @@ namespace Fallout
              * Spalte 0 1 2 = Vault 1
              * Spalte 3 4 5 6 = Vault 2
              * Spalte 7 8 9 10 = Vault 3
+             * 
+             *Die vaults können nicht Kontaminiert sein mit der Strahlung während es im Commonwealth zufällig zu strahlung kommen kann
              */
             for (int i = 0; i <= 10; i++)
             {
-                roomA[i] = new Room("A" + (i));
-                roomB[i] = new Room("B" + (i));
-                roomC[i] = new Room("C" + (i));
-                roomD[i] = new Room("D" + (i));
-                roomE[i] = new Room("E" + (i));
-                roomF[i] = new Room("F" + (i));
-                roomG[i] = new Room("G" + (i));
+                roomA[i] = new Room("A" + (i), false);
+                roomB[i] = new Room("B" + (i), false);
+                roomC[i] = new Room("C" + (i), false);
+                roomD[i] = new Room("D" + (i), false);
+                roomE[i] = new Room("E" + (i), false);
+                roomF[i] = new Room("F" + (i), false);
+                roomG[i] = new Room("G" + (i), false);
+            }
+            foreach (var item in roomC)
+            {
+                int conta = dice.DiceTrow(100);
+                if(conta>50)
+                {
+                    item.IsContaminated = true;
+                }
             }
             /* 
              * Räume verbinden
@@ -319,17 +328,47 @@ namespace Fallout
                this.player.CurrentRoom = roomA[1];
 
 
-                
+
 
                 // Ende der Räume
-                /*
-                 * Objekte : Name, Wert pro Einheit, Gewicht pro Einheit, Dropchance
-                 */
-                Crap can = new Crap("Dose", 0.1, 0.1, 80);
+
+                //Crap 
+                //Name, Wert pro Einheit, Gewicht pro Einheit, Dropchance
+                
+                Crap alarmClock = new Crap("Alter Wecker", 10, 1, 90);
+                Crap aluminiumCan = new Crap("Aliminium Dose", 0.1, 0.1, 80);
+                Crap babyrattle = new Crap("Babyrassel", 2, 0.5, 98);
+                Crap dogtag = new Crap("Hundemarke", 1, 0.1, 90);
                 Crap paper = new Crap("Papier", 0.1, 0.1, 75);
+                Crap goldwatch = new Crap("Goldene Uhr", 40, 0.5, 20);
+                Crap heatplate = new Crap("Herdplatte", 4, 3, 94);
+                Crap lightbulb = new Crap("Glühbirne", 3, 0.5, 94);
+                Crap oilcanister = new Crap("Ölkanister", 12, 3, 96);
+                Crap packofcigarette = new Crap("Zigarettenschachtel", 12, 0.1, 99);
+                Crap skull = new Crap("Menschlicher Schädel", 1, 1, 99);
+
+                //Potions/Verbrauchsgüter
+                //Name, Wert der Einheit, Gewicht pro Einheit, DropChance, Hinzugefügte Strahlung, Hergestellte HP 
+                Potions carrot = new Potions("Verstrahlte Karotte", 3, 0.1, 90, 3, 10, 0);
+                Potions corn = new Potions("Verstahlter Maiskolben", 3, 0.1, 90, 6, 10, 0);
+                Potions tomato = new Potions("Verstahlte Tomate", 3, 0.1, 90, 4, 5, 0);
+                Potions stimpack = new Potions("Stimpack", 25, 0, 55, 0, 25, 0);
+                Potions beer = new Potions("Flasche Bier", 5, 1, 70, 0, 2, 5);
+                Potions radaway = new Potions("Radaway", 20, 0, 50, 0, 0, 10);
+
+                //Tools / Benutzbares (Haarklammern, Schlüssel...)
+                Tools bobbypin = new Tools("Haarklammer", 1, 0, 45);
+                Tools key = new Tools("Universal Schlüssel", 50, 0, 10);
+                Tools bottlecaps = new Tools("Kronkorken", 1, 0, 100);
+
+                //Weapons // Einfache Waffen, erstmal ohne Schusswaffen sondern nur Verbesseung der Stats. 
+
+                Weapon bat = new Weapon();
+
+
                 Container box = new Container();
                 box.Name = "Kiste";
-                box.HaveCrap.Add(can);
+                box.HaveStuff.Add(aluminiumCan);
                 roomA[2].Things.Add(box);
                 this.roomA[0].Things.Add(paper);
 
@@ -405,7 +444,14 @@ namespace Fallout
                             }
                             break;
                         case ConsoleKey.O:
-                            this.box.GetCrap();
+                            foreach (Stuff item in this.player.CurrentRoom.Things)
+                            {
+                                if(item is Container)
+                                {
+                                    ((Container)item).GetCrap();
+                                }
+                            }
+                            
                             break;
                         default:
                             Console.WriteLine("Ich habe Ihre Eingabe nicht verstanden");
