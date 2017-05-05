@@ -349,22 +349,23 @@ namespace Fallout
                 //Name, Wert pro Einheit, Gewicht pro Einheit, Dropchance
 
                 Crap alarmClock = new Crap("Alter Wecker", 10, 1, 90);
-                Crap aluminiumCan = new Crap("Aliminium Dose", 0.1, 0.1, 80);
+                Crap aluminiumCan = new Crap("Aluminium Dose", 0.1, 0.1, 80);
                 Crap babyrattle = new Crap("Babyrassel", 2, 0.5, 98);
-                Crap dogtag = new Crap("Hundemarke", 1, 0.1, 90);
+                Crap dogtag = new Crap("Hundemarke", 1, 0.2, 90);
                 Crap paper = new Crap("Papier", 0.1, 0.1, 75);
                 Crap goldwatch = new Crap("Goldene Uhr", 40, 0.5, 20);
                 Crap heatplate = new Crap("Herdplatte", 4, 3, 94);
                 Crap lightbulb = new Crap("Glühbirne", 3, 0.5, 94);
                 Crap oilcanister = new Crap("Ölkanister", 12, 3, 96);
                 Crap packofcigarette = new Crap("Zigarettenschachtel", 12, 0.1, 99);
-                Crap skull = new Crap("Menschlicher Schädel", 1, 1, 99);
+                Crap skull = new Crap("Menschlicher Schädel", 1, 2, 80);
+                Crap sandclock = new Crap("Kaputte Sanduhr", 1, 1, 90);
 
                 //Potions/Verbrauchsgüter
                 //Name, Wert der Einheit, Gewicht pro Einheit, DropChance, Hinzugefügte Strahlung, Hergestellte HP 
                 Potions carrot = new Potions("Verstrahlte Karotte", 3, 0.1, 90, 3, 10, 0);
-                Potions corn = new Potions("Verstahlter Maiskolben", 3, 0.1, 90, 6, 10, 0);
-                Potions tomato = new Potions("Verstahlte Tomate", 3, 0.1, 90, 4, 5, 0);
+                Potions corn = new Potions("Verstrahlter Maiskolben", 3, 0.1, 90, 6, 10, 0);
+                Potions tomato = new Potions("Verstrahlte Tomate", 3, 0.1, 90, 4, 5, 0);
                 Potions stimpack = new Potions("Stimpack", 25, 0, 55, 0, 25, 0);
                 Potions beer = new Potions("Flasche Bier", 5, 1, 70, 0, 2, 5);
                 Potions radaway = new Potions("Radaway", 20, 0, 50, 0, 0, 10);
@@ -419,7 +420,7 @@ namespace Fallout
                          * 4. Potions   2x Verbrauchsitem 
                          * 5. Weapons   Waffe (mit Dropchancenwurf) 
                          */
-                        if (dice.DiceTrow(100) > 100) //60
+                        if (dice.DiceTrow(100) < 50) //60
                         {
                       
                             Container bag = new Container("Beutel", false);
@@ -428,7 +429,7 @@ namespace Fallout
                             bag.HaveStuff.Add(skull.GetSpecificItem(dice.DiceTrow(skull.GetAllCrap())));
                             bag.HaveStuff.Add(bottlecaps = new Tools("Kronkorke/n", 1, 100, dice.DiceTrow(10)));
                         }
-                        if (dice.DiceTrow(100) > 100) // 35
+                        if (dice.DiceTrow(100) < 25) // 35
                         {
                             Container box = new Container("Kiste", false);
                             allRoom[i][j].Container.Add(box);
@@ -440,7 +441,7 @@ namespace Fallout
 
 
                         }
-                        if (dice.DiceTrow(100) > 0) // 15
+                        if (dice.DiceTrow(100) < 15) 
                         {
                             Container chest = new Container("Truhe", false);
                             allRoom[i][j].Container.Add(chest);
@@ -551,6 +552,7 @@ namespace Fallout
 
                                 }
                             }
+
                             
                             break;
                         default:
