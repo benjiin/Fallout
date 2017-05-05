@@ -10,7 +10,6 @@ namespace Fallout
     {
         Dice dice = new Dice();
         Player player = new Player();
-        Menu menu = new Menu();
         /*
          * 7 Reihen Felder & 11 Spalten in Array gepackt  
          */
@@ -25,10 +24,10 @@ namespace Fallout
 
         public Game()
         {
-            //Alle Raumelemente in eine weiteres Array zum angreifen
+            /* 
+             * Alle Raumelemente in eine weiteres Array zum angreifen 
+             */
             Room[][] allRoom = { roomA, roomB, roomC, roomD, roomE, roomF, roomG };
-            
-
             /*
              * Räume erstellen
              * Reihe A und B werden die "Vaults" (Die Schutzräume unabhängig von dem Commonwealth) und Reihe C-G das Commomwealth
@@ -71,7 +70,10 @@ namespace Fallout
             /* 
              * Räume verbinden (Siehe Bild Anhang: Raumplan.png)
              */
-            {  // Vault 1 
+            {  
+                /*
+                 * Vault1
+                 */
                 roomA[0].PathNorth = roomB[0];
                 roomA[0].PathEast = roomA[1];
 
@@ -90,7 +92,9 @@ namespace Fallout
 
                 roomB[2].PathSouth = roomA[2];
                 roomB[2].PathUp = roomG[1];
-                // Vault 2 
+                /*
+                 * Vault2
+                 */
                 roomA[3].PathNorth = roomB[3];
                 roomA[3].PathEast = roomA[4];
 
@@ -115,7 +119,9 @@ namespace Fallout
 
                 roomB[6].PathSouth = roomA[6];
                 roomB[6].PathUp = roomC[5];
-                // Vault 3
+                /* 
+                 * Vault 3
+                 */
                 roomA[7].PathNorth = roomB[7];
                 roomA[7].PathEast = roomA[8];
 
@@ -140,7 +146,9 @@ namespace Fallout
 
                 roomB[10].PathSouth = roomA[10];
                 roomB[10].PathUp = roomF[9];
-                // Commonwealth 
+                /* 
+                 * Commonwealth 
+                 */ 
                 roomC[0].PathNorth = roomD[0];
                 roomC[0].PathEast = roomC[1];
 
@@ -342,66 +350,107 @@ namespace Fallout
 
                 //Startposition des Spieler
                 this.player.CurrentRoom = roomC[0];
-
-                //Items erstellen
-
-                //Crap 
-                //Name, Wert pro Einheit, Gewicht pro Einheit, Dropchance
+                /*
+                 * Crap-Item erstellen (Müll nur zum verkaufen gedacht)
+                 * 
+                 * Liste die gleich alle Items auffängt und so verarbeiter macht
+                 * 
+                 * Crap = Name, Wert der Einheit, Gewicht der Einheit, DropChance
+                 * 
+                 */
+                List<Crap> allCrap = new List<Crap>();
 
                 Crap alarmClock = new Crap("Alter Wecker", 10, 1, 90);
+                allCrap.Add(alarmClock);
                 Crap aluminiumCan = new Crap("Aluminium Dose", 0.1, 0.1, 80);
+                allCrap.Add(aluminiumCan);
                 Crap babyrattle = new Crap("Babyrassel", 2, 0.5, 98);
+                allCrap.Add(babyrattle);
                 Crap dogtag = new Crap("Hundemarke", 1, 0.2, 90);
+                allCrap.Add(dogtag);
                 Crap paper = new Crap("Papier", 0.1, 0.1, 75);
+                allCrap.Add(paper);
                 Crap goldwatch = new Crap("Goldene Uhr", 40, 0.5, 20);
+                allCrap.Add(goldwatch);
                 Crap heatplate = new Crap("Herdplatte", 4, 3, 94);
+                allCrap.Add(heatplate);
                 Crap lightbulb = new Crap("Glühbirne", 3, 0.5, 94);
+                allCrap.Add(lightbulb);
                 Crap oilcanister = new Crap("Ölkanister", 12, 3, 96);
+                allCrap.Add(oilcanister);
                 Crap packofcigarette = new Crap("Zigarettenschachtel", 12, 0.1, 99);
+                allCrap.Add(packofcigarette);
                 Crap skull = new Crap("Menschlicher Schädel", 1, 2, 80);
+                allCrap.Add(skull);
                 Crap sandclock = new Crap("Kaputte Sanduhr", 1, 1, 90);
+                allCrap.Add(sandclock);
+                /* 
+                 * Potions/Verbrauchsgüter = Stimpack(Tränke), Essen(verseucht)
+                 * 
+                 * Potions = Name, Wert der Einheit, Gewicht pro Einheit, DropChance, Hinzugefügte Strahlung, Hergestellte HP, Strahlung reduzieren
+                 *  
+                 */
+                List<Potions> allPotions = new List<Potions>();
 
-                //Potions/Verbrauchsgüter
-                //Name, Wert der Einheit, Gewicht pro Einheit, DropChance, Hinzugefügte Strahlung, Hergestellte HP 
                 Potions carrot = new Potions("Verstrahlte Karotte", 3, 0.1, 90, 3, 10, 0);
+                allPotions.Add(carrot);
                 Potions corn = new Potions("Verstrahlter Maiskolben", 3, 0.1, 90, 6, 10, 0);
+                allPotions.Add(corn);
                 Potions tomato = new Potions("Verstrahlte Tomate", 3, 0.1, 90, 4, 5, 0);
+                allPotions.Add(tomato);
                 Potions stimpack = new Potions("Stimpack", 25, 0, 55, 0, 25, 0);
+                allPotions.Add(stimpack);
                 Potions beer = new Potions("Flasche Bier", 5, 1, 70, 0, 2, 5);
+                allPotions.Add(beer);
                 Potions radaway = new Potions("Radaway", 20, 0, 50, 0, 0, 10);
+                allPotions.Add(radaway);
 
-                //Tools / Benutzbares (Haarklammern, Schlüssel...)
-                //Name, Wert der Einheit, Dropchance
-                Tools key = new Tools("Universal Schlüssel", 50, 10, 1);
+                /* Tools / Benutzbares (Haarklammern, Code...)
+                 * Tools = Name, Wert der Einheit, Dropchance
+                 */
+                Tools key = new Tools("Zugangscode", 50, 10, 1);
                 Tools bobbypin;
                 Tools bottlecaps;
-
-                //Weapons // Einfache Waffen, erstmal ohne Schusswaffen sondern nur Verbesseung der Stats. 
-                //Name, Wert der Einheit, Gewicht, Dopchance, Schadenmultiplikator
+                /*
+                 * Weapons  Einfache Waffen, erstmal ohne Schusswaffen sondern nur Verbesseung der Stats. 
+                 *  Weapons = Name, Wert der Einheit, Gewicht, Dropchance, Schadenmultiplikator
+                 * 
+                 */
+                List<Weapon> allWeapon = new List<Weapon>();
 
                 Weapon bat = new Weapon("Knüppel", 10, 1, 25, dice.DiceTrow(3));
+                allWeapon.Add(bat);
                 Weapon knuckleduster = new Weapon("Schlagring", 10, 1, 25, dice.DiceTrow(5));
-
-                ////Behälter, die ebenfalls Sachen beinhalten können
-                //Container bag = new Container("Beutel", false, 60);
-                //Container box = new Container("Kiste", false, 35);
-                //Container chest = new Container("Truhe", false, 15);
-
-                this.roomA[0].Things.Add(paper);
-
+                allWeapon.Add(knuckleduster);
                 /* 
                  * Jeder Raum bekommt einen Beutel, Kiste oder Truhe.
                  * Wenn eines von diesen im Raum vorkommt, wird diese gleich mit zufälligen 
                  * Gegenständen befüllt.
+                 * 
+                 * Die Schleife durchzählt nur das Commonwealth
+                 *  C - G und 1 - 10
                  */
-                for (int i = 2; i <7; i++)
+                for (int i = 2; i < 7; i++)
                 {
-                    for (int j = 0; j<11; j++)
+                    for (int j = 0; j < 11; j++)
                     {
                         /*
-                         * Zufälliges Crap Item in den Beutel packen. Die Crap-Liste wird gezählt (Alle Items),
-                         * diese Zahl dient als maximale Augenzahl für den Würfel um so dann ein Item am Index (Ergebnis Würfelwurf)
-                         * auszuwählen
+                         * Alle Räume werden durchgezählt. Für jeden Raum wird gewürfelt ob dieser Raum einen Container hat.
+                         * Würfel (W100) < 60:
+                         *                      Beutel
+                         * Würfel (W100) < 35:
+                         *                      Kiste
+                         * Würfel (W100) < 15:
+                         *                      Truhe (verschlossen nur mit Haarklammer zu öffnen)
+                         * 
+                         * Anschliessend wird gewürfelt welches Item in diesen Container kommt. 
+                         * Dazu wird die Liste des zugehörigen Item gezählt und als Augenzahl
+                         * für den Würfel benutzt.
+                         * 
+                         * Kronkorken werden neu erstellt für jeden Raum, ebenso Harrklammern.
+                         * 
+                         * Der Zugangscode kann (wenn gefunden) für das zweite Vault benutzt werden, 
+                         * diesen bekommt man aber auch wenn man weiter die Quest macht.
                          * 
                          * Beutel Inhalt:
                          * 1. Crap      2x Crap Item                         
@@ -414,54 +463,66 @@ namespace Fallout
                          * 4. Potions   Ein Verbrauchsitem 
                          * * 
                          * Truhe Inhalt:
-                         * 1. Tools     Universal Schlüssel  
+                         * 1. Tools     Zugangscode
                          * 2. Tools     Kronkorken (Anzahl wird durch den Value erwürfelt *40)
                          * 3. Tools     Lockpicks 
                          * 4. Potions   2x Verbrauchsitem 
                          * 5. Weapons   Waffe (mit Dropchancenwurf) 
                          */
-                        if (dice.DiceTrow(100) < 50) //60
+                        if (dice.DiceTrow(100) < 60) 
                         {
-                      
+
                             Container bag = new Container("Beutel", false);
                             allRoom[i][j].Container.Add(bag);
-                            bag.HaveStuff.Add(skull.GetSpecificItem(dice.DiceTrow(skull.GetAllCrap())));
-                            bag.HaveStuff.Add(skull.GetSpecificItem(dice.DiceTrow(skull.GetAllCrap())));
+                            bag.HaveStuff.Add(allCrap[dice.DiceTrow(allCrap.Count()-1)]);
+                            bag.HaveStuff.Add(allCrap[dice.DiceTrow(allCrap.Count()-1)]);
                             bag.HaveStuff.Add(bottlecaps = new Tools("Kronkorke/n", 1, 100, dice.DiceTrow(10)));
                         }
-                        if (dice.DiceTrow(100) < 25) // 35
+                        if (dice.DiceTrow(100) < 35) 
                         {
                             Container box = new Container("Kiste", false);
                             allRoom[i][j].Container.Add(box);
-                            box.HaveStuff.Add(skull.GetSpecificItem(dice.DiceTrow(skull.GetAllCrap())));
-                            box.HaveStuff.Add(skull.GetSpecificItem(dice.DiceTrow(skull.GetAllCrap())));
+                            box.HaveStuff.Add(allCrap[dice.DiceTrow(allCrap.Count()-1)]);
+                            box.HaveStuff.Add(allCrap[dice.DiceTrow(allCrap.Count()-1)]);
                             box.HaveStuff.Add(bottlecaps = new Tools("Kronkorke/n", 1, 100, dice.DiceTrow(20)));
                             box.HaveStuff.Add(bobbypin = new Tools("Haarklammer", 1, 45, 1));
-                            box.HaveStuff.Add(radaway.GetSpecificItem(dice.DiceTrow(radaway.GetAllPotions())));
-
-
+                            box.HaveStuff.Add(allPotions[dice.DiceTrow(allPotions.Count()-1)]);
                         }
                         if (dice.DiceTrow(100) < 15) 
                         {
                             Container chest = new Container("Truhe", false);
                             allRoom[i][j].Container.Add(chest);
-                            if(dice.DiceTrow(100) < key.DropChance)
+                            if (dice.DiceTrow(100) < key.DropChance)
                             {
                                 chest.HaveStuff.Add(key);
                             }
                             chest.HaveStuff.Add(bottlecaps = new Tools("Kronkorke/n", 1, 100, dice.DiceTrow(40)));
                             chest.HaveStuff.Add(bobbypin = new Tools("Haarklammer", 1, 45, 1));
-                            chest.HaveStuff.Add(radaway.GetSpecificItem(dice.DiceTrow(radaway.GetAllPotions())));
-                            chest.HaveStuff.Add(radaway.GetSpecificItem(dice.DiceTrow(radaway.GetAllPotions())));
-                            chest.HaveStuff.Add(bat.GetSpecificItem(dice.DiceTrow(bat.GetAllWeapons())));
+                            chest.HaveStuff.Add(allPotions[dice.DiceTrow(allPotions.Count() - 1)]);
+                            chest.HaveStuff.Add(allPotions[dice.DiceTrow(allPotions.Count() - 1)]);
+                            chest.HaveStuff.Add(allWeapon[dice.DiceTrow(allWeapon.Count() - 1)]);
                         }
-                    }   
+                        /*
+                         * Neben den Container, die man öffnen kann. Sollen natürlich auch noch paar Items rumfliegen.
+                         * Es herrscht eine Apokalypse da muss auch keine Ordnung in Räumen sein.
+                         * 
+                         * Geld (Kronkorken) können zu kleinen Teilen auch herum fliegen 
+                         * 
+                         */
+                        for(int k=1; k<dice.DiceTrow(4); k++)
+                        {
+                            allRoom[i][j].Things.Add(allCrap[dice.DiceTrow(allCrap.Count() - 1)]);
+                        }
+                        if(dice.DiceTrow(100) <50)
+                        {
+                            allRoom[i][j].Things.Add(bottlecaps = new Tools("Kronkorke/n", 1, 100, dice.DiceTrow(10)));
+                        }
+
+                    }
+
                 }
 
-                /*
-                 * Den Raum mit Sachen befüllen
-                            allRoom[i][j].Things.Add(paper);
-                 */
+
 
             }
 
@@ -546,14 +607,14 @@ namespace Fallout
                             Console.Clear();
                             foreach (Stuff item in this.player.CurrentRoom.Container)
                             {
-                                if(item is Container)
+                                if (item is Container)
                                 {
                                     ((Container)item).GetStuff();
 
                                 }
                             }
 
-                            
+
                             break;
                         default:
                             Console.Clear();
@@ -601,7 +662,7 @@ namespace Fallout
                 this.player.CurrentRoom.GetStuff();
             }
         }
-    }   
+    }
 
 
 

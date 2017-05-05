@@ -8,29 +8,17 @@ namespace Fallout
 {
     class Crap : Stuff
     {
-        static List<Crap> AllCrap = new List<Crap>();
         public Crap(string name, double value, double weight, int dropChance)
         {
             this.Name = name;
             this.Value = value;
             this.Weight = weight;
             this.DropChance = dropChance;
-            AllCrap.Add(this);
-        }
-        ~Crap()
-        {
-            AllCrap.Remove(this);
         }
 
-        public int GetAllCrap()
-        {
-            return AllCrap.Count();
-        }
 
-        public Crap GetSpecificItem(int index)
-        {
-            return AllCrap.ElementAt(index-1);
-        }
+
+
 
 
 

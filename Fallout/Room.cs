@@ -100,14 +100,24 @@ namespace Fallout
         public void GetStuff()
         {
             foreach (var item in things)
-            {
-                Console.WriteLine(item.Name);
-            }
+                if (item.Amount > 2)
+                {
+                    Console.WriteLine(item.Name + " (" + item.Amount + ")");
+                }
+                else
+                {
+                    Console.WriteLine(item.Name);
+                }
 
             foreach (var item in container)
-            {
-                Console.WriteLine(item.Name);
-            }
+                if (item.Amount > 2)
+                {
+                    Console.WriteLine(item.Name + " (" + item.Amount + ")");
+                }
+                else
+                {
+                    Console.WriteLine(item.Name);
+                }
         }
 
 
