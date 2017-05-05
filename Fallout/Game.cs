@@ -408,7 +408,7 @@ namespace Fallout
                 /* Tools / Benutzbares (Haarklammern, Code...)
                  * Tools = Name, Wert der Einheit, Dropchance
                  */
-                Tools key = new Tools("Zugangscode", 50, 10, 1);
+                Tools code = new Tools("Zugangscode", 50, 10, 1);
                 Tools bobbypin;
                 Tools bottlecaps;
                 /*
@@ -471,7 +471,6 @@ namespace Fallout
                          */
                         if (dice.DiceTrow(100) < 60) 
                         {
-
                             Container bag = new Container("Beutel", false);
                             allRoom[i][j].Container.Add(bag);
                             bag.HaveStuff.Add(allCrap[dice.DiceTrow(allCrap.Count()-1)]);
@@ -492,9 +491,9 @@ namespace Fallout
                         {
                             Container chest = new Container("Truhe", false);
                             allRoom[i][j].Container.Add(chest);
-                            if (dice.DiceTrow(100) < key.DropChance)
+                            if (dice.DiceTrow(100) < code.DropChance)
                             {
-                                chest.HaveStuff.Add(key);
+                                chest.HaveStuff.Add(code);
                             }
                             chest.HaveStuff.Add(bottlecaps = new Tools("Kronkorke/n", 1, 100, dice.DiceTrow(40)));
                             chest.HaveStuff.Add(bobbypin = new Tools("Haarklammer", 1, 45, 1));
@@ -517,16 +516,9 @@ namespace Fallout
                         {
                             allRoom[i][j].Things.Add(bottlecaps = new Tools("Kronkorke/n", 1, 100, dice.DiceTrow(10)));
                         }
-
                     }
-
                 }
-
-
-
             }
-
-
         }
         public void Ger()
         {
