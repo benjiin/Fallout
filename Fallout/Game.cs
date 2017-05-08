@@ -687,21 +687,9 @@ namespace Fallout
 
         public void Menu()
         {
-            for(int s=0; s<11; s++)
-            {
-                for(int z=0; z<70; z++)
-                {
-                    Console.Write("8");
-                }
-                Console.WriteLine();
 
-            }
+            
 
-            Console.ReadKey();
-            Console.Clear();
-            MovePlayer();
-
-      
         }
 
         public void ShowRooms()

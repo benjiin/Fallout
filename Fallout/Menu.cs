@@ -6,13 +6,25 @@ using System.Threading.Tasks;
 
 namespace Fallout
 {
-    class Menu
+    class Menu 
     {
+        Game game = new Game();
         public List<String> Menuitem { get; set; }
+
+        string rectangle = "┌────────────────────────────────┐\n│                              │\n│ 1                              │\n│ 1                              │\n└────────────────────────────────┘";
+
 
         public Menu()
         {
-            this.Menuitem = Menuitem;
+
+        }
+
+        public void Start()
+        {
+
+            Console.WriteLine();
+            Console.WriteLine(rectangle);
+
         }
     }
 }
