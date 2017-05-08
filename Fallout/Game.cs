@@ -561,19 +561,19 @@ namespace Fallout
                             int whichMonster = dice.DiceTrow(100);
                             if (whichMonster <= 25) // 25
                             {
-                                allRoom[i][j].JAJA.Add(rat = new Monster("Ratte", dice.DiceTrow(6), dice.DiceTrow(3), 1));
+                                allRoom[i][j].Monster.Add(rat = new Monster("Ratte", dice.DiceTrow(6), dice.DiceTrow(3), 1));
                             }
                             else if (whichMonster <= 50)
                             {
-                                allRoom[i][j].JAJA.Add(bug = new Monster("Käfer", dice.DiceTrow(6) + 4, dice.DiceTrow(4), 2));
+                                allRoom[i][j].Monster.Add(bug = new Monster("Käfer", dice.DiceTrow(6) + 4, dice.DiceTrow(4), 2));
                             }
                             else if (whichMonster <= 75)
                             {
-                                allRoom[i][j].JAJA.Add(scorpion = new Monster("Skorpion", dice.DiceTrow(6) + 8, dice.DiceTrow(8), 3));
+                                allRoom[i][j].Monster.Add(scorpion = new Monster("Skorpion", dice.DiceTrow(6) + 8, dice.DiceTrow(8), 3));
                             }
                             else if (whichMonster <= 100)
                             {
-                                allRoom[i][j].JAJA.Add(ghul = new Monster("Ghul", dice.DiceTrow(6) + 10, dice.DiceTrow(10), 4));
+                                allRoom[i][j].Monster.Add(ghul = new Monster("Ghul", dice.DiceTrow(6) + 10, dice.DiceTrow(10), 4));
                             }
 
                         }
@@ -590,7 +590,6 @@ namespace Fallout
             Console.WriteLine(this.player.Money);
             Console.WriteLine(this.player.CarryWeight);
             Console.WriteLine(this.player.CurrentRoom.HasMonster);
-            Console.WriteLine(this.player.CurrentRoom.Monster.Name);
         }
 
         public string GetCurrent()

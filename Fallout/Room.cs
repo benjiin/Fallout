@@ -21,15 +21,14 @@ namespace Fallout
             get { return container; }
             set { container = value; }
         }
-        private List<Monster> jaja = new List<Monster>();
-        public List<Monster> JAJA
+        private List<Monster> monster = new List<Monster>();
+        public List<Monster> Monster
         {
-            get { return jaja; }
-            set { jaja = value; }
+            get { return monster; }
+            set { monster = value; }
         }
 
 
-        public Monster Monster { get; set; }
         public bool HasMonster { get; set; } = false;
 
 
@@ -72,7 +71,7 @@ namespace Fallout
                 {
                     Console.WriteLine(item.Name);
                 }
-            foreach (var item in jaja)
+            foreach (var item in monster)
             {
                 Console.WriteLine("MosbterCon: " + item.Constitution + " Monstername: " + item.Name + " Monsterstrength: " + item.Strength +
                     " MonsterXP: " + item.RewardExperiencePoints + " MOnstergold:     " + item.RewardGold +
