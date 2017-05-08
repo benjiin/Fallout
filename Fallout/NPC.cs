@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Fallout
 {
-    class NPC : Human
+    class NPC : LivingCreature
     {
         Dice dice = new Dice();
         public NPC(Room room)

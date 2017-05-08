@@ -8,14 +8,7 @@ namespace Fallout
 {
     class Inventory
     {
-        /*
-        ~Crap()
-        {
-            AllCrap.Remove(this);
-        }
-        * DE KONSTRUKTOR!!!
-        * Etwas aus einer Liste entfernen
-        */
+      
 
     }
 }

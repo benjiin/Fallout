@@ -8,5 +8,8 @@ namespace Fallout
 {
     class Quest
     {
+        public bool IsCompleted { get; set; }
+        public Stuff RewardItem { get; set; }
     }
+
 }

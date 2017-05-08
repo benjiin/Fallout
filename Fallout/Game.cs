@@ -28,6 +28,7 @@ namespace Fallout
              * Alle Raumelemente in eine weiteres Array zum angreifen 
              */
             Room[][] allRoom = { roomA, roomB, roomC, roomD, roomE, roomF, roomG };
+
             /*
              * Räume erstellen
              * Reihe A und B werden die "Vaults" (Die Schutzräume unabhängig von dem Commonwealth) und Reihe C-G das Commomwealth
@@ -116,6 +117,7 @@ namespace Fallout
                 roomB[4].PathWest = roomB[3];
 
                 roomB[5].PathSouth = roomA[5];
+                roomB[5].Description = "Dein Startpunkt";
 
                 roomB[6].PathSouth = roomA[6];
                 roomB[6].PathUp = roomC[5];
@@ -349,7 +351,7 @@ namespace Fallout
                 // Ende der Räume
 
                 //Start und Position des Spieler
-                this.player.CurrentRoom = roomB[5];
+                this.player.CurrentRoom = roomC[5];
 
                 /*
                  * Crap-Item erstellen (Müll nur zum verkaufen gedacht)
@@ -517,6 +519,64 @@ namespace Fallout
                         {
                             allRoom[i][j].Things.Add(bottlecaps = new Tools("Kronkorke/n", 1, 100, dice.DiceTrow(10)));
                         }
+                        /*
+                         * Ausloten ob dieser Raum ein Monster hat 
+                         * Monster erstellen und in zufällige Räume setzen 
+                         * 4 Arten von Monster erstmal. Wurf gibt an welches Monster es gibt.
+                         * Wurf unter 1 - 25 = Ghul (sehr schwer)
+                         * Wurf unter 26 - 50 = Skorpion ( schwere gegner)
+                         * Wurf unter 51 - 75 =  Käfer ( normale)
+                         * Wurf unter 76 - 100 =  Ratte (einfach)
+                         * 
+                         * Monster wird erstellt mit folgenen Werten:
+                         *  
+                         *  Name = String
+                         *  
+                         *  Einfache Gegner 
+                         *      Stärke = Würfel W6
+                         *      RewardGold = W3
+                         *      XPMultiplikator = 1    
+                         *  Normale Gegner
+                         *      Stärke = Würfel W6 + 4      
+                         *      RewardGold = W4
+                         *      XPMultiplikator = 2    
+                         *  Schwere Gegner
+                         *      Stärke = Würfel W6 + 8
+                         *      RewardGold = W8
+                         *      XPMultiplikator = 3  
+                         *  Sehr schwere Gegner
+                         *      Stärke = Würfel W6 + 10
+                         *      RewardGold = W10
+                         *      XPMultiplikator = 4    
+                         *  
+                         *  RewardGold
+                         */
+                        Monster rat;
+                        Monster bug;
+                        Monster scorpion;
+                        Monster ghul;
+                        if (dice.DiceTrow(100) < 50)  // 50
+                        {
+                            allRoom[i][j].HasMonster = true;
+                            int whichMonster = dice.DiceTrow(100);
+                            if (whichMonster <= 25) // 25
+                            {
+                                allRoom[i][j].JAJA.Add(rat = new Monster("Ratte", dice.DiceTrow(6), dice.DiceTrow(3), 1));
+                            }
+                            else if (whichMonster <= 50)
+                            {
+                                allRoom[i][j].JAJA.Add(bug = new Monster("Käfer", dice.DiceTrow(6) + 4, dice.DiceTrow(4), 2));
+                            }
+                            else if (whichMonster <= 75)
+                            {
+                                allRoom[i][j].JAJA.Add(scorpion = new Monster("Skorpion", dice.DiceTrow(6) + 8, dice.DiceTrow(8), 3));
+                            }
+                            else if (whichMonster <= 100)
+                            {
+                                allRoom[i][j].JAJA.Add(ghul = new Monster("Ghul", dice.DiceTrow(6) + 10, dice.DiceTrow(10), 4));
+                            }
+
+                        }
                     }
                 }
             }
@@ -529,6 +589,8 @@ namespace Fallout
             Console.WriteLine(this.player.HealthPoints);
             Console.WriteLine(this.player.Money);
             Console.WriteLine(this.player.CarryWeight);
+            Console.WriteLine(this.player.CurrentRoom.HasMonster);
+            Console.WriteLine(this.player.CurrentRoom.Monster.Name);
         }
 
         public string GetCurrent()
@@ -536,6 +598,11 @@ namespace Fallout
             return this.player.CurrentRoom.Name;
         }
 
+
+        public void createMonster()
+        {
+      
+        }
 
         public void MovePlayer()
         {
@@ -607,19 +674,14 @@ namespace Fallout
                                 if (item is Container)
                                 {
                                     ((Container)item).GetStuff();
-
                                 }
                             }
-
-
                             break;
                         default:
                             Console.Clear();
                             Console.WriteLine("Ich habe Ihre Eingabe nicht verstanden");
                             break;
-
                     }
-
                 }
                 catch (FormatException)
                 {
@@ -658,6 +720,11 @@ namespace Fallout
             {
                 this.player.CurrentRoom.GetStuff();
             }
+            if(this.player.CurrentRoom.Description != null)
+            {
+                Console.WriteLine(this.player.CurrentRoom.Description);
+            }
+
         }
     }
 

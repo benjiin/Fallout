@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Fallout
 {
-    class Human
+    class LivingCreature
     {
         //public int Intelligence { get; set; }
         //public int Mana { get; set; }
@@ -22,14 +22,12 @@ namespace Fallout
         public int HealthPoints { get; set; }
         public double Money { get; set; }
         public int XrayRadiation { get; set; }
-        public int Experience { get; set; }
         public int Level { get; set; } 
         public double CarryWeight { get; set; }
         public Room CurrentRoom { get; set; }
-        public List<Stuff> Inventory { get; set; }
-        public List<Quest> QuestLog { get; set; }
 
-        public Human()
+
+        public LivingCreature()
         {
 
         }
