@@ -404,7 +404,6 @@ namespace Fallout
                 allPotions.Add(beer);
                 Potions radaway = new Potions("Radaway", 20, 0, 50, 0, 0, 10);
                 allPotions.Add(radaway);
-
                 /* Tools / Benutzbares (Haarklammern, Code...)
                  * Tools = Name, Wert der Einheit, Dropchance
                  */
