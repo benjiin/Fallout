@@ -48,11 +48,13 @@
     <Compile Include="Dice.cs" />
     <Compile Include="Enemy.cs" />
     <Compile Include="Game.cs" />
-    <Compile Include="Human.cs" />
+    <Compile Include="InventoryItem.cs" />
+    <Compile Include="LivingCreature.cs" />
     <Compile Include="Inventory.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="Monster.cs" />
     <Compile Include="NPC.cs" />
+    <Compile Include="QuestComplete.cs" />
     <Compile Include="Stuff.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Potions.cs" />

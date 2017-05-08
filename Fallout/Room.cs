@@ -9,7 +9,6 @@ namespace Fallout
     class Room 
     {
         private List<Stuff> things = new List<Stuff>();
-
         public List<Stuff> Things
         {
             get { return things; }
@@ -17,83 +16,37 @@ namespace Fallout
         }
 
         private List<Container> container = new List<Container>();
-
         public List<Container> Container
         {
             get { return container; }
             set { container = value; }
         }
-
-
-        private string name;
-
-        public string Name
+        private List<Monster> monster = new List<Monster>();
+        public List<Monster> Monster
         {
-            get { return name; }
-            set { name = value; }
+            get { return monster; }
+            set { monster = value; }
         }
 
-        private Room pathDown;
 
-        public Room PathDown
-        {
-            get { return pathDown; }
-            set { pathDown = value; }
-        }
+        public bool HasMonster { get; set; } = false;
 
-        private Room pathUp;
 
-        public Room PathUp
-        {
-            get { return pathUp; }
-            set { pathUp = value; }
-        }
-
-        private Room pathNorth;
-
-        public Room PathNorth
-        {
-            get { return pathNorth; }
-            set { pathNorth = value; }
-        }
-
-        private Room pathEast;
-
-        public Room PathEast
-        {
-            get { return pathEast; }
-            set { pathEast = value; }
-        }
-
-        private Room pathSouth;
-
-        public Room PathSouth
-        {
-            get { return pathSouth; }
-            set { pathSouth = value; }
-        }
-
-        private Room pathWest;
-
-        public Room PathWest
-        {
-            get { return pathWest; }
-            set { pathWest = value; }
-        }
-
+        public string Name { get; set; }
+        public Room PathDown { get; set; }
+        public Room PathUp{ get; set; }
+        public Room PathNorth { get; set; }
+        public Room PathEast { get; set; }
+        public Room PathSouth { get; set; }
+        public Room PathWest { get; set; }
         public bool IsContaminated { get; set; }
-
+        public string Description { get; set; }
+        /*
+         * Konstruktor 
+         */
         public Room(string name)
         {
             this.Name = name;
-            this.PathUp = PathUp;
-            this.PathDown = PathDown;
-            this.PathNorth = PathNorth;
-            this.PathEast = PathEast;
-            this.PathSouth = PathSouth;
-            this.PathWest = PathWest;
-            this.things = Things;
-            this.Container = Container;
             this.IsContaminated = false;
         }
 
@@ -118,15 +71,13 @@ namespace Fallout
                 {
                     Console.WriteLine(item.Name);
                 }
+            foreach (var item in monster)
+            {
+                Console.WriteLine("MosbterCon: " + item.Constitution + " Monstername: " + item.Name + " Monsterstrength: " + item.Strength +
+                    " MonsterXP: " + item.RewardExperiencePoints + " MOnstergold:     " + item.RewardGold +
+                    " MonsterHP: " + item.MaxHealthPoints);
+            }
         }
-
-
-
-
-
-
-
-
 
     }
 }

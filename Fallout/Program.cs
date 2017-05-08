@@ -15,10 +15,10 @@ namespace Fallout
             Game game = new Game();
 
             //game.Ger();
-            game.MovePlayer();
-            //game.ConsoleMenu();
+            //game.MovePlayer();
+            game.Menu();
             //game.ShowRooms();
-            //game.Ger();
+
 
 
             Console.ReadKey();
