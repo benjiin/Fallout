@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Fallout
 {
-    class Game : Menu
+    class Game
     {
         Dice dice = new Dice();
         Player player = new Player();
@@ -688,29 +688,21 @@ namespace Fallout
 
         public void Menu()
         {
-         
+            for(int s=0; s<11; s++)
+            {
+                for(int z=0; z<70; z++)
+                {
+                    Console.Write("8");
+                }
+                Console.WriteLine();
 
+            }
 
-
-            Console.WriteLine("+----------------------------------------------------------------+");
-            Console.WriteLine("|                                                                |");
-            Console.WriteLine("|                     Das Beste Spiel                            |");
-            Console.WriteLine("|                                                                |");
-            Console.WriteLine("|                                                                |");
-            Console.WriteLine("|                                                                |");
-            Console.WriteLine("|                                                                |");
-            Console.WriteLine("|                                                                |");
-            Console.WriteLine("|                                                                |");
-            Console.WriteLine("|                                                                |");
-            Console.WriteLine("|                                                                |");
-            Console.WriteLine("+----------------------------------------------------------------+");
             Console.ReadKey();
             Console.Clear();
             MovePlayer();
 
-            /*
-             *+------+ +------+ +------+. .' .'| / /| | | |\ \ |`. `. +------+' | +------+ | +------+ | +------+ | `+------+ | | | | | | | | | | | | | | | | + | | + | | + | | + | | | | .' | |/ | | \| | `. | | +------+' +------+ +------+ - See more at: http://www.incredibleart.org/links/ascii/Scarecrow3-DGallery.html#sthash.5ozbdnCy.dpuf 
-             */
+      
         }
 
         public void ShowRooms()
