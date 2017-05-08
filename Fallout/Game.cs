@@ -598,10 +598,7 @@ namespace Fallout
         }
 
 
-        public void createMonster()
-        {
-      
-        }
+
 
         public void MovePlayer()
         {
@@ -687,6 +684,33 @@ namespace Fallout
                     Console.WriteLine("Enter a valid Char");
                 }
             }
+        }
+
+        public void Menu()
+        {
+         
+
+
+
+            Console.WriteLine("+----------------------------------------------------------------+");
+            Console.WriteLine("|                                                                |");
+            Console.WriteLine("|                     Das Beste Spiel                            |");
+            Console.WriteLine("|                                                                |");
+            Console.WriteLine("|                                                                |");
+            Console.WriteLine("|                                                                |");
+            Console.WriteLine("|                                                                |");
+            Console.WriteLine("|                                                                |");
+            Console.WriteLine("|                                                                |");
+            Console.WriteLine("|                                                                |");
+            Console.WriteLine("|                                                                |");
+            Console.WriteLine("+----------------------------------------------------------------+");
+            Console.ReadKey();
+            Console.Clear();
+            MovePlayer();
+
+            /*
+             *+------+ +------+ +------+. .' .'| / /| | | |\ \ |`. `. +------+' | +------+ | +------+ | +------+ | `+------+ | | | | | | | | | | | | | | | | + | | + | | + | | + | | | | .' | |/ | | \| | `. | | +------+' +------+ +------+ - See more at: http://www.incredibleart.org/links/ascii/Scarecrow3-DGallery.html#sthash.5ozbdnCy.dpuf 
+             */
         }
 
         public void ShowRooms()
