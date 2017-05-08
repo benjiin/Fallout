@@ -12,43 +12,26 @@ namespace Fallout
         //public int Mana { get; set; }
         //public int Apperance { get; set; }
         //public int Knowledge { get; set; }
+        //public int Size { get; set; }
         public string Name { get; set; }
-        public int Strength { get; set; }
-        public int Constitution { get; set; }
-        public int Size { get; set; }
         public int Dexterity { get; set; }
+        public int Constitution { get; set; }
+        public int Strength { get; set; }
         public int Dodge { get; set; }
-        public int LifePoint { get; set; }
-        public int HitPoints { get; set; }
+        public int MaxHealthPoints { get; set; }
+        public int HealthPoints { get; set; }
         public double Money { get; set; }
         public int XrayRadiation { get; set; }
         public int Experience { get; set; }
-        public int Level { get; set; }
-        public double InventoryWeight { get; set; }
+        public int Level { get; set; } 
+        public double CarryWeight { get; set; }
         public Room CurrentRoom { get; set; }
         public List<Stuff> Inventory { get; set; }
         public List<Quest> QuestLog { get; set; }
 
         public Human()
         {
-            //this.Intelligence = Intelligence;
-            //this.Mana = Mana;
-            //this.Apperance = Apperance;
-            //this.Knowledge = Knowledge;
-            this.Name = Name;
-            this.Strength = Strength;
-            this.Constitution = Constitution;
-            this.Size = Size;
-            this.Dexterity = Dexterity;
-            this.Dodge = Dodge;
-            this.LifePoint = LifePoint;
-            this.HitPoints = HitPoints;
-            this.InventoryWeight = InventoryWeight;
-            this.Money = Money;
-            this.Experience = Experience;
-            this.CurrentRoom = CurrentRoom;
-            this.Inventory = Inventory;
-            this.QuestLog = QuestLog;
+
         }
 
     

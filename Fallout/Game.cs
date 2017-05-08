@@ -348,8 +348,9 @@ namespace Fallout
                 roomG[10].PathWest = roomG[9];
                 // Ende der Räume
 
-                //Startposition des Spieler
-                this.player.CurrentRoom = roomC[0];
+                //Start und Position des Spieler
+                this.player.CurrentRoom = roomB[5];
+
                 /*
                  * Crap-Item erstellen (Müll nur zum verkaufen gedacht)
                  * 
@@ -522,8 +523,12 @@ namespace Fallout
         }
         public void Ger()
         {
-            //Crap hj = new Crap("sdsd", 11, 11, 11);
-            //crap.
+            Console.WriteLine(this.player.Strength);
+            Console.WriteLine(this.player.Constitution);
+            Console.WriteLine(this.player.MaxHealthPoints);
+            Console.WriteLine(this.player.HealthPoints);
+            Console.WriteLine(this.player.Money);
+            Console.WriteLine(this.player.CarryWeight);
         }
 
         public string GetCurrent()

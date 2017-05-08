@@ -14,8 +14,8 @@ namespace Fallout
             //Console.Beep 
             Game game = new Game();
 
-            //game.Ger();
-            game.MovePlayer();
+            game.Ger();
+            //game.MovePlayer();
             //game.ConsoleMenu();
             //game.ShowRooms();
             //game.Ger();
