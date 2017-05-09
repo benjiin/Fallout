@@ -520,7 +520,6 @@ namespace Fallout
                         }
                         /*
                          * Ausloten ob dieser Raum ein Monster hat 
-                         * Monster erstellen und in zufällige Räume setzen 
                          * 4 Arten von Monster erstmal. Wurf gibt an welches Monster es gibt.
                          * Wurf unter 1 - 25 = Ghul (sehr schwer)
                          * Wurf unter 26 - 50 = Skorpion ( schwere gegner)

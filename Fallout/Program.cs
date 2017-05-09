@@ -13,13 +13,13 @@ namespace Fallout
             Menu menu = new Menu();
             //Console.BackgroundColor = ConsoleColor.DarkGreen;
             //Console.Beep 
-            //Game game = new Game();
+            Game game = new Game();
 
             //game.Ger();
             //game.MovePlayer();
             //game.Menu();
             //game.ShowRooms();
-            menu.Start();
+            //menu.Start();
 
 
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Fallout
@@ -11,7 +12,7 @@ namespace Fallout
         Game game = new Game();
         public List<String> Menuitem { get; set; }
 
-        string rectangle = "┌────────────────────────────────┐\n│                              │\n│ 1                              │\n│ 1                              │\n└────────────────────────────────┘";
+        string rectangle = "┌────────────────────────────────┐\n│                                │\n│                                │\n│                                │\n└────────────────────────────────┘";
 
 
         public Menu()
@@ -26,5 +27,6 @@ namespace Fallout
             Console.WriteLine(rectangle);
 
         }
+
     }
 }

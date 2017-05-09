@@ -27,6 +27,7 @@ namespace Fallout
             this.CurrentRoom = this.CurrentRoom;
             this.Level = 1;
             this.Experience = this.Level * 100;
+            this.XrayRadiation = 0;
         }
 
 

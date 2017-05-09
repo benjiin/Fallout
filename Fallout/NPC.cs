@@ -9,12 +9,14 @@ namespace Fallout
     class NPC : LivingCreature
     {
         Dice dice = new Dice();
+        List<Quest> HasQuest = new List<Quest>();
         public NPC(Room room)
         {
             this.Strength = (dice.DiceTrow(6) + dice.DiceTrow(6));
             this.Dexterity = (dice.DiceTrow(6) + dice.DiceTrow(6));
             this.Constitution = (dice.DiceTrow(6) + dice.DiceTrow(6));
             this.MaxHealthPoints = ((this.Strength + this.Constitution) / 2);
+            this.Dodge = this.Dexterity * 2;
             this.HealthPoints = this.MaxHealthPoints;
             this.CarryWeight = double.MaxValue;
             this.CurrentRoom = room;
