@@ -359,7 +359,7 @@ namespace Fallout
                 ////////////////////
                 ////////////////////
                 //Start und Position des Spieler
-                this.player.CurrentRoom = roomE[2];
+                this.player.CurrentRoom = roomG[1];
                 CreateNPC("Doktor Vault1", roomB[3]);
                 /*
                  * Crap-Item erstellen (Müll nur zum verkaufen gedacht)
@@ -619,26 +619,31 @@ namespace Fallout
                         //Console.WriteLine("\t\t(S)Süd");
                     if (this.player.CurrentRoom.PathNorth != null)
                     {
-                        Console.WriteLine("\t\t(N)Nord");
+                        Console.WriteLine("\t\t(↑)Nord");
                     }
-                    if (this.player.CurrentRoom.PathEast != null)
+                    if(this.player.CurrentRoom.PathEast != null && this.player.CurrentRoom.PathWest != null)
                     {
-                        if(this.player.CurrentRoom.PathEast != null && this.player.CurrentRoom.PathWest != null)
-                        {
-                            Console.WriteLine("\t(W)West\t\t(O)Ost");
-                        }
-
-
-
-
-                        else 
-                        {
-                            Console.WriteLine("\t\t\t\t(O)Ost");
-                        }
+                        Console.WriteLine("\t(←)West\t\t(→)Ost");
+                    }
+                    else if (this.player.CurrentRoom.PathEast != null)
+                    {
+                        Console.WriteLine("\t\t\t\t(→)Ost");
+                    }
+                    else if(this.player.CurrentRoom.PathWest != null)
+                    {
+                        Console.WriteLine("\t(←)West");
                     }
                     if (this.player.CurrentRoom.PathSouth != null)
                     {
-                        Console.WriteLine("\t\t(S)Süd");
+                        Console.WriteLine("\t\t(↓)Süd");
+                    }
+                    if(this.player.CurrentRoom.PathUp != null)
+                    {
+                        Console.WriteLine("(+)Aufwärts)");     //↖        
+                    }
+                    if(this.player.CurrentRoom.PathDown != null)
+                    {
+                        Console.WriteLine("(-)Abwärts");   // ↘
                     }
 
 
