@@ -9,9 +9,11 @@ namespace Fallout
     class NPC : LivingCreature
     {
         Dice dice = new Dice();
-        List<Quest> HasQuest = new List<Quest>();
+        List<Quest> HasQuest;
         public NPC(Room room)
         {
+            this.HasQuest = new List<Quest>();
+
             this.Strength = (dice.DiceTrow(6) + dice.DiceTrow(6));
             this.Dexterity = (dice.DiceTrow(6) + dice.DiceTrow(6));
             this.Constitution = (dice.DiceTrow(6) + dice.DiceTrow(6));

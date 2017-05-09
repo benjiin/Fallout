@@ -11,14 +11,10 @@ namespace Fallout
         static void Main(string[] args)
         {
             Menu menu = new Menu();
-            Game game = new Game();
 
-            //game.Ger();
-            game.MovePlayer();
-            //game.ShowRooms();
-            //menu.Start();
+            menu.Start();
+
             Console.ReadKey();
-
 
         }
 

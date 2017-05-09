@@ -13,6 +13,7 @@ namespace Fallout
         //public int Apperance { get; set; }
         //public int Knowledge { get; set; }
         //public int Size { get; set; }
+        public List<Stuff> Inventory { get; set; }
         public string Name { get; set; }
         public int Dexterity { get; set; }
         public int Constitution { get; set; }

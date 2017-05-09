@@ -24,8 +24,6 @@ namespace Fallout
         List<Potions> allPotions = new List<Potions>();
         List<Weapon> allWeapon = new List<Weapon>();
         List<Tools> allTools = new List<Tools>();
-
-
         public Game()
         {
             /* 
@@ -354,9 +352,13 @@ namespace Fallout
                 roomG[10].PathWest = roomG[9];
                 // Ende der Räume
 
+                ////////////////////
+                ////////////////////
+                ////////////////////
+                ////////////////////
                 //Start und Position des Spieler
                 this.player.CurrentRoom = roomC[5];
-
+                CreateNPC("Doktor Vault1", roomB[3]);
                 /*
                  * Crap-Item erstellen (Müll nur zum verkaufen gedacht)
                  * 
@@ -576,18 +578,23 @@ namespace Fallout
                 }
             }
         }
-        public void Ger()
+        //////////////////////////////////////////////
+        //////////////////////////////////////////////
+        //////////////////////////////////////////////
+        //////////////////////////////////////////////
+        //////////////////////////////////////////////
+        //////////////////////////////////////////////
+        //////////////////////////////////////////////
+        public void CreateNPC(string name, Room room)
         {
-            Console.WriteLine(this.player.Strength);
-            Console.WriteLine(this.player.Constitution);
-            Console.WriteLine(this.player.MaxHealthPoints);
-            Console.WriteLine(this.player.HealthPoints);
-            Console.WriteLine(this.player.Money);
-            Console.WriteLine(this.player.CarryWeightMax);
-            Console.WriteLine(this.player.CurrentRoom.HasMonster);
+            NPC npc = new NPC(room);
+            npc.Name = name;
+            
         }
 
-        public string GetCurrent()
+
+
+        public string GetCurrentLocation()
         {
             return this.player.CurrentRoom.Name;
         }
@@ -602,7 +609,7 @@ namespace Fallout
             {
                 try
                 {
-                    Console.WriteLine("CurrentRoom = " + this.GetCurrent());
+                    Console.WriteLine("***" + this.GetCurrentLocation() + "***");
                     Console.WriteLine("Possilbe Location: ");
                     ShowRooms();
                     Console.WriteLine("Enter a Location");

@@ -9,7 +9,6 @@ namespace Fallout
     class Player : LivingCreature
     {
         Dice dice = new Dice();
-        public List<Stuff> Inventory { get; set; }
         public List<Quest> QuestLog { get; set; }
         public int Experience { get; set; }
 
