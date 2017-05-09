@@ -23,6 +23,7 @@ namespace Fallout
         public double Money { get; set; }
         public int XrayRadiation { get; set; }
         public int Level { get; set; } 
+        public double CarryWeightMax { get; set; }
         public double CarryWeight { get; set; }
         public Room CurrentRoom { get; set; }
 

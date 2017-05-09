@@ -9,15 +9,15 @@ namespace Fallout
     class Tools : Stuff   
     {
         static List<Tools> AllTools = new List<Tools>();
-        public Tools(string name, int value, int dropchance, int amount)
+        public Tools(string name, int value, int dropchance, int amount, int id)
         {
             this.Name = name;
             this.Value = value;
             this.DropChance = dropchance;
             this.Amount = amount;
+            this.ID = id;
             AllTools.Add(this);
         }
-
         public int GetAllTools()
         {
             return AllTools.Count();

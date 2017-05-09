@@ -13,6 +13,7 @@ namespace Fallout
         public double Weight { get; set; }
         public int DropChance { get; set; }
         public int Amount { get; set; }
+        public int ID { get; set; }
 
     }
 }

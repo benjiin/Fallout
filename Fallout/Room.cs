@@ -31,7 +31,6 @@ namespace Fallout
 
         public bool HasMonster { get; set; } = false;
 
-
         public string Name { get; set; }
         public Room PathDown { get; set; }
         public Room PathUp{ get; set; }

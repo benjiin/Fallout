@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Fallout
 {
-    class Inventory
+    class Inventory 
     {
-      
+
 
     }
 }

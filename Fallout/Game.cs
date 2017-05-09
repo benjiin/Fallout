@@ -20,6 +20,10 @@ namespace Fallout
         Room[] roomE = new Room[11];
         Room[] roomF = new Room[11];
         Room[] roomG = new Room[11];
+        List<Crap> allCrap = new List<Crap>();
+        List<Potions> allPotions = new List<Potions>();
+        List<Weapon> allWeapon = new List<Weapon>();
+        List<Tools> allTools = new List<Tools>();
 
 
         public Game()
@@ -361,27 +365,25 @@ namespace Fallout
                  * Crap = Name, Wert der Einheit, Gewicht der Einheit, DropChance
                  * 
                  */
-                List<Crap> allCrap = new List<Crap>();
-
                 Crap alarmClock = new Crap("Alter Wecker", 10, 1, 90);
                 allCrap.Add(alarmClock);
-                Crap aluminiumCan = new Crap("Aluminium Dose", 0.1, 0.1, 80);
+                Crap aluminiumCan = new Crap("Aluminium Dose", 1, 1, 80);
                 allCrap.Add(aluminiumCan);
-                Crap babyrattle = new Crap("Babyrassel", 2, 0.5, 98);
+                Crap babyrattle = new Crap("Babyrassel", 2, 5, 98);
                 allCrap.Add(babyrattle);
-                Crap dogtag = new Crap("Hundemarke", 1, 0.2, 90);
+                Crap dogtag = new Crap("Hundemarke", 1, 2, 90);
                 allCrap.Add(dogtag);
-                Crap paper = new Crap("Papier", 0.1, 0.1, 75);
+                Crap paper = new Crap("Papier", 1, 1, 75);
                 allCrap.Add(paper);
-                Crap goldwatch = new Crap("Goldene Uhr", 40, 0.5, 20);
+                Crap goldwatch = new Crap("Goldene Uhr", 40, 5, 20);
                 allCrap.Add(goldwatch);
                 Crap heatplate = new Crap("Herdplatte", 4, 3, 94);
                 allCrap.Add(heatplate);
-                Crap lightbulb = new Crap("Glühbirne", 3, 0.5, 94);
+                Crap lightbulb = new Crap("Glühbirne", 3, 5, 94);
                 allCrap.Add(lightbulb);
                 Crap oilcanister = new Crap("Ölkanister", 12, 3, 96);
                 allCrap.Add(oilcanister);
-                Crap packofcigarette = new Crap("Zigarettenschachtel", 12, 0.1, 99);
+                Crap packofcigarette = new Crap("Zigarettenschachtel", 12, 1, 99);
                 allCrap.Add(packofcigarette);
                 Crap skull = new Crap("Menschlicher Schädel", 1, 2, 80);
                 allCrap.Add(skull);
@@ -393,13 +395,11 @@ namespace Fallout
                  * Potions = Name, Wert der Einheit, Gewicht pro Einheit, DropChance, Hinzugefügte Strahlung, Hergestellte HP, Strahlung reduzieren
                  *  
                  */
-                List<Potions> allPotions = new List<Potions>();
-
-                Potions carrot = new Potions("Verstrahlte Karotte", 3, 0.1, 90, 3, 10, 0);
+                Potions carrot = new Potions("Verstrahlte Karotte", 3, 1, 90, 3, 10, 0);
                 allPotions.Add(carrot);
-                Potions corn = new Potions("Verstrahlter Maiskolben", 3, 0.1, 90, 6, 10, 0);
+                Potions corn = new Potions("Verstrahlter Maiskolben", 3, 1, 90, 6, 10, 0);
                 allPotions.Add(corn);
-                Potions tomato = new Potions("Verstrahlte Tomate", 3, 0.1, 90, 4, 5, 0);
+                Potions tomato = new Potions("Verstrahlte Tomate", 3, 1, 90, 4, 5, 0);
                 allPotions.Add(tomato);
                 Potions stimpack = new Potions("Stimpack", 25, 0, 55, 0, 25, 0);
                 allPotions.Add(stimpack);
@@ -410,7 +410,7 @@ namespace Fallout
                 /* Tools / Benutzbares (Haarklammern, Code...)
                  * Tools = Name, Wert der Einheit, Dropchance
                  */
-                Tools code = new Tools("Zugangscode", 50, 10, 1);
+                Tools code = new Tools("Zugangscode", 50, 10, 1, 1);
                 Tools bobbypin;
                 Tools bottlecaps;
                 /*
@@ -418,8 +418,6 @@ namespace Fallout
                  *  Weapons = Name, Wert der Einheit, Gewicht, Dropchance, Schadenmultiplikator
                  * 
                  */
-                List<Weapon> allWeapon = new List<Weapon>();
-
                 Weapon bat = new Weapon("Knüppel", 10, 1, 25, dice.DiceTrow(3));
                 allWeapon.Add(bat);
                 Weapon knuckleduster = new Weapon("Schlagring", 10, 1, 25, dice.DiceTrow(5));
@@ -477,7 +475,7 @@ namespace Fallout
                             allRoom[i][j].Container.Add(bag);
                             bag.HaveStuff.Add(allCrap[dice.DiceTrow(allCrap.Count()-1)]);
                             bag.HaveStuff.Add(allCrap[dice.DiceTrow(allCrap.Count()-1)]);
-                            bag.HaveStuff.Add(bottlecaps = new Tools("Kronkorke/n", 1, 100, dice.DiceTrow(10)));
+                            bag.HaveStuff.Add(bottlecaps = new Tools("Kronkorke/n", 1, 100, dice.DiceTrow(10), 2));
                         }
                         if (dice.DiceTrow(100) < 35) 
                         {
@@ -485,8 +483,8 @@ namespace Fallout
                             allRoom[i][j].Container.Add(box);
                             box.HaveStuff.Add(allCrap[dice.DiceTrow(allCrap.Count()-1)]);
                             box.HaveStuff.Add(allCrap[dice.DiceTrow(allCrap.Count()-1)]);
-                            box.HaveStuff.Add(bottlecaps = new Tools("Kronkorke/n", 1, 100, dice.DiceTrow(20)));
-                            box.HaveStuff.Add(bobbypin = new Tools("Haarklammer", 1, 45, 1));
+                            box.HaveStuff.Add(bottlecaps = new Tools("Kronkorke/n", 1, 100, dice.DiceTrow(20), 2));
+                            box.HaveStuff.Add(bobbypin = new Tools("Haarklammer", 1, 45, 1, 3));
                             box.HaveStuff.Add(allPotions[dice.DiceTrow(allPotions.Count()-1)]);
                         }
                         if (dice.DiceTrow(100) < 15) 
@@ -497,8 +495,8 @@ namespace Fallout
                             {
                                 chest.HaveStuff.Add(code);
                             }
-                            chest.HaveStuff.Add(bottlecaps = new Tools("Kronkorke/n", 1, 100, dice.DiceTrow(40)));
-                            chest.HaveStuff.Add(bobbypin = new Tools("Haarklammer", 1, 45, 1));
+                            chest.HaveStuff.Add(bottlecaps = new Tools("Kronkorke/n", 1, 100, dice.DiceTrow(40), 2));
+                            chest.HaveStuff.Add(bobbypin = new Tools("Haarklammer", 1, 45, 1, 3));
                             chest.HaveStuff.Add(allPotions[dice.DiceTrow(allPotions.Count() - 1)]);
                             chest.HaveStuff.Add(allPotions[dice.DiceTrow(allPotions.Count() - 1)]);
                             chest.HaveStuff.Add(allWeapon[dice.DiceTrow(allWeapon.Count() - 1)]);
@@ -516,7 +514,7 @@ namespace Fallout
                         }
                         if(dice.DiceTrow(100) <50)
                         {
-                            allRoom[i][j].Things.Add(bottlecaps = new Tools("Kronkorke/n", 1, 100, dice.DiceTrow(10)));
+                            allRoom[i][j].Things.Add(bottlecaps = new Tools("Kronkorke/n", 1, 100, dice.DiceTrow(10), 2));
                         }
                         /*
                          * Ausloten ob dieser Raum ein Monster hat 
@@ -573,7 +571,6 @@ namespace Fallout
                             {
                                 allRoom[i][j].Monster.Add(ghul = new Monster("Ghul", dice.DiceTrow(6) + 10, dice.DiceTrow(10), 4));
                             }
-
                         }
                     }
                 }
@@ -586,7 +583,7 @@ namespace Fallout
             Console.WriteLine(this.player.MaxHealthPoints);
             Console.WriteLine(this.player.HealthPoints);
             Console.WriteLine(this.player.Money);
-            Console.WriteLine(this.player.CarryWeight);
+            Console.WriteLine(this.player.CarryWeightMax);
             Console.WriteLine(this.player.CurrentRoom.HasMonster);
         }
 
@@ -671,6 +668,29 @@ namespace Fallout
                                 }
                             }
                             break;
+                        case ConsoleKey.V:
+                            Console.Clear();
+                            if((player.CurrentRoom.Things.Any()))
+                            {
+                                player.AddInventar(this.player.CurrentRoom.Things[0]);
+                                RemoveCrap(0);
+                            } else
+                            {
+                                Console.WriteLine("nix hier");
+                            }
+
+
+                            break;
+                        case ConsoleKey.I:
+                            Console.Clear();
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("Inventar: ");
+                            Console.ResetColor();
+                            player.GetallInventar();
+                            Console.WriteLine();
+                            GetStats();
+                            Console.WriteLine();
+                            break;
                         default:
                             Console.Clear();
                             Console.WriteLine("Ich habe Ihre Eingabe nicht verstanden");
@@ -684,11 +704,9 @@ namespace Fallout
             }
         }
 
-        public void Menu()
+        public void RemoveCrap(int index)
         {
-
-            
-
+            this.player.CurrentRoom.Things.RemoveAt(index);
         }
 
         public void ShowRooms()
@@ -725,7 +743,20 @@ namespace Fallout
             {
                 Console.WriteLine(this.player.CurrentRoom.Description);
             }
+        }
 
+        public void GetStats()
+        {
+            Console.WriteLine(
+                "Stärke: " + this.player.Strength +
+                "\nGeschicklichkeit: " + this.player.Dexterity +
+                "\nGesundheit: " + this.player.HealthPoints + "/" + this.player.MaxHealthPoints +
+                "\nTragekapazität: " + (double)this.player.CarryWeight + "/" + this.player.CarryWeightMax +
+                "\nKronkorken: " + this.player.Money +
+                "\nLevel: " + this.player.Level);
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("RAD-Verstrahlung: " + this.player.XrayRadiation); 
+            Console.ResetColor();
         }
     }
 

@@ -23,13 +23,50 @@ namespace Fallout
             this.Dodge = this.Dexterity * 2;
             this.MaxHealthPoints = ((this.Strength + this.Constitution) / 2);
             this.HealthPoints = this.MaxHealthPoints;
-            this.CarryWeight = ((this.Strength + 10) * 3);
+            this.CarryWeightMax = ((this.Strength + 5) * 2);
+            this.CarryWeight = 0;
             this.CurrentRoom = this.CurrentRoom;
             this.Level = 1;
             this.Experience = this.Level * 100;
             this.XrayRadiation = 0;
         }
 
+
+        public void AddInventar(Stuff item)
+        {
+            if(item is Tools)
+            {
+                if(item.ID ==2)
+                {
+                    this.Money += item.Amount;
+                }
+            }
+            else
+            {
+                if(!(this.CarryWeight > this.CarryWeightMax))
+                {
+                    this.CarryWeight += item.Weight;
+                    this.Inventory.Add(item);
+                }
+                else
+                {
+                    Console.WriteLine("Zu schwer");
+                }
+            }
+            
+
+
+        }
+
+        public void GetallInventar()
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            foreach (var item in this.Inventory)
+            {
+                Console.WriteLine("\t" + item.Name);
+            }
+            Console.ResetColor();
+        }
 
 
 

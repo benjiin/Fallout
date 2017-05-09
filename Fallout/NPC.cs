@@ -18,7 +18,7 @@ namespace Fallout
             this.MaxHealthPoints = ((this.Strength + this.Constitution) / 2);
             this.Dodge = this.Dexterity * 2;
             this.HealthPoints = this.MaxHealthPoints;
-            this.CarryWeight = double.MaxValue;
+            this.CarryWeightMax = double.MaxValue;
             this.CurrentRoom = room;
         }
     }
