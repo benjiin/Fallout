@@ -10,8 +10,8 @@ namespace Fallout
     class Menu 
     {
         Game game = new Game();
-
-        public List<Menuitem> menuitems = new List<Menuitem>();
+        public List<String> Option { get; set; }
+        public bool Run { get; set; } = false;
 
         public Menu()
         {
@@ -19,12 +19,38 @@ namespace Fallout
         }
         public void Start()
         {
-            menuitems = new List<Menuitem>();
-            menuitems.Add(new Menuitem("Umsehen"));
-            menuitems.Add("Bewegen");
+            Option = new List<String>();
+            Option.Add("1. Umsehen");
+            Option.Add("2. Bewegen");
+            ShowOption();
+            ConsoleKeyInfo input = Console.ReadKey();
+
+            Console.WriteLine();
+            switch (input.Key)
+            {
+                case ConsoleKey.D1:
+                    game.ShowRooms();
+                    break;
+                case ConsoleKey.D2:
+                    game.MovePlayer();
+                    Run = false;
+                    break;
+                default:
+                    Console.WriteLine("Ich habe Ihre Eingabe nicht verstanden");
+                        break;
+            }
+            Start();
+            
+
             //game.MovePlayer();
         }
-
+        public void ShowOption()
+        {
+            foreach (var item in Option)
+            {
+                Console.WriteLine(item);
+            }
+        }
 
         public void Welcome()
         {

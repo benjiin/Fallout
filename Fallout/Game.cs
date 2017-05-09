@@ -43,7 +43,9 @@ namespace Fallout
             for (int i = 0; i <= 10; i++)
             {
                 roomA[i] = new Room("A" + (i));
+                roomA[i].Place = "Vault";
                 roomB[i] = new Room("B" + (i));
+                roomB[i].Place = "Vault";
                 roomC[i] = new Room("C" + (i));
                 if (dice.DiceTrow(100) < 50)
                 {
@@ -357,7 +359,7 @@ namespace Fallout
                 ////////////////////
                 ////////////////////
                 //Start und Position des Spieler
-                this.player.CurrentRoom = roomC[5];
+                this.player.CurrentRoom = roomE[2];
                 CreateNPC("Doktor Vault1", roomB[3]);
                 /*
                  * Crap-Item erstellen (Müll nur zum verkaufen gedacht)
@@ -594,9 +596,9 @@ namespace Fallout
 
 
 
-        public string GetCurrentLocation()
+        public string GetCurrentPlace()
         {
-            return this.player.CurrentRoom.Name;
+            return this.player.CurrentRoom.Place;
         }
 
 
@@ -609,10 +611,39 @@ namespace Fallout
             {
                 try
                 {
-                    Console.WriteLine("***" + this.GetCurrentLocation() + "***");
-                    Console.WriteLine("Possilbe Location: ");
-                    ShowRooms();
+                    Console.WriteLine("***" + this.GetCurrentPlace() + "***");
+                    Console.WriteLine(this.player.CurrentRoom.Name);
                     Console.WriteLine("Enter a Location");
+                        //Console.WriteLine("\t\t(N)Nord");
+                        //Console.WriteLine("\t(W)West\t\t(O)Ost");
+                        //Console.WriteLine("\t\t(S)Süd");
+                    if (this.player.CurrentRoom.PathNorth != null)
+                    {
+                        Console.WriteLine("\t\t(N)Nord");
+                    }
+                    if (this.player.CurrentRoom.PathEast != null)
+                    {
+                        if(this.player.CurrentRoom.PathEast != null && this.player.CurrentRoom.PathWest != null)
+                        {
+                            Console.WriteLine("\t(W)West\t\t(O)Ost");
+                        }
+
+
+
+
+                        else 
+                        {
+                            Console.WriteLine("\t\t\t\t(O)Ost");
+                        }
+                    }
+                    if (this.player.CurrentRoom.PathSouth != null)
+                    {
+                        Console.WriteLine("\t\t(S)Süd");
+                    }
+
+
+
+                    ShowRooms();
                     ConsoleKeyInfo input = Console.ReadKey();
                     Console.WriteLine();
                     switch (input.Key)
@@ -697,6 +728,9 @@ namespace Fallout
                             Console.WriteLine();
                             GetStats();
                             Console.WriteLine();
+                            break;
+                        case ConsoleKey.X:
+                            run = false;
                             break;
                         default:
                             Console.Clear();

@@ -12,9 +12,12 @@ namespace Fallout
         {
             Menu menu = new Menu();
 
-            menu.Start();
+            //menu.Start();
 
-            Console.ReadKey();
+            Game game = new Game();
+            game.MovePlayer();
+
+            Console.ReadKey(); 
 
         }
 

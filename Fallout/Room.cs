@@ -40,6 +40,7 @@ namespace Fallout
         public Room PathWest { get; set; }
         public bool IsContaminated { get; set; }
         public string Description { get; set; }
+        public string Place { get; set; } = "Commonwealth";
         /*
          * Konstruktor 
          */
