@@ -24,15 +24,13 @@ namespace Fallout
         List<Potions> allPotions = new List<Potions>();
         List<Weapon> allWeapon = new List<Weapon>();
         List<Tools> allTools = new List<Tools>();
+        List<NPC> allNPC = new List<NPC>();
         Quest quest = new Quest();
         NPC npc = new NPC();
+        Tools bobbypin;
+        Tools bottlecaps;
         public Game()
         {
-            /* 
-             * Alle Raumelemente in eine weiteres Array zum angreifen 
-             */
-            Room[][] allRoom = { roomA, roomB, roomC, roomD, roomE, roomF, roomG };
-
             /*
              * Räume erstellen
              * Reihe A und B werden die "Vaults" (Die Schutzräume unabhängig von dem Commonwealth) und Reihe C-G das Commomwealth
@@ -81,6 +79,10 @@ namespace Fallout
                 /*
                  * Vault1
                  */
+
+                // Desciption
+
+
                 roomA[0].PathNorth = roomB[0];
                 roomA[0].PathEast = roomA[1];
 
@@ -123,7 +125,6 @@ namespace Fallout
                 roomB[4].PathWest = roomB[3];
 
                 roomB[5].PathSouth = roomA[5];
-                roomB[5].Description = "Dein Startpunkt";
 
                 roomB[6].PathSouth = roomA[6];
                 roomB[6].PathUp = roomC[5];
@@ -369,7 +370,12 @@ namespace Fallout
                  * Und ein Arzt um gegen Geld heilen oder Rad heilen zu lassen
                  * 
                  */
-                CreateNPC("Doktor Vault1", roomB[3]);
+                CreateNPC("Doktor Vault1", roomA[1]);
+                CreateNPC("Doktor Vault2", roomB[3]);
+                CreateNPC("Doktor Vault3", roomA[7]);
+                CreateNPC("Questgeber Vault1", roomB[0]);
+                CreateNPC("Questgeber Vault2", roomB[3]);
+                CreateNPC("Questgeber Vault3", roomB[7]);
                 /*
                  * Crap-Item erstellen (Müll nur zum verkaufen gedacht)
                  * 
@@ -423,9 +429,6 @@ namespace Fallout
                 /* Tools / Benutzbares (Haarklammern, Code...)
                  * Tools = Name, Wert der Einheit, Dropchance
                  */
-                Tools code = new Tools("Zugangscode", 50, 10, 1, 1);
-                Tools bobbypin;
-                Tools bottlecaps;
                 /*
                  * Weapons  Einfache Waffen, erstmal ohne Schusswaffen sondern nur Verbesseung der Stats. 
                  *  Weapons = Name, Wert der Einheit, Gewicht, Dropchance, Schadenmultiplikator
@@ -435,7 +438,21 @@ namespace Fallout
                 allWeapon.Add(bat);
                 Weapon knuckleduster = new Weapon("Schlagring", 10, 1, 25, dice.DiceTrow(5));
                 allWeapon.Add(knuckleduster);
-                /* 
+                FillRooms();
+                
+            }
+        }
+
+        public void FillRooms()
+        {
+
+            /* 
+             * Alle Raumelemente in eine weiteres Array zum angreifen 
+             */
+            Room[][] allRoom = { roomA, roomB, roomC, roomD, roomE, roomF, roomG };
+            Tools code = new Tools("Zugangscode", 50, 10, 1, 1);
+
+            /* 
                  * Jeder Raum bekommt einen Beutel, Kiste oder Truhe.
                  * Wenn eines von diesen im Raum vorkommt, wird diese gleich mit zufälligen 
                  * Gegenständen befüllt.
@@ -443,147 +460,147 @@ namespace Fallout
                  * Die Schleife durchzählt nur das Commonwealth
                  *  C - G und 1 - 10
                  */
-                for (int i = 2; i < 7; i++)
+            for (int i = 2; i < 7; i++)
+            {
+                for (int j = 0; j < 11; j++)
                 {
-                    for (int j = 0; j < 11; j++)
+                    /*
+                     * Alle Räume werden durchgezählt. Für jeden Raum wird gewürfelt ob dieser Raum einen Container hat.
+                     * Würfel (W100) < 60:
+                     *                      Beutel
+                     * Würfel (W100) < 35:
+                     *                      Kiste
+                     * Würfel (W100) < 15:
+                     *                      Truhe (verschlossen nur mit Haarklammer zu öffnen)
+                     * 
+                     * Anschliessend wird gewürfelt welches Item in diesen Container kommt. 
+                     * Dazu wird die Liste des zugehörigen Item gezählt und als Augenzahl
+                     * für den Würfel benutzt.
+                     * 
+                     * Kronkorken werden neu erstellt für jeden Raum, ebenso Harrklammern.
+                     * 
+                     * Der Zugangscode kann (wenn gefunden) für das zweite Vault benutzt werden, 
+                     * diesen bekommt man aber auch wenn man weiter die Quest macht.
+                     * 
+                     * Beutel Inhalt:
+                     * 1. Crap      2x Crap Item                         
+                     * 2. Tools     Kronkorken (Anzahl wird durch den Value erwürfelt * 10)
+                     * 
+                     * Kiste Inhalt:
+                     * 1. Crap      2x Crap 
+                     * 2. Tools     Kronkorken (Anzahl wird durch den Value erwürfelt * 20)
+                     * 3. Tools     Lockpicks 
+                     * 4. Potions   Ein Verbrauchsitem 
+                     * * 
+                     * Truhe Inhalt:
+                     * 1. Tools     Zugangscode
+                     * 2. Tools     Kronkorken (Anzahl wird durch den Value erwürfelt *40)
+                     * 3. Tools     Lockpicks 
+                     * 4. Potions   2x Verbrauchsitem 
+                     * 5. Weapons   Waffe (mit Dropchancenwurf) 
+                     */
+                    if (dice.DiceTrow(100) < 60)
                     {
-                        /*
-                         * Alle Räume werden durchgezählt. Für jeden Raum wird gewürfelt ob dieser Raum einen Container hat.
-                         * Würfel (W100) < 60:
-                         *                      Beutel
-                         * Würfel (W100) < 35:
-                         *                      Kiste
-                         * Würfel (W100) < 15:
-                         *                      Truhe (verschlossen nur mit Haarklammer zu öffnen)
-                         * 
-                         * Anschliessend wird gewürfelt welches Item in diesen Container kommt. 
-                         * Dazu wird die Liste des zugehörigen Item gezählt und als Augenzahl
-                         * für den Würfel benutzt.
-                         * 
-                         * Kronkorken werden neu erstellt für jeden Raum, ebenso Harrklammern.
-                         * 
-                         * Der Zugangscode kann (wenn gefunden) für das zweite Vault benutzt werden, 
-                         * diesen bekommt man aber auch wenn man weiter die Quest macht.
-                         * 
-                         * Beutel Inhalt:
-                         * 1. Crap      2x Crap Item                         
-                         * 2. Tools     Kronkorken (Anzahl wird durch den Value erwürfelt * 10)
-                         * 
-                         * Kiste Inhalt:
-                         * 1. Crap      2x Crap 
-                         * 2. Tools     Kronkorken (Anzahl wird durch den Value erwürfelt * 20)
-                         * 3. Tools     Lockpicks 
-                         * 4. Potions   Ein Verbrauchsitem 
-                         * * 
-                         * Truhe Inhalt:
-                         * 1. Tools     Zugangscode
-                         * 2. Tools     Kronkorken (Anzahl wird durch den Value erwürfelt *40)
-                         * 3. Tools     Lockpicks 
-                         * 4. Potions   2x Verbrauchsitem 
-                         * 5. Weapons   Waffe (mit Dropchancenwurf) 
-                         */
-                        if (dice.DiceTrow(100) < 60) 
+                        Container bag = new Container("Beutel", false);
+                        allRoom[i][j].Container.Add(bag);
+                        bag.HaveStuff.Add(allCrap[dice.DiceTrow(allCrap.Count() - 1)]);
+                        bag.HaveStuff.Add(allCrap[dice.DiceTrow(allCrap.Count() - 1)]);
+                        //bag.HaveStuff.Add(bottlecaps = new Tools("Kronkorke/n", 1, 100, dice.DiceTrow(10), 2));
+                        bag.HaveStuff.Add(bottlecaps= new Tools("Kronkorke/n", 1, 100, dice.DiceTrow(10), 2));
+                    }
+                    if (dice.DiceTrow(100) < 35)
+                    {
+                        Container box = new Container("Kiste", false);
+                        allRoom[i][j].Container.Add(box);
+                        box.HaveStuff.Add(allCrap[dice.DiceTrow(allCrap.Count() - 1)]);
+                        box.HaveStuff.Add(allCrap[dice.DiceTrow(allCrap.Count() - 1)]);
+                        box.HaveStuff.Add(bottlecaps = new Tools("Kronkorke/n", 1, 100, dice.DiceTrow(20), 2));
+                        box.HaveStuff.Add(bobbypin = new Tools("Haarklammer", 1, 45, 1, 3));
+                        box.HaveStuff.Add(allPotions[dice.DiceTrow(allPotions.Count() - 1)]);
+                    }
+                    if (dice.DiceTrow(100) < 15)
+                    {
+                        Container chest = new Container("Truhe", false);
+                        allRoom[i][j].Container.Add(chest);
+                        if (dice.DiceTrow(100) < code.DropChance)
                         {
-                            Container bag = new Container("Beutel", false);
-                            allRoom[i][j].Container.Add(bag);
-                            bag.HaveStuff.Add(allCrap[dice.DiceTrow(allCrap.Count()-1)]);
-                            bag.HaveStuff.Add(allCrap[dice.DiceTrow(allCrap.Count()-1)]);
-                            bag.HaveStuff.Add(bottlecaps = new Tools("Kronkorke/n", 1, 100, dice.DiceTrow(10), 2));
+                            chest.HaveStuff.Add(code);
                         }
-                        if (dice.DiceTrow(100) < 35) 
+                        chest.HaveStuff.Add(bottlecaps = new Tools("Kronkorke/n", 1, 100, dice.DiceTrow(40), 2));
+                        chest.HaveStuff.Add(bobbypin = new Tools("Haarklammer", 1, 45, 1, 3));
+                        chest.HaveStuff.Add(allPotions[dice.DiceTrow(allPotions.Count() - 1)]);
+                        chest.HaveStuff.Add(allPotions[dice.DiceTrow(allPotions.Count() - 1)]);
+                        chest.HaveStuff.Add(allWeapon[dice.DiceTrow(allWeapon.Count() - 1)]);
+                    }
+                    /*
+                     * Neben den Container, die man öffnen kann. Sollen natürlich auch noch paar Items rumfliegen.
+                     * Es herrscht eine Apokalypse da muss auch keine Ordnung in Räumen sein.
+                     * 
+                     * Geld (Kronkorken) können zu kleinen Teilen auch herum fliegen 
+                     * 
+                     */
+                    for (int k = 1; k < dice.DiceTrow(4); k++)
+                    {
+                        allRoom[i][j].Things.Add(allCrap[dice.DiceTrow(allCrap.Count() - 1)]);
+                    }
+                    if (dice.DiceTrow(100) < 50)
+                    {
+                        allRoom[i][j].Things.Add(bottlecaps = new Tools("Kronkorke/n", 1, 100, dice.DiceTrow(10), 2));
+                    }
+                    /*
+                     * Ausloten ob dieser Raum ein Monster hat 
+                     * 4 Arten von Monster erstmal. Wurf gibt an welches Monster es gibt.
+                     * Wurf unter 1 - 25 = Ghul (sehr schwer)
+                     * Wurf unter 26 - 50 = Skorpion ( schwere gegner)
+                     * Wurf unter 51 - 75 =  Käfer ( normale)
+                     * Wurf unter 76 - 100 =  Ratte (einfach)
+                     * 
+                     * Monster wird erstellt mit folgenen Werten:
+                     *  
+                     *  Name = String
+                     *  
+                     *  Einfache Gegner 
+                     *      Stärke = Würfel W6
+                     *      RewardGold = W3
+                     *      XPMultiplikator = 1    
+                     *  Normale Gegner
+                     *      Stärke = Würfel W6 + 4      
+                     *      RewardGold = W4
+                     *      XPMultiplikator = 2    
+                     *  Schwere Gegner
+                     *      Stärke = Würfel W6 + 8
+                     *      RewardGold = W8
+                     *      XPMultiplikator = 3  
+                     *  Sehr schwere Gegner
+                     *      Stärke = Würfel W6 + 10
+                     *      RewardGold = W10
+                     *      XPMultiplikator = 4    
+                     *  
+                     *  RewardGold
+                     */
+                    Monster rat;
+                    Monster bug;
+                    Monster scorpion;
+                    Monster ghul;
+                    if (dice.DiceTrow(100) < 50)  // 50
+                    {
+                        allRoom[i][j].HasMonster = true;
+                        int whichMonster = dice.DiceTrow(100);
+                        if (whichMonster <= 25) // 25
                         {
-                            Container box = new Container("Kiste", false);
-                            allRoom[i][j].Container.Add(box);
-                            box.HaveStuff.Add(allCrap[dice.DiceTrow(allCrap.Count()-1)]);
-                            box.HaveStuff.Add(allCrap[dice.DiceTrow(allCrap.Count()-1)]);
-                            box.HaveStuff.Add(bottlecaps = new Tools("Kronkorke/n", 1, 100, dice.DiceTrow(20), 2));
-                            box.HaveStuff.Add(bobbypin = new Tools("Haarklammer", 1, 45, 1, 3));
-                            box.HaveStuff.Add(allPotions[dice.DiceTrow(allPotions.Count()-1)]);
+                            allRoom[i][j].Monster.Add(rat = new Monster("Ratte", dice.DiceTrow(6), dice.DiceTrow(3), 1));
                         }
-                        if (dice.DiceTrow(100) < 15) 
+                        else if (whichMonster <= 50)
                         {
-                            Container chest = new Container("Truhe", false);
-                            allRoom[i][j].Container.Add(chest);
-                            if (dice.DiceTrow(100) < code.DropChance)
-                            {
-                                chest.HaveStuff.Add(code);
-                            }
-                            chest.HaveStuff.Add(bottlecaps = new Tools("Kronkorke/n", 1, 100, dice.DiceTrow(40), 2));
-                            chest.HaveStuff.Add(bobbypin = new Tools("Haarklammer", 1, 45, 1, 3));
-                            chest.HaveStuff.Add(allPotions[dice.DiceTrow(allPotions.Count() - 1)]);
-                            chest.HaveStuff.Add(allPotions[dice.DiceTrow(allPotions.Count() - 1)]);
-                            chest.HaveStuff.Add(allWeapon[dice.DiceTrow(allWeapon.Count() - 1)]);
+                            allRoom[i][j].Monster.Add(bug = new Monster("Käfer", dice.DiceTrow(6) + 4, dice.DiceTrow(4), 2));
                         }
-                        /*
-                         * Neben den Container, die man öffnen kann. Sollen natürlich auch noch paar Items rumfliegen.
-                         * Es herrscht eine Apokalypse da muss auch keine Ordnung in Räumen sein.
-                         * 
-                         * Geld (Kronkorken) können zu kleinen Teilen auch herum fliegen 
-                         * 
-                         */
-                        for(int k=1; k<dice.DiceTrow(4); k++)
+                        else if (whichMonster <= 75)
                         {
-                            allRoom[i][j].Things.Add(allCrap[dice.DiceTrow(allCrap.Count() - 1)]);
+                            allRoom[i][j].Monster.Add(scorpion = new Monster("Skorpion", dice.DiceTrow(6) + 8, dice.DiceTrow(8), 3));
                         }
-                        if(dice.DiceTrow(100) <50)
+                        else if (whichMonster <= 100)
                         {
-                            allRoom[i][j].Things.Add(bottlecaps = new Tools("Kronkorke/n", 1, 100, dice.DiceTrow(10), 2));
-                        }
-                        /*
-                         * Ausloten ob dieser Raum ein Monster hat 
-                         * 4 Arten von Monster erstmal. Wurf gibt an welches Monster es gibt.
-                         * Wurf unter 1 - 25 = Ghul (sehr schwer)
-                         * Wurf unter 26 - 50 = Skorpion ( schwere gegner)
-                         * Wurf unter 51 - 75 =  Käfer ( normale)
-                         * Wurf unter 76 - 100 =  Ratte (einfach)
-                         * 
-                         * Monster wird erstellt mit folgenen Werten:
-                         *  
-                         *  Name = String
-                         *  
-                         *  Einfache Gegner 
-                         *      Stärke = Würfel W6
-                         *      RewardGold = W3
-                         *      XPMultiplikator = 1    
-                         *  Normale Gegner
-                         *      Stärke = Würfel W6 + 4      
-                         *      RewardGold = W4
-                         *      XPMultiplikator = 2    
-                         *  Schwere Gegner
-                         *      Stärke = Würfel W6 + 8
-                         *      RewardGold = W8
-                         *      XPMultiplikator = 3  
-                         *  Sehr schwere Gegner
-                         *      Stärke = Würfel W6 + 10
-                         *      RewardGold = W10
-                         *      XPMultiplikator = 4    
-                         *  
-                         *  RewardGold
-                         */
-                        Monster rat;
-                        Monster bug;
-                        Monster scorpion;
-                        Monster ghul;
-                        if (dice.DiceTrow(100) < 50)  // 50
-                        {
-                            allRoom[i][j].HasMonster = true;
-                            int whichMonster = dice.DiceTrow(100);
-                            if (whichMonster <= 25) // 25
-                            {
-                                allRoom[i][j].Monster.Add(rat = new Monster("Ratte", dice.DiceTrow(6), dice.DiceTrow(3), 1));
-                            }
-                            else if (whichMonster <= 50)
-                            {
-                                allRoom[i][j].Monster.Add(bug = new Monster("Käfer", dice.DiceTrow(6) + 4, dice.DiceTrow(4), 2));
-                            }
-                            else if (whichMonster <= 75)
-                            {
-                                allRoom[i][j].Monster.Add(scorpion = new Monster("Skorpion", dice.DiceTrow(6) + 8, dice.DiceTrow(8), 3));
-                            }
-                            else if (whichMonster <= 100)
-                            {
-                                allRoom[i][j].Monster.Add(ghul = new Monster("Ghul", dice.DiceTrow(6) + 10, dice.DiceTrow(10), 4));
-                            }
+                            allRoom[i][j].Monster.Add(ghul = new Monster("Ghul", dice.DiceTrow(6) + 10, dice.DiceTrow(10), 4));
                         }
                     }
                 }
@@ -609,6 +626,7 @@ namespace Fallout
 
         public void MovePlayer()
         {
+            Console.Clear();
             bool run = false;
             while (!run)
             {
@@ -617,9 +635,10 @@ namespace Fallout
                     Console.WriteLine("***" + this.GetCurrentPlace() + "***");
                     Console.WriteLine(this.player.CurrentRoom.Name);
                     Console.WriteLine("Enter a Location");
-                        //Console.WriteLine("\t\t(N)Nord");
-                        //Console.WriteLine("\t(W)West\t\t(O)Ost");
-                        //Console.WriteLine("\t\t(S)Süd");
+                    if(player.CurrentRoom.IsContaminated == true)
+                    {
+                        player.XrayRadiation += 0.5;
+                    }
                     if (this.player.CurrentRoom.PathNorth != null)
                     {
                         Console.WriteLine("\t\t(↑)Nord");
@@ -630,7 +649,7 @@ namespace Fallout
                     }
                     else if (this.player.CurrentRoom.PathEast != null)
                     {
-                        Console.WriteLine("\t\t\t\t(→)Ost");
+                        Console.WriteLine("\t\t\t(→)Ost");
                     }
                     else if(this.player.CurrentRoom.PathWest != null)
                     {
@@ -648,10 +667,8 @@ namespace Fallout
                     {
                         Console.WriteLine("(-)Abwärts");   // ↘
                     }
-
-
-
                     ShowRooms();
+                    GetStats();
                     ConsoleKeyInfo input = Console.ReadKey();
                     Console.WriteLine();
                     switch (input.Key)
@@ -760,6 +777,7 @@ namespace Fallout
 
         public void ShowRooms()
         {
+            Console.WriteLine(this.player.CurrentRoom.Place);
             if (this.player.CurrentRoom.PathNorth != null)
             {
                 Console.WriteLine("N = North " + this.player.CurrentRoom.PathNorth.Name);
@@ -792,6 +810,7 @@ namespace Fallout
             {
                 Console.WriteLine(this.player.CurrentRoom.Description);
             }
+
         }
 
         public void GetStats()
@@ -804,7 +823,7 @@ namespace Fallout
                 "\nKronkorken: " + this.player.Money +
                 "\nLevel: " + this.player.Level);
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("RAD-Verstrahlung: " + this.player.XrayRadiation); 
+            Console.WriteLine("RAD-Verstrahlung: " + (int)this.player.XrayRadiation); 
             Console.ResetColor();
         }
         public void CreateNPC(string name, Room room)
