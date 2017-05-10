@@ -10,7 +10,7 @@ namespace Fallout
     {
         Dice dice = new Dice();
         List<Quest> HasQuest;
-        public NPC(Room room)
+        public NPC()
         {
             this.HasQuest = new List<Quest>();
 
@@ -21,7 +21,6 @@ namespace Fallout
             this.Dodge = this.Dexterity * 2;
             this.HealthPoints = this.MaxHealthPoints;
             this.CarryWeightMax = double.MaxValue;
-            this.CurrentRoom = room;
         }
     }
 }

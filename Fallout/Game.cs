@@ -24,6 +24,8 @@ namespace Fallout
         List<Potions> allPotions = new List<Potions>();
         List<Weapon> allWeapon = new List<Weapon>();
         List<Tools> allTools = new List<Tools>();
+        Quest quest = new Quest();
+        NPC npc = new NPC();
         public Game()
         {
             /* 
@@ -354,12 +356,19 @@ namespace Fallout
                 roomG[10].PathWest = roomG[9];
                 // Ende der Räume
 
-                ////////////////////
-                ////////////////////
-                ////////////////////
-                ////////////////////
+
                 //Start und Position des Spieler
                 this.player.CurrentRoom = roomG[1];
+
+
+                /*
+                 * Erstellen der ersten NPC
+                 * 
+                 * Erstmal 6 Stück = 2 Für jedes Vault.
+                 * Einer der Sachen verkauft und Quest vergibt 
+                 * Und ein Arzt um gegen Geld heilen oder Rad heilen zu lassen
+                 * 
+                 */
                 CreateNPC("Doktor Vault1", roomB[3]);
                 /*
                  * Crap-Item erstellen (Müll nur zum verkaufen gedacht)
@@ -587,12 +596,6 @@ namespace Fallout
         //////////////////////////////////////////////
         //////////////////////////////////////////////
         //////////////////////////////////////////////
-        public void CreateNPC(string name, Room room)
-        {
-            NPC npc = new NPC(room);
-            npc.Name = name;
-            
-        }
 
 
 
@@ -803,6 +806,12 @@ namespace Fallout
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("RAD-Verstrahlung: " + this.player.XrayRadiation); 
             Console.ResetColor();
+        }
+        public void CreateNPC(string name, Room room)
+        {
+            NPC npc = new NPC();
+            npc.Name = name;
+            
         }
     }
 

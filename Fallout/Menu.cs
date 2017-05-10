@@ -20,8 +20,8 @@ namespace Fallout
         public void Start()
         {
             Option = new List<String>();
-            Option.Add("1. Umsehen");
-            Option.Add("2. Bewegen");
+            Option.Add("1. Neues Spiel");
+            Option.Add("2. Spiel Laden");
             ShowOption();
             ConsoleKeyInfo input = Console.ReadKey();
 
@@ -50,6 +50,22 @@ namespace Fallout
             {
                 Console.WriteLine(item);
             }
+        }
+        public void Test()
+        {
+            Console.SetCursorPosition(0, 10);
+            for(int i=0; i<Console.WindowWidth-1; i++)
+            {
+                if(i==0 || i==Console.WindowWidth-2)
+                {
+                    Console.Write("+");
+                }
+                else
+                {
+                    Console.Write("-");
+                }
+            }
+     
         }
 
         public void Welcome()
