@@ -9,54 +9,89 @@ namespace Fallout
 {
     class Menu 
     {
-        Game game = new Game();
-        public List<String> Option { get; set; }
-        public bool Run { get; set; } = false;
+        Game game;
+        public List<Option> Menuitem { get; set; }
 
         public Menu()
         {
-            //Welcome();
         }
         public void Start()
         {
-            Option = new List<String>();
-            Option.Add("1. Neues Spiel");
-            Option.Add("2. Spiel Laden");
+            /*
+             * Menü erstellen und anschliessend mit den jeweiligen Optionen fühlen"
+             * Mit ShowOption() wird dann die Option ausgegeben wobei die Zahl farbig hervorgehoben
+             * Wird um zudeutlichen was zu drücken ist 
+             */
+            MenuBorder();
+            Menuitem = new List<Option>();
+            Option first = new Option('1', "Neues Spiel");
+            Menuitem.Add(first);
+            Option second = new Option('2', "Spiel Laden\n");   // Für die letze Option \n um einen Bruch
+            Menuitem.Add(second);                               // zu erschaffen... Hilfe ?
+            Option close = new Option('X', "Beenden");
+            Menuitem.Add(close);
             ShowOption();
-            ConsoleKeyInfo input = Console.ReadKey();
 
-            Console.WriteLine();
+
+            ConsoleKeyInfo input = Console.ReadKey();
+            Console.Clear();
+            Menuitem.RemoveRange(0, Menuitem.Count);
+            switch (input.Key)
+            {               
+                case ConsoleKey.D1:
+                    NewPlayer();
+                    NewGame();
+                    break;
+                case ConsoleKey.D2:
+                    Console.WriteLine("Spiel Laden");
+                    //game.MovePlayer();
+                    break;
+                case ConsoleKey.X:
+                    Environment.Exit(0);
+                    break;
+                default:
+                    Console.WriteLine("Ich habe Ihre Eingabe nicht verstanden");
+                        break;
+            }           
+            
+
+                    //game.ShowRooms();
+            //game.MovePlayer();
+        }
+
+
+
+        public void NewGame()
+        {
+            //Welcome();
+            MenuBorder();
+            Menuitem = new List<Option>();
+            Option first = new Option('1', "Umschauen");
+            Menuitem.Add(first);
+            ShowOption();
+
+            ConsoleKeyInfo input = Console.ReadKey();
+            Console.Clear();
+            Menuitem.RemoveRange(0, Menuitem.Count);
             switch (input.Key)
             {
                 case ConsoleKey.D1:
                     game.ShowRooms();
                     break;
-                case ConsoleKey.D2:
-                    game.MovePlayer();
-                    Run = false;
-                    break;
                 default:
-                    Console.WriteLine("Ich habe Ihre Eingabe nicht verstanden");
-                        break;
+                    Console.WriteLine();
+                    break;
             }
-            Start();
-            
 
-            //game.MovePlayer();
+
         }
-        public void ShowOption()
+        public void MenuBorder()
         {
-            foreach (var item in Option)
+            Console.Clear();
+            Console.SetCursorPosition(0, 18);
+            for (int i = 0; i < Console.WindowWidth - 1; i++)
             {
-                Console.WriteLine(item);
-            }
-        }
-        public void Test()
-        {
-            Console.SetCursorPosition(0, 10);
-            for(int i=0; i<Console.WindowWidth-1; i++)
-            {
-                if(i==0 || i==Console.WindowWidth-2)
+                if (i == 0 || i == Console.WindowWidth - 2)
                 {
                     Console.Write("+");
                 }
@@ -65,20 +100,46 @@ namespace Fallout
                     Console.Write("-");
                 }
             }
-     
+            Console.SetCursorPosition(0, 19);
         }
-
+        public void ShowOption()
+        {
+            foreach (var item in Menuitem)
+            {
+                Console.Write("[");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write(item.Index);
+                Console.ResetColor();
+                Console.WriteLine("] " + item.MenuChoice);
+            }
+        }
+        public void NewPlayer()
+        {
+            game = new Game();
+            Console.Clear();
+            Console.WriteLine("Bitte geben Sie Ihren Namen");
+            game.player.Name = Console.ReadLine();
+            game.player.CurrentRoom = game.roomB[5];
+        }
         public void Welcome()
         {
+            Console.Clear();
             Console.ForegroundColor = ConsoleColor.Red;
             string s = "WARNING";
             Console.SetCursorPosition((Console.WindowWidth - s.Length) / 2, Console.CursorTop);
             Console.WriteLine(s);
             Console.ResetColor();
-            Console.WriteLine("The following game features bugs performed either by professionals or under the supervision of professionals. Accordingly, MTV and the producers must insist that no one attempt to re-create or re-enact any stunt or activity performed on this game.");
+            Console.WriteLine("Das folgene Spiel hat den einen oder anderen Bug, geschrieben von Programierer  oder unter der Anleitung von Programmierer. Der Erfinder dieser Grütze und die  Dozentin die hinter ihm stehen müssen darauf bestehen das keiner dieses Spiel oder ähnliche Bezüge hierraus nachahmt.");
+
+            Console.WriteLine('☠'); // Sonderzeichen
+
+
+
+
             Console.ReadKey();
             Console.Clear();
         }
+
 
     }
 }

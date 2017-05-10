@@ -54,6 +54,7 @@
     <Compile Include="Menu.cs" />
     <Compile Include="Monster.cs" />
     <Compile Include="NPC.cs" />
+    <Compile Include="Option.cs" />
     <Compile Include="Stuff.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Potions.cs" />

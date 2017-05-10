@@ -9,17 +9,17 @@ namespace Fallout
     class Game
     {
         Dice dice = new Dice();
-        Player player = new Player();
+        public Player player = new Player();
         /*
          * 7 Reihen Felder & 11 Spalten in Array gepackt  
          */
-        Room[] roomA = new Room[11];
-        Room[] roomB = new Room[11];
-        Room[] roomC = new Room[11];
-        Room[] roomD = new Room[11];
-        Room[] roomE = new Room[11];
-        Room[] roomF = new Room[11];
-        Room[] roomG = new Room[11];
+        public Room[] roomA = new Room[11];
+        public Room[] roomB = new Room[11];
+        public Room[] roomC = new Room[11];
+        public Room[] roomD = new Room[11];
+        public Room[] roomE = new Room[11];
+        public Room[] roomF = new Room[11];
+        public Room[] roomG = new Room[11];
         List<Crap> allCrap = new List<Crap>();
         List<Potions> allPotions = new List<Potions>();
         List<Weapon> allWeapon = new List<Weapon>();
@@ -47,26 +47,31 @@ namespace Fallout
                 roomB[i] = new Room("B" + (i));
                 roomB[i].Place = "Vault";
                 roomC[i] = new Room("C" + (i));
+                roomC[i].Description = "Ödland";
                 if (dice.DiceTrow(100) < 50)
                 {
                     roomC[i].IsContaminated = true;
                 }
                 roomD[i] = new Room("D" + (i));
+                roomD[i].Description = "Ödland";
                 if (dice.DiceTrow(100) < 50)
                 {
                     roomD[i].IsContaminated = true;
                 }
                 roomE[i] = new Room("E" + (i));
+                roomE[i].Description = "Ödland";
                 if (dice.DiceTrow(100) < 50)
                 {
                     roomE[i].IsContaminated = true;
                 }
                 roomF[i] = new Room("F" + (i));
+                roomF[i].Description = "Ödland";
                 if (dice.DiceTrow(100) < 50)
                 {
                     roomF[i].IsContaminated = true;
                 }
                 roomG[i] = new Room("G" + (i));
+                roomG[i].Description = "Ödland";
                 if (dice.DiceTrow(100) < 50)
                 {
                     roomG[i].IsContaminated = true;
@@ -668,7 +673,7 @@ namespace Fallout
                         Console.WriteLine("(-)Abwärts");   // ↘
                     }
                     ShowRooms();
-                    GetStats();
+                    //GetStats();
                     ConsoleKeyInfo input = Console.ReadKey();
                     Console.WriteLine();
                     switch (input.Key)
@@ -751,11 +756,10 @@ namespace Fallout
                             Console.ResetColor();
                             player.GetallInventar();
                             Console.WriteLine();
-                            GetStats();
+                            //GetStats();
                             Console.WriteLine();
                             break;
                         case ConsoleKey.X:
-                            run = false;
                             break;
                         default:
                             Console.Clear();
@@ -778,54 +782,43 @@ namespace Fallout
         public void ShowRooms()
         {
             Console.WriteLine(this.player.CurrentRoom.Place);
+            Console.WriteLine(this.player.CurrentRoom.Name);
             if (this.player.CurrentRoom.PathNorth != null)
             {
-                Console.WriteLine("N = North " + this.player.CurrentRoom.PathNorth.Name);
+                Console.WriteLine("Vor Dir siehst du " + this.player.CurrentRoom.PathNorth.Description);
             }
             if (this.player.CurrentRoom.PathEast != null)
             {
-                Console.WriteLine("E = East " + this.player.CurrentRoom.PathEast.Name);
+                Console.WriteLine("Rechts von Dir erblickst du " + this.player.CurrentRoom.PathEast.Description);
             }
             if (this.player.CurrentRoom.PathSouth != null)
             {
-                Console.WriteLine("S = South " + this.player.CurrentRoom.PathSouth.Name);
+                Console.WriteLine("Hinter Dir ist " + this.player.CurrentRoom.PathSouth.Description);
             }
             if (this.player.CurrentRoom.PathWest != null)
             {
-                Console.WriteLine("W = West " + this.player.CurrentRoom.PathWest.Name);
+                Console.WriteLine("Links neben Dir schaust du auf " + this.player.CurrentRoom.PathWest.Description);
             }
-            if (this.player.CurrentRoom.PathUp != null)
-            {
-                Console.WriteLine("U = Up " + this.player.CurrentRoom.PathUp.Name);
-            }
-            if (this.player.CurrentRoom.PathDown != null)
-            {
-                Console.WriteLine("D = Down " + this.player.CurrentRoom.PathDown.Name);
-            }
-            if (this.player.CurrentRoom.Things != null) // Sachen anzeigen
-            {
-                this.player.CurrentRoom.GetStuff();
-            }
-            if(this.player.CurrentRoom.Description != null)
-            {
-                Console.WriteLine(this.player.CurrentRoom.Description);
-            }
+            //if (this.player.CurrentRoom.PathUp != null)
+            //{
+            //    Console.WriteLine("U = Up " + this.player.CurrentRoom.PathUp.Name);
+            //}
+            //if (this.player.CurrentRoom.PathDown != null)
+            //{
+            //    Console.WriteLine("D = Down " + this.player.CurrentRoom.PathDown.Name);
+            //}
+            //if (this.player.CurrentRoom.Things != null) // Sachen anzeigen
+            //{
+            //    this.player.CurrentRoom.GetStuff();
+            //}
+            //if(this.player.CurrentRoom.Description != null)
+            //{
+            //    Console.WriteLine(this.player.CurrentRoom.Description);
+            //}
 
         }
 
-        public void GetStats()
-        {
-            Console.WriteLine(
-                "Stärke: " + this.player.Strength +
-                "\nGeschicklichkeit: " + this.player.Dexterity +
-                "\nGesundheit: " + this.player.HealthPoints + "/" + this.player.MaxHealthPoints +
-                "\nTragekapazität: " + (double)this.player.CarryWeight + "/" + this.player.CarryWeightMax +
-                "\nKronkorken: " + this.player.Money +
-                "\nLevel: " + this.player.Level);
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("RAD-Verstrahlung: " + (int)this.player.XrayRadiation); 
-            Console.ResetColor();
-        }
+        
         public void CreateNPC(string name, Room room)
         {
             NPC npc = new NPC();

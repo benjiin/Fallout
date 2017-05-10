@@ -15,6 +15,7 @@ namespace Fallout
             menu.Start();
             //menu.Test();
 
+
             //Game game = new Game();
             //game.MovePlayer();
 
