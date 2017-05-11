@@ -445,12 +445,14 @@ namespace Fallout
                 Console.Write(".");
             }
             Console.WriteLine();
+
             if(game.player.CurrentRoom.Things == null && game.player.CurrentRoom.Container == null)
             {
                 Console.WriteLine("Nix");
             }
             foreach (var item in game.player.CurrentRoom.Things)
             {
+                Console.WriteLine("Crap: );
                 Console.ForegroundColor = ConsoleColor.Gray;
                 Console.WriteLine(item.Name);
                 Console.ResetColor();
