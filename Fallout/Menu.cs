@@ -14,7 +14,7 @@ namespace Fallout
 
         public Menu()
         {
-            //Welcome();
+            Welcome();
         }
         public void Start()
         {
@@ -454,12 +454,22 @@ namespace Fallout
             Console.WriteLine(s);
             Console.ResetColor();
             Console.WriteLine("Das folgene Spiel hat den einen oder anderen Bug, geschrieben von Programierer  oder unter der Anleitung von Programmierer. Der Erfinder dieser Grütze und die  Dozentin die hinter ihm stehen müssen darauf bestehen das keiner dieses Spiel oder ähnliche Bezüge hierraus nachahmt.");
+            string[] text = new string[6];
+            text[0] = ("  _____      ");
+            text[1] = (" /      \\    ");
+            text[2] = ("|  () () |   ");
+            text[3] = (" \\   ^  /   ");
+            text[4] = ("  |||||   ");
+            text[5] = ("  ||||| ");
 
-            Console.WriteLine('☠'); // Sonderzeichen
-
-
-
-
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            for (int i = 0; i < text.Length; i++)
+            {
+                Console.WriteLine(text[i]);
+            }
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("ASCII Art FTW. (Soll übrigens ein Schädel sein ^^");
+            Console.ResetColor();
             Console.ReadKey();
             Console.Clear();
         }
