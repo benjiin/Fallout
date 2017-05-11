@@ -14,7 +14,7 @@ namespace Fallout
 
         public Menu()
         {
-            Welcome();
+            //Welcome();
         }
         public void Start()
         {
@@ -269,7 +269,7 @@ namespace Fallout
             Console.WriteLine(game.player.CurrentRoom.Name); // nur zum testen
             if (game.player.CurrentRoom.PathNorth != null)
             {
-                Console.Write("Vor Dir siehst du einen weiteren Raum ");
+                Console.Write("Im Norden siehst du einen weiteren Raum ");
                 if(game.player.CurrentRoom.PathNorth.Description != null)
                 {
                     Console.WriteLine("(" + game.player.CurrentRoom.PathNorth.Description + ")");
@@ -277,7 +277,7 @@ namespace Fallout
             }
             if (game.player.CurrentRoom.PathEast != null)
             {
-                Console.Write("Rechts von Dir siehst du einen weiteren Raum ");
+                Console.Write("Im Osten siehst du einen weiteren Raum ");
                 if (game.player.CurrentRoom.PathEast.Description != null)
                 {
                     Console.WriteLine("(" + game.player.CurrentRoom.PathEast.Description + ")");
@@ -285,7 +285,7 @@ namespace Fallout
             }
             if (game.player.CurrentRoom.PathSouth != null)
             {
-                Console.Write("Hinter Dir siehst du einen weiteren Raum ");
+                Console.Write("Im Süden siehst du einen weiteren Raum ");
                 if (game.player.CurrentRoom.PathSouth.Description != null)
                 {
                     Console.WriteLine("(" + game.player.CurrentRoom.PathSouth.Description + ")");
@@ -293,10 +293,26 @@ namespace Fallout
             }
             if (game.player.CurrentRoom.PathWest != null)
             {
-                Console.Write("Links von Dir siehst du einen weiteren Raum ");
+                Console.Write("Im Westen siehst du einen weiteren Raum ");
                 if (game.player.CurrentRoom.PathWest.Description != null)
                 {
                     Console.WriteLine("(" + game.player.CurrentRoom.PathWest.Description + ")");
+                }
+            }
+            if (game.player.CurrentRoom.PathUp != null)
+            {
+                Console.Write("Über Dir erblickst du einben Ausgang");
+                if (game.player.CurrentRoom.PathUp.Description != null)
+                {
+                    Console.WriteLine("(" + game.player.CurrentRoom.PathUp.Description + ")");
+                }
+            }
+            if (game.player.CurrentRoom.PathDown != null)
+            {
+                Console.Write("Im Boden Kannst du eine Luke entdecken");
+                if (game.player.CurrentRoom.PathDown.Description != null)
+                {
+                    Console.WriteLine("(" + game.player.CurrentRoom.PathDown.Description + ")");
                 }
             }
 
@@ -345,7 +361,6 @@ namespace Fallout
                 Console.WriteLine();
                 switch (input.Key)
                 {
-                    case ConsoleKey.N:
                     case ConsoleKey.UpArrow:
                         Console.Clear();
                         if (game.player.CurrentRoom.PathNorth != null)
@@ -353,7 +368,6 @@ namespace Fallout
                             game.player.CurrentRoom = game.player.CurrentRoom.PathNorth;
                         }
                         break;
-                    case ConsoleKey.E:
                     case ConsoleKey.RightArrow:
                         Console.Clear();
                         if (game.player.CurrentRoom.PathEast != null)
@@ -361,7 +375,6 @@ namespace Fallout
                             game.player.CurrentRoom = game.player.CurrentRoom.PathEast;
                         }
                         break;
-                    case ConsoleKey.S:
                     case ConsoleKey.DownArrow:
                         Console.Clear();
                         if (game.player.CurrentRoom.PathSouth != null)
@@ -369,7 +382,6 @@ namespace Fallout
                             game.player.CurrentRoom = game.player.CurrentRoom.PathSouth;
                         }
                         break;
-                    case ConsoleKey.W:
                     case ConsoleKey.LeftArrow:
                         Console.Clear();
                         if (game.player.CurrentRoom.PathWest != null)
@@ -377,7 +389,6 @@ namespace Fallout
                             game.player.CurrentRoom = game.player.CurrentRoom.PathWest;
                         }
                         break;
-                    case ConsoleKey.U:
                     case ConsoleKey.Add:
                         Console.Clear();
                         if (game.player.CurrentRoom.PathUp != null)
@@ -385,7 +396,6 @@ namespace Fallout
                             game.player.CurrentRoom = game.player.CurrentRoom.PathUp;
                         }
                         break;
-                    case ConsoleKey.D:
                     case ConsoleKey.Subtract:
                         Console.Clear();
                         if (game.player.CurrentRoom.PathDown != null)
@@ -422,7 +432,7 @@ namespace Fallout
             Console.Clear();
             Console.WriteLine("Bitte geben Sie Ihren Namen");
             game.player.Name = Console.ReadLine();
-            game.player.CurrentRoom = game.roomB[6];
+            game.player.CurrentRoom = game.roomF[2];
             game.player.Home = game.roomB[4];
         }
         public void SearchRoom()
@@ -435,14 +445,29 @@ namespace Fallout
                 Console.Write(".");
             }
             Console.WriteLine();
-            if(game.player.CurrentRoom.Container != null)
+            if(game.player.CurrentRoom.Things == null && game.player.CurrentRoom.Container == null)
             {
-                Console.WriteLine("wsdw");
+                Console.WriteLine("Nix");
             }
-            else
+            foreach (var item in game.player.CurrentRoom.Things)
             {
-                Console.WriteLine("nix");
+                Console.ForegroundColor = ConsoleColor.Gray;
+                Console.WriteLine(item.Name);
+                Console.ResetColor();
             }
+            foreach (var item in game.player.CurrentRoom.Container)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.WriteLine(item.Name);
+                Console.ResetColor();
+            }
+            foreach (var item in game.player.CurrentRoom.Monster)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(item.Name);
+                Console.ResetColor();
+            }
+            Console.ResetColor();
             Console.ReadKey();
         }
         public void Welcome()
@@ -453,22 +478,21 @@ namespace Fallout
             Console.SetCursorPosition((Console.WindowWidth - s.Length) / 2, Console.CursorTop);
             Console.WriteLine(s);
             Console.ResetColor();
-            Console.WriteLine("Das folgene Spiel hat den einen oder anderen Bug, geschrieben von Programierer  oder unter der Anleitung von Programmierer. Der Erfinder dieser Grütze und die  Dozentin die hinter ihm stehen müssen darauf bestehen das keiner dieses Spiel oder ähnliche Bezüge hierraus nachahmt.");
-            string[] text = new string[6];
-            text[0] = ("  _____      ");
-            text[1] = (" /      \\    ");
-            text[2] = ("|  () () |   ");
-            text[3] = (" \\   ^  /   ");
-            text[4] = ("  |||||   ");
-            text[5] = ("  ||||| ");
+            Console.WriteLine("Das folgene Spiel hat den einen oder anderen Bug, geschrieben von Programierer  oder unter der Anleitung von \"Programmierer\". Der Erfinder dieser Grütze und alle die hinter ihm stehen müssen darauf bestehen das keiner dieses Spiel oder ähnliche Bezüge hierraus nachahmt.");
+            List<String> text = new List<string>();
+            text.Add("\t\t\t\t  _____      ");
+            text.Add("\t\t\t\t /      \\    ");
+            text.Add("\t\t\t\t|  () () |   ");
+            text.Add("\t\t\t\t \\   ^  /   ");
+            text.Add("\t\t\t\t  |||||   ");
+            text.Add("\t\t\t\t  ||||| ");
 
             Console.ForegroundColor = ConsoleColor.Yellow;
-            for (int i = 0; i < text.Length; i++)
+            for (int i = 0; i < text.Count; i++)
             {
                 Console.WriteLine(text[i]);
             }
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("ASCII Art FTW. (Soll übrigens ein Schädel sein ^^");
             Console.ResetColor();
             Console.ReadKey();
             Console.Clear();

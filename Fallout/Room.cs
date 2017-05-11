@@ -30,7 +30,7 @@ namespace Fallout
 
 
         public bool HasMonster { get; set; } = false;
-        public bool HasStuff { get; set; }
+        public bool HasStuff { get; set; } = false;
         public string Name { get; set; }
         public Room PathDown { get; set; }
         public Room PathUp{ get; set; }
@@ -80,14 +80,6 @@ namespace Fallout
             }
         }
 
-        public void GotStuff()
-        {
-            if(!this.Things.Any())
-            {
-                this.HasStuff = true;
-            }
-            this.HasStuff = false;
-        }
 
     }
 }
