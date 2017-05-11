@@ -30,7 +30,7 @@ namespace Fallout
 
 
         public bool HasMonster { get; set; } = false;
-
+        public bool HasStuff { get; set; }
         public string Name { get; set; }
         public Room PathDown { get; set; }
         public Room PathUp{ get; set; }
@@ -78,6 +78,15 @@ namespace Fallout
                     " MonsterXP: " + item.RewardExperiencePoints + " MOnstergold:     " + item.RewardGold +
                     " MonsterHP: " + item.MaxHealthPoints);
             }
+        }
+
+        public void GotStuff()
+        {
+            if(!this.Things.Any())
+            {
+                this.HasStuff = true;
+            }
+            this.HasStuff = false;
         }
 
     }

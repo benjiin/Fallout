@@ -114,22 +114,31 @@ namespace Fallout
                 case ConsoleKey.D4:
                     if (game.player.CurrentRoom.IsChecked == true)
                     {
-                        Console.Clear();
-                        Thread.Sleep(1000);
+                        if(game.player.CurrentRoom.Things.Any())
+                        {
+                            Console.Clear();
+                            Thread.Sleep(1000);
+                        }
                     }
                     break;
                 case ConsoleKey.D5:
                     if (game.player.CurrentRoom.IsChecked == true)
                     {
-                        Console.Clear();
-                        Thread.Sleep(1000);
+                        if (game.player.CurrentRoom.HasMonster == true)
+                        {
+                            Console.Clear();
+                            Thread.Sleep(1000);
+                        }
                     }
                     break;
                 case ConsoleKey.D6:
                     if (game.player.CurrentRoom.IsChecked == true)
                     {
-                        Console.Clear();
-                        Thread.Sleep(1000);
+                        if (game.player.CurrentRoom.Container.Any())
+                        {
+                            Console.Clear();
+                            Thread.Sleep(1000);
+                        }
                     }
                     break;
                 case ConsoleKey.X:
@@ -383,43 +392,7 @@ namespace Fallout
                         {
                             game.player.CurrentRoom = game.player.CurrentRoom.PathDown;
                         }
-                        break;
-                    case ConsoleKey.O:
-                        Console.Clear();
-                        foreach (Stuff item in game.player.CurrentRoom.Container)
-                        {
-                            if (item is Container)
-                            {
-                                ((Container)item).GetStuff();
-                            }
-                        }
-                        break;
-                    case ConsoleKey.V:
-                        Console.Clear();
-                        if ((game.player.CurrentRoom.Things.Any()))
-                        {
-                            game.player.AddInventar(game.player.CurrentRoom.Things[0]);
-                            game.RemoveCrap(0);
-                        }
-                        else
-                        {
-                            Console.WriteLine("nix hier");
-                        }
-
-
-                        break;
-                    case ConsoleKey.I:
-                        Console.Clear();
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("Inventar: ");
-                        Console.ResetColor();
-                        //player.GetallInventar();
-                        Console.WriteLine();
-                        //GetStats();
-                        Console.WriteLine();
-                        break;
-                    case ConsoleKey.X:
-                        break;
+                        break;                
                     default:
                         Console.Clear();
                         Console.WriteLine("Ich habe Ihre Eingabe nicht verstanden");
@@ -454,7 +427,23 @@ namespace Fallout
         }
         public void SearchRoom()
         {
-            game.player.CurrentRoom.GetStuff();
+            Console.SetCursorPosition(0, 0);
+            Console.Write("Du guckst um Dich herum und findest");
+            for(int i=0; i<5; i++)
+            {
+                Thread.Sleep(450);
+                Console.Write(".");
+            }
+            Console.WriteLine();
+            if(game.player.CurrentRoom.Container != null)
+            {
+                Console.WriteLine("wsdw");
+            }
+            else
+            {
+                Console.WriteLine("nix");
+            }
+            Console.ReadKey();
         }
         public void Welcome()
         {
