@@ -77,6 +77,7 @@ namespace Fallout
                     roomG[i].IsContaminated = true;
                 }
             }
+            MakeDescription();
             /* 
              * Räume verbinden (Siehe Bild Anhang: Raumplan.png)
              */
@@ -364,7 +365,6 @@ namespace Fallout
 
 
                 //Start und Position des Spieler
-                this.player.CurrentRoom = roomG[1];
 
 
                 /*
@@ -469,6 +469,7 @@ namespace Fallout
             {
                 for (int j = 0; j < 11; j++)
                 {
+                    allRoom[i][j].IsChecked = false;
                     /*
                      * Alle Räume werden durchgezählt. Für jeden Raum wird gewürfelt ob dieser Raum einen Container hat.
                      * Würfel (W100) < 60:
@@ -611,14 +612,6 @@ namespace Fallout
                 }
             }
         }
-        //////////////////////////////////////////////
-        //////////////////////////////////////////////
-        //////////////////////////////////////////////
-        //////////////////////////////////////////////
-        //////////////////////////////////////////////
-        //////////////////////////////////////////////
-        //////////////////////////////////////////////
-
 
 
         public string GetCurrentPlace()
@@ -626,197 +619,31 @@ namespace Fallout
             return this.player.CurrentRoom.Place;
         }
 
-
-
-
-        public void MovePlayer()
+        public void MakeDescription()
         {
-            Console.Clear();
-            bool run = false;
-            while (!run)
-            {
-                try
-                {
-                    Console.WriteLine("***" + this.GetCurrentPlace() + "***");
-                    Console.WriteLine(this.player.CurrentRoom.Name);
-                    Console.WriteLine("Enter a Location");
-                    if(player.CurrentRoom.IsContaminated == true)
-                    {
-                        player.XrayRadiation += 0.5;
-                    }
-                    if (this.player.CurrentRoom.PathNorth != null)
-                    {
-                        Console.WriteLine("\t\t(↑)Nord");
-                    }
-                    if(this.player.CurrentRoom.PathEast != null && this.player.CurrentRoom.PathWest != null)
-                    {
-                        Console.WriteLine("\t(←)West\t\t(→)Ost");
-                    }
-                    else if (this.player.CurrentRoom.PathEast != null)
-                    {
-                        Console.WriteLine("\t\t\t(→)Ost");
-                    }
-                    else if(this.player.CurrentRoom.PathWest != null)
-                    {
-                        Console.WriteLine("\t(←)West");
-                    }
-                    if (this.player.CurrentRoom.PathSouth != null)
-                    {
-                        Console.WriteLine("\t\t(↓)Süd");
-                    }
-                    if(this.player.CurrentRoom.PathUp != null)
-                    {
-                        Console.WriteLine("(+)Aufwärts)");     //↖        
-                    }
-                    if(this.player.CurrentRoom.PathDown != null)
-                    {
-                        Console.WriteLine("(-)Abwärts");   // ↘
-                    }
-                    ShowRooms();
-                    //GetStats();
-                    ConsoleKeyInfo input = Console.ReadKey();
-                    Console.WriteLine();
-                    switch (input.Key)
-                    {
-                        case ConsoleKey.N:
-                        case ConsoleKey.UpArrow:
-                            Console.Clear();
-                            if (this.player.CurrentRoom.PathNorth != null)
-                            {
-                                this.player.CurrentRoom = this.player.CurrentRoom.PathNorth;
-                            }
-                            break;
-                        case ConsoleKey.E:
-                        case ConsoleKey.RightArrow:
-                            Console.Clear();
-                            if (this.player.CurrentRoom.PathEast != null)
-                            {
-                                this.player.CurrentRoom = this.player.CurrentRoom.PathEast;
-                            }
-                            break;
-                        case ConsoleKey.S:
-                        case ConsoleKey.DownArrow:
-                            Console.Clear();
-                            if (this.player.CurrentRoom.PathSouth != null)
-                            {
-                                this.player.CurrentRoom = this.player.CurrentRoom.PathSouth;
-                            }
-                            break;
-                        case ConsoleKey.W:
-                        case ConsoleKey.LeftArrow:
-                            Console.Clear();
-                            if (this.player.CurrentRoom.PathWest != null)
-                            {
-                                this.player.CurrentRoom = this.player.CurrentRoom.PathWest;
-                            }
-                            break;
-                        case ConsoleKey.U:
-                        case ConsoleKey.Add:
-                            Console.Clear();
-                            if (this.player.CurrentRoom.PathUp != null)
-                            {
-                                this.player.CurrentRoom = this.player.CurrentRoom.PathUp;
-                            }
-                            break;
-                        case ConsoleKey.D:
-                        case ConsoleKey.Subtract:
-                            Console.Clear();
-                            if (this.player.CurrentRoom.PathDown != null)
-                            {
-                                this.player.CurrentRoom = this.player.CurrentRoom.PathDown;
-                            }
-                            break;
-                        case ConsoleKey.O:
-                            Console.Clear();
-                            foreach (Stuff item in this.player.CurrentRoom.Container)
-                            {
-                                if (item is Container)
-                                {
-                                    ((Container)item).GetStuff();
-                                }
-                            }
-                            break;
-                        case ConsoleKey.V:
-                            Console.Clear();
-                            if((player.CurrentRoom.Things.Any()))
-                            {
-                                player.AddInventar(this.player.CurrentRoom.Things[0]);
-                                RemoveCrap(0);
-                            } else
-                            {
-                                Console.WriteLine("nix hier");
-                            }
-
-
-                            break;
-                        case ConsoleKey.I:
-                            Console.Clear();
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("Inventar: ");
-                            Console.ResetColor();
-                            player.GetallInventar();
-                            Console.WriteLine();
-                            //GetStats();
-                            Console.WriteLine();
-                            break;
-                        case ConsoleKey.X:
-                            break;
-                        default:
-                            Console.Clear();
-                            Console.WriteLine("Ich habe Ihre Eingabe nicht verstanden");
-                            break;
-                    }
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("Enter a valid Char");
-                }
-            }
+            roomB[5].Description = "Dein Zimmer";
+            roomB[3].Description = "Marktplatz";
+            roomB[0].Description = "Marktplatz";
+            roomB[7].Description = "Marktplatz";
+            roomA[3].Description = "Arztzimmer";
+            roomA[1].Description = "Arztzimmer";
+            roomA[7].Description = "Arztzimmer";
+            roomB[2].Description = "Raum mit Treppe";
+            roomB[6].Description = "Raum mit Treppe";
+            roomB[10].Description = "Raum mit Treppe";
         }
+
+
+
+
+        
 
         public void RemoveCrap(int index)
         {
             this.player.CurrentRoom.Things.RemoveAt(index);
         }
 
-        public void ShowRooms()
-        {
-            Console.WriteLine(this.player.CurrentRoom.Place);
-            Console.WriteLine(this.player.CurrentRoom.Name);
-            if (this.player.CurrentRoom.PathNorth != null)
-            {
-                Console.WriteLine("Vor Dir siehst du " + this.player.CurrentRoom.PathNorth.Description);
-            }
-            if (this.player.CurrentRoom.PathEast != null)
-            {
-                Console.WriteLine("Rechts von Dir erblickst du " + this.player.CurrentRoom.PathEast.Description);
-            }
-            if (this.player.CurrentRoom.PathSouth != null)
-            {
-                Console.WriteLine("Hinter Dir ist " + this.player.CurrentRoom.PathSouth.Description);
-            }
-            if (this.player.CurrentRoom.PathWest != null)
-            {
-                Console.WriteLine("Links neben Dir schaust du auf " + this.player.CurrentRoom.PathWest.Description);
-            }
-            //if (this.player.CurrentRoom.PathUp != null)
-            //{
-            //    Console.WriteLine("U = Up " + this.player.CurrentRoom.PathUp.Name);
-            //}
-            //if (this.player.CurrentRoom.PathDown != null)
-            //{
-            //    Console.WriteLine("D = Down " + this.player.CurrentRoom.PathDown.Name);
-            //}
-            //if (this.player.CurrentRoom.Things != null) // Sachen anzeigen
-            //{
-            //    this.player.CurrentRoom.GetStuff();
-            //}
-            //if(this.player.CurrentRoom.Description != null)
-            //{
-            //    Console.WriteLine(this.player.CurrentRoom.Description);
-            //}
 
-        }
 
         
         public void CreateNPC(string name, Room room)

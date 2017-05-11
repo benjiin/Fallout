@@ -39,6 +39,7 @@ namespace Fallout
         public Room PathSouth { get; set; }
         public Room PathWest { get; set; }
         public bool IsContaminated { get; set; }
+        public bool IsChecked { get; set; }
         public string Description { get; set; }
         public string Place { get; set; } = "Commonwealth";
         /*

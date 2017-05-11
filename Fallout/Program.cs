@@ -13,7 +13,7 @@ namespace Fallout
             Menu menu = new Menu();
 
             menu.Start();
-            //menu.Test();
+            //menu.GameMenu();
 
 
             //Game game = new Game();
