@@ -511,8 +511,7 @@ namespace Fallout
                         allRoom[i][j].Container.Add(bag);
                         bag.HaveStuff.Add(allCrap[dice.DiceTrow(allCrap.Count() - 1)]);
                         bag.HaveStuff.Add(allCrap[dice.DiceTrow(allCrap.Count() - 1)]);
-                        //bag.HaveStuff.Add(bottlecaps = new Tools("Kronkorke/n", 1, 100, dice.DiceTrow(10), 2));
-                        bag.HaveStuff.Add(bottlecaps= new Tools("Kronkorke/n", 1, 100, dice.DiceTrow(10), 2));
+                        bag.HaveStuff.Add(bottlecaps= new Tools("Kronkorken", 1, 100, dice.DiceTrow(10), 2));
                     }
                     if (dice.DiceTrow(100) < 35)
                     {
@@ -520,7 +519,7 @@ namespace Fallout
                         allRoom[i][j].Container.Add(box);
                         box.HaveStuff.Add(allCrap[dice.DiceTrow(allCrap.Count() - 1)]);
                         box.HaveStuff.Add(allCrap[dice.DiceTrow(allCrap.Count() - 1)]);
-                        box.HaveStuff.Add(bottlecaps = new Tools("Kronkorke/n", 1, 100, dice.DiceTrow(20), 2));
+                        box.HaveStuff.Add(bottlecaps = new Tools("Kronkorken", 1, 100, dice.DiceTrow(20), 2));
                         box.HaveStuff.Add(bobbypin = new Tools("Haarklammer", 1, 45, 1, 3));
                         box.HaveStuff.Add(allPotions[dice.DiceTrow(allPotions.Count() - 1)]);
                     }
@@ -532,7 +531,7 @@ namespace Fallout
                         {
                             chest.HaveStuff.Add(code);
                         }
-                        chest.HaveStuff.Add(bottlecaps = new Tools("Kronkorke/n", 1, 100, dice.DiceTrow(40), 2));
+                        chest.HaveStuff.Add(bottlecaps = new Tools("Kronkorken", 1, 100, dice.DiceTrow(40), 2));
                         chest.HaveStuff.Add(bobbypin = new Tools("Haarklammer", 1, 45, 1, 3));
                         chest.HaveStuff.Add(allPotions[dice.DiceTrow(allPotions.Count() - 1)]);
                         chest.HaveStuff.Add(allPotions[dice.DiceTrow(allPotions.Count() - 1)]);

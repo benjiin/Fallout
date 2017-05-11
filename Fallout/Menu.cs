@@ -112,10 +112,26 @@ namespace Fallout
                     MovePlayer();
                     break;
                 case ConsoleKey.D4:
-                    if(game.player.CurrentRoom.IsChecked == true)
+                    if (game.player.CurrentRoom.IsChecked == true)
                     {
-                        Console.WriteLine();
+                        Console.Clear();
+                        Thread.Sleep(1000);
                     }
+                    break;
+                case ConsoleKey.D5:
+                    if (game.player.CurrentRoom.IsChecked == true)
+                    {
+                        Console.Clear();
+                        Thread.Sleep(1000);
+                    }
+                    break;
+                case ConsoleKey.D6:
+                    if (game.player.CurrentRoom.IsChecked == true)
+                    {
+                        Console.Clear();
+                        Thread.Sleep(1000);
+                    }
+                    break;
                 case ConsoleKey.X:
                     Start();
                     break;
@@ -125,6 +141,7 @@ namespace Fallout
                     GameMenu();
                     break;
             }
+
             GameMenu();
 
 
