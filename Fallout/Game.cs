@@ -528,34 +528,38 @@ namespace Fallout
                      * 4. Potions   2x Verbrauchsitem 
                      * 5. Weapons   Waffe (mit Dropchancenwurf) 
                      */
-                    if (dice.DiceTrow(100) < 60)
+                    if (dice.DiceTrow(100) < 0) //60
                     {
                         Container bag = new Container("Beutel", false, 1);
                         allRoom[i][j].Container.Add(bag);
                         bag.HaveStuff.Add(allCrap[dice.DiceTrow(allCrap.Count() - 1)]);
                         bag.HaveStuff.Add(allCrap[dice.DiceTrow(allCrap.Count() - 1)]);
                         bag.HaveStuff.Add(bottlecaps= new Tools("Kronkorken", 1, 100, dice.DiceTrow(10), 2));
+                        if(dice.DiceTrow(100) < 45)
+                        {
+                            bag.HaveStuff.Add(bobbypin = new Tools("Haarklammer", 1, 45, dice.DiceTrow(3), 3));
+                        }
                     }
-                    if (dice.DiceTrow(100) < 35)
+                    if (dice.DiceTrow(100) < 0) //35
                     {
                         Container box = new Container("Kiste", false, 2);
                         allRoom[i][j].Container.Add(box);
                         box.HaveStuff.Add(allCrap[dice.DiceTrow(allCrap.Count() - 1)]);
                         box.HaveStuff.Add(allCrap[dice.DiceTrow(allCrap.Count() - 1)]);
                         box.HaveStuff.Add(bottlecaps = new Tools("Kronkorken", 1, 100, dice.DiceTrow(20), 2));
-                        box.HaveStuff.Add(bobbypin = new Tools("Haarklammer", 1, 45, 1, 3));
+                        box.HaveStuff.Add(bobbypin = new Tools("Haarklammer", 1, 45, dice.DiceTrow(3), 3));
                         box.HaveStuff.Add(allPotions[dice.DiceTrow(allPotions.Count() - 1)]);
                     }
-                    if (dice.DiceTrow(100) < 15)
+                    if (dice.DiceTrow(100) < 110) //15
                     {
-                        Container chest = new Container("Truhe", false, 3);
+                        Container chest = new Container("Truhe", true, 3);
                         allRoom[i][j].Container.Add(chest);
                         if (dice.DiceTrow(100) < code.DropChance)
                         {
                             chest.HaveStuff.Add(code);
                         }
                         chest.HaveStuff.Add(bottlecaps = new Tools("Kronkorken", 1, 100, dice.DiceTrow(40), 2));
-                        chest.HaveStuff.Add(bobbypin = new Tools("Haarklammer", 1, 45, 1, 3));
+                        chest.HaveStuff.Add(bobbypin = new Tools("Haarklammer", 1, 45, dice.DiceTrow(3), 3));
                         chest.HaveStuff.Add(allPotions[dice.DiceTrow(allPotions.Count() - 1)]);
                         chest.HaveStuff.Add(allPotions[dice.DiceTrow(allPotions.Count() - 1)]);
                         chest.HaveStuff.Add(allWeapon[dice.DiceTrow(allWeapon.Count() - 1)]);
@@ -571,6 +575,9 @@ namespace Fallout
                     {
                         allRoom[i][j].HasStuff = true;
                         allRoom[i][j].Things.Add(allCrap[dice.DiceTrow(allCrap.Count() - 1)]);
+                        /////////////////////
+                        allRoom[i][j].Things.Add(bobbypin = new Tools("Haarklammer", 1, 45, dice.DiceTrow(3), 3));
+
                     }
                     if (dice.DiceTrow(100) < 50)
                     {
@@ -654,6 +661,9 @@ namespace Fallout
             roomB[2].Description = "Raum mit Treppe";
             roomB[6].Description = "Raum mit Treppe";
             roomB[10].Description = "Raum mit Treppe";
+            roomG[1].Description = "Hier siehst du einen merkwürdigen Busch";
+            roomC[5].Description = "Von Hier geht es zurück ins Vault 1";
+            roomF[9].Description = "Ein merkwürdiger Busch ist hier zu sehen";
         }
 
 

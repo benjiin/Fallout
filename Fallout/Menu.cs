@@ -46,14 +46,14 @@ namespace Fallout
                     break;
                 case ConsoleKey.D2:
                     Console.WriteLine("Spiel laden in development");
-                    Thread.Sleep(1000);
+                    Console.ReadKey();
                     break;
                 case ConsoleKey.X:
                     Environment.Exit(0);
                     break;
                 default:
                     Console.WriteLine("Ich habe Ihre Eingabe nicht verstanden");
-                    Thread.Sleep(500);
+                    Console.ReadKey();
                     Start();
                     break;
             }           
@@ -189,34 +189,98 @@ namespace Fallout
                 case ConsoleKey.D1:
                     if (game.player.CurrentRoom.Container[0] != null)
                     {
-                        Console.Clear();
-                        Playerborder();
-                        Menuitem = new List<Option>();
-
-                        for (int i = 0; i < game.player.CurrentRoom.Container[0].HaveStuff.Count; i++)
+                        if (game.player.CurrentRoom.Container[0].Locked == false)
                         {
-                            Option stuff = new Option((char)(49 + i), game.player.CurrentRoom.Container[0].HaveStuff[i].Name);
-                            Menuitem.Add(stuff);
-                        }
-                        Option back2 = new Option('X', "Zurück");
-                        Menuitem.Add(back);
-                        ShowOption();
+                            Console.Clear();
+                            Playerborder();
+                            Menuitem = new List<Option>();
 
-                        ConsoleKeyInfo input2 = Console.ReadKey();
-                        Console.Clear();
-                        Menuitem.RemoveRange(0, Menuitem.Count);
+                            for (int i = 0; i < game.player.CurrentRoom.Container[0].HaveStuff.Count; i++)
+                            {
+                                Option stuff = new Option((char)(49 + i), game.player.CurrentRoom.Container[0].HaveStuff[i].Name);
+                                if (game.player.CurrentRoom.Container[0].HaveStuff[i].ID == 2 || game.player.CurrentRoom.Container[0].HaveStuff[i].ID == 3)
+                                {
+                                    stuff.MenuChoice += "(" + game.player.CurrentRoom.Container[0].HaveStuff[i].Amount + ")";
+                                }
+                                Menuitem.Add(stuff);
+                            }
+                            Option back2 = new Option('X', "Zurück");
+                            Menuitem.Add(back2);
+                            ShowOption();
 
-                        switch (input2.Key)
+
+                            bool invalidInput = false;
+                            do
+                            {
+                                invalidInput = false;
+                                ConsoleKeyInfo input2 = Console.ReadKey();
+                                Console.Clear();
+                                Menuitem.RemoveRange(0, Menuitem.Count);
+                                try
+                                {
+                                    switch (input2.Key)
+                                    {
+                                        case ConsoleKey.D1:
+                                            if (game.player.CurrentRoom.Container[0].HaveStuff[0] != null)
+                                            {
+                                                if (game.player.CarryWeight < game.player.CarryWeightMax)
+                                                {
+                                                    game.player.AddInventar(game.player.CurrentRoom.Container[0].HaveStuff[0]);
+                                                    game.player.CurrentRoom.Container[0].HaveStuff.RemoveAt(0);
+                                                }
+                                            }
+                                            break;
+                                        case ConsoleKey.X:
+                                            OpenContainer();
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                }
+                                catch (Exception)
+                                {
+                                    invalidInput = true;
+                                    Console.WriteLine("Falsch eingabe");
+                                    Console.ReadKey();
+                                    OpenContainer();
+                                }
+
+                            } while (invalidInput);
+                        } 
+                        else if(game.player.CurrentRoom.Container[0].Locked == true)
                         {
-                            case ConsoleKey.D1:
-                                break;
-                            case ConsoleKey.X:
-                                OpenContainer();
-                                break;
-                            default:
-                                break;
-                        }
+                            bool invalidchoice = false;
+                            do
+                            {
 
+                                Console.WriteLine("Diese Truhe ist verschlossen und du brauchst eine Haarklammer sowie Glück um diese zu öffnen");
+                                Console.ReadKey();
+
+
+                                Console.Clear();
+                                Playerborder();
+                                Menuitem = new List<Option>();
+
+                            
+                                Option back2 = new Option('X', "Zurück");
+                                Menuitem.Add(back2);
+                                ShowOption();
+
+
+
+
+
+
+
+
+
+
+
+
+                                //game.player.RemoveBobby(game.player.CurrentRoom.Container[0]);
+
+                            } while (invalidchoice);
+                        }
                     }
                     break;
                 case ConsoleKey.D2:
@@ -242,7 +306,7 @@ namespace Fallout
                     for(int i=0; i<game.player.CurrentRoom.Things.Count; i++)
                     {
                         Option stuff = new Option((char)(49 + i), game.player.CurrentRoom.Things[i].Name);
-                        if(game.player.CurrentRoom.Things[i].ID ==2)
+                        if(game.player.CurrentRoom.Things[i].ID == 2 || game.player.CurrentRoom.Things[i].ID == 3)
                         {
                             stuff.MenuChoice += "(" + game.player.CurrentRoom.Things[i].Amount + ")";
                         }
@@ -336,10 +400,12 @@ namespace Fallout
                     }
                     PickupItems();
                 }
-                catch (ArgumentOutOfRangeException a)
+                catch (ArgumentOutOfRangeException)
                 {
-                    invalidInput = true;
                     Console.WriteLine("An dieser Stelle gibt es nix.");
+                    Console.ReadKey();
+                    PickupItems();
+                    invalidInput = true;
                 }
             } while (invalidInput);
         }

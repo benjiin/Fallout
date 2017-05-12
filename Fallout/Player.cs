@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Fallout
@@ -39,10 +40,14 @@ namespace Fallout
                 {
                     this.Money += item.Amount;
                 }
+                if(item.ID == 3)
+                {
+                    this.Inventory.Add(item);
+                }
             }
             else
             {
-                if(!(this.CarryWeight > this.CarryWeightMax))
+                if(this.CarryWeight < this.CarryWeightMax)
                 {
                     this.CarryWeight += item.Weight;
                     this.Inventory.Add(item);
@@ -57,6 +62,7 @@ namespace Fallout
 
         public void GetallInventar()
         {
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("Inventar: ");
             if(this.Inventory.Count == 0)
             {
@@ -64,11 +70,33 @@ namespace Fallout
             }
             else
             {
-                Console.ForegroundColor = ConsoleColor.Green;
                 foreach (var item in this.Inventory)
                 {
-                    Console.WriteLine("\t" + item.Name);
-                }
+                    if (item is Crap)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Gray;
+                        Console.WriteLine("\t" + item.Name);
+                    }
+                    if (item is Potions)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("\t" + item.Name);
+                    }
+                    if (item is Tools)
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
+                        Console.WriteLine("\t" + item.Name);
+                        if(item.Amount > 2)
+                        {
+                            item.Name += "(" + item.Amount + ")";
+                        }
+                    }
+                    if (item is Weapon)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("\t" + item.Name);
+                    }
+                }     
             }
             Console.ResetColor();
         }
@@ -117,12 +145,32 @@ namespace Fallout
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.Write(this.XrayRadiation);
             Console.ResetColor();
-
-
-
-
         }
 
+        public bool HasBobbypin()
+        {
+            foreach (var item in Inventory)
+            {
+                if(item.ID == 3)
+                {
+                    return true;
+                }
+                    
+            }
+            return false;
+        }
+
+        public void RemoveBobby(Container chest)
+        {
+            for(int i=0; i<this.Inventory.Count; i++)
+            {
+                if(this.Inventory[i].ID == 3)
+                {
+                    this.Inventory.RemoveAt(i);
+                    chest.Locked = false;
+                }
+            }
+        }
 
 
     }

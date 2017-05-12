@@ -18,10 +18,7 @@ namespace Fallout
             this.ID = id;
             AllTools.Add(this);
         }
-        public int GetAllTools()
-        {
-            return AllTools.Count();
-        }
+
 
         public Tools GetSpecificItem(int index)
         {
