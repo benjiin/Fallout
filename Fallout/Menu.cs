@@ -108,11 +108,11 @@ namespace Fallout
             Menuitem.RemoveRange(0, Menuitem.Count);
             switch (input.Key)
             {
-                case ConsoleKey.D1: 
+                case ConsoleKey.D1: //durchsuchen
                     SearchRoom();
                     game.player.CurrentRoom.IsChecked = true;
                     break;
-                case ConsoleKey.D2: 
+                case ConsoleKey.D2: //inventar
                     Console.SetCursorPosition(0, 0);
                     game.player.GetallInventar();
                     Console.ReadKey();
@@ -128,9 +128,7 @@ namespace Fallout
                     {
                         if(game.player.CurrentRoom.Things.Count != 0)
                         {
-                            Console.Clear();
                             PickupItems();
-                            //Thread.Sleep(1000);
                         }
                     }
                     break;
@@ -139,8 +137,7 @@ namespace Fallout
                     {
                         if (game.player.CurrentRoom.Container.Count != 0)
                         {
-                            Console.Clear();
-                            Thread.Sleep(1000);
+                            OpenContainer();
                         }
                     }
                     break;
@@ -163,10 +160,76 @@ namespace Fallout
                     GameMenu();
                     break;
             }
-
             GameMenu();
+        }
+        public void OpenContainer()
+        {
+            Console.Clear();
+            Playerborder();
+            Menuitem = new List<Option>();
 
+            if (game.player.CurrentRoom.Container.Count != 0)
+            {
+                for (int i = 0; i < game.player.CurrentRoom.Container.Count; i++)
+                {
+                    Option stuff = new Option((char)(49 + i), game.player.CurrentRoom.Container[i].Name);
+                    Menuitem.Add(stuff);
+                }
+            }
+            Option back = new Option('X', "Zurück");
+            Menuitem.Add(back);
+            ShowOption();
 
+            ConsoleKeyInfo input = Console.ReadKey();
+            Console.Clear();
+            Menuitem.RemoveRange(0, Menuitem.Count);
+
+            switch (input.Key)
+            {
+                case ConsoleKey.D1:
+                    if (game.player.CurrentRoom.Container[0] != null)
+                    {
+                        Console.Clear();
+                        Playerborder();
+                        Menuitem = new List<Option>();
+
+                        for (int i = 0; i < game.player.CurrentRoom.Container[0].HaveStuff.Count; i++)
+                        {
+                            Option stuff = new Option((char)(49 + i), game.player.CurrentRoom.Container[0].HaveStuff[i].Name);
+                            Menuitem.Add(stuff);
+                        }
+                        Option back2 = new Option('X', "Zurück");
+                        Menuitem.Add(back);
+                        ShowOption();
+
+                        ConsoleKeyInfo input2 = Console.ReadKey();
+                        Console.Clear();
+                        Menuitem.RemoveRange(0, Menuitem.Count);
+
+                        switch (input2.Key)
+                        {
+                            case ConsoleKey.D1:
+                                break;
+                            case ConsoleKey.X:
+                                OpenContainer();
+                                break;
+                            default:
+                                break;
+                        }
+
+                    }
+                    break;
+                case ConsoleKey.D2:
+                    break;
+                case ConsoleKey.D3:
+                    break;
+                case ConsoleKey.X:
+                    GameMenu();
+                    break;
+                default:
+                    break;
+            }
+            OpenContainer();
         }
         public void PickupItems()
         {
@@ -207,29 +270,61 @@ namespace Fallout
                         case ConsoleKey.D1:
                             if(game.player.CurrentRoom.Things[0] != null)
                             {
-                                game.player.AddInventar(game.player.CurrentRoom.Things[0]);
-                                game.player.CurrentRoom.Things.RemoveAt(0);
+                                if(game.player.CarryWeight < game.player.CarryWeightMax)
+                                {
+                                    game.player.AddInventar(game.player.CurrentRoom.Things[0]);
+                                    game.player.CurrentRoom.Things.RemoveAt(0);
+                                }
+                                else if(game.player.CurrentRoom.Things[0].ID ==2)
+                                {
+                                    game.player.AddInventar(game.player.CurrentRoom.Things[0]);
+                                    game.player.CurrentRoom.Things.RemoveAt(0);
+                                }
                             }
                             break;
                         case ConsoleKey.D2:
                             if (game.player.CurrentRoom.Things[1] != null)
                             {
-                                game.player.AddInventar(game.player.CurrentRoom.Things[1]);
-                                game.player.CurrentRoom.Things.RemoveAt(1);
+                                if (game.player.CarryWeight < game.player.CarryWeightMax)
+                                {
+                                    game.player.AddInventar(game.player.CurrentRoom.Things[1]);
+                                    game.player.CurrentRoom.Things.RemoveAt(1);
+                                }
+                                else if (game.player.CurrentRoom.Things[1].ID == 2)
+                                {
+                                    game.player.AddInventar(game.player.CurrentRoom.Things[1]);
+                                    game.player.CurrentRoom.Things.RemoveAt(1);
+                                }
                             }
                             break;
                         case ConsoleKey.D3:
                             if (game.player.CurrentRoom.Things[2] != null)
                             {
-                                game.player.AddInventar(game.player.CurrentRoom.Things[2]);
-                                game.player.CurrentRoom.Things.RemoveAt(2);
+                                if (game.player.CarryWeight < game.player.CarryWeightMax)
+                                {
+                                    game.player.AddInventar(game.player.CurrentRoom.Things[2]);
+                                    game.player.CurrentRoom.Things.RemoveAt(2);
+                                }
+                                else if (game.player.CurrentRoom.Things[2].ID == 2)
+                                {
+                                    game.player.AddInventar(game.player.CurrentRoom.Things[2]);
+                                    game.player.CurrentRoom.Things.RemoveAt(2);
+                                }
                             }
-                        break;
+                            break;
                         case ConsoleKey.D4:
                             if (game.player.CurrentRoom.Things[3] != null)
                             {
-                                game.player.AddInventar(game.player.CurrentRoom.Things[3]);
-                                game.player.CurrentRoom.Things.RemoveAt(3);
+                                if (game.player.CarryWeight < game.player.CarryWeightMax)
+                                {
+                                    game.player.AddInventar(game.player.CurrentRoom.Things[3]);
+                                    game.player.CurrentRoom.Things.RemoveAt(3);
+                                }
+                                else if (game.player.CurrentRoom.Things[3].ID == 2)
+                                {
+                                    game.player.AddInventar(game.player.CurrentRoom.Things[3]);
+                                    game.player.CurrentRoom.Things.RemoveAt(3);
+                                }
                             }
                             break;
                         case ConsoleKey.X:
@@ -238,7 +333,8 @@ namespace Fallout
                         default:
                             Console.WriteLine("Ich habe sie nicht verstanden.");
                             break;
-                    } 
+                    }
+                    PickupItems();
                 }
                 catch (ArgumentOutOfRangeException a)
                 {
@@ -523,7 +619,6 @@ namespace Fallout
             Console.ResetColor();
             Console.ReadKey();
         }
-
         public void MenuBorder()
         {
             Console.SetCursorPosition(0, 39);

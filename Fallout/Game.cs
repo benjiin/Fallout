@@ -530,7 +530,7 @@ namespace Fallout
                      */
                     if (dice.DiceTrow(100) < 60)
                     {
-                        Container bag = new Container("Beutel", false);
+                        Container bag = new Container("Beutel", false, 1);
                         allRoom[i][j].Container.Add(bag);
                         bag.HaveStuff.Add(allCrap[dice.DiceTrow(allCrap.Count() - 1)]);
                         bag.HaveStuff.Add(allCrap[dice.DiceTrow(allCrap.Count() - 1)]);
@@ -538,7 +538,7 @@ namespace Fallout
                     }
                     if (dice.DiceTrow(100) < 35)
                     {
-                        Container box = new Container("Kiste", false);
+                        Container box = new Container("Kiste", false, 2);
                         allRoom[i][j].Container.Add(box);
                         box.HaveStuff.Add(allCrap[dice.DiceTrow(allCrap.Count() - 1)]);
                         box.HaveStuff.Add(allCrap[dice.DiceTrow(allCrap.Count() - 1)]);
@@ -548,7 +548,7 @@ namespace Fallout
                     }
                     if (dice.DiceTrow(100) < 15)
                     {
-                        Container chest = new Container("Truhe", false);
+                        Container chest = new Container("Truhe", false, 3);
                         allRoom[i][j].Container.Add(chest);
                         if (dice.DiceTrow(100) < code.DropChance)
                         {

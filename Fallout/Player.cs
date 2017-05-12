@@ -10,6 +10,7 @@ namespace Fallout
     {
         Dice dice = new Dice();
         public List<Quest> QuestLog { get; set; }
+        public int NeedExperience { get; set; }
         public int Experience { get; set; }
         public Room Home { get; set; }
         public Player()
@@ -22,11 +23,10 @@ namespace Fallout
             this.Dodge = this.Dexterity * 2;
             this.MaxHealthPoints = ((this.Strength + this.Constitution) / 2);
             this.HealthPoints = this.MaxHealthPoints;
-            this.CarryWeightMax = 10; //((this.Strength + 5) * 2);
-            this.CarryWeight = 0;
-            
+            this.CarryWeightMax = ((this.Strength + 5) * 2);
+            this.CarryWeight = 0;            
             this.Level = 1;
-            this.Experience = this.Level * 100;
+            this.NeedExperience = this.Level * 100;
             this.XrayRadiation = 0;
         }
 
@@ -103,7 +103,7 @@ namespace Fallout
             Console.Write(" Level: ");
             Console.Write(this.Level);
             Console.Write(" XP: ");
-            Console.Write(this.Experience);
+            Console.Write(this.Experience + "/" + this.NeedExperience);
             Console.WriteLine();
             Console.Write("\t\tGewicht:");
             Console.ForegroundColor = ConsoleColor.Magenta;
