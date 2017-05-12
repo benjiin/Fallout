@@ -465,6 +465,7 @@ namespace Fallout
                         allRoom[i][j].Monster.RemoveRange(0, allRoom[i][j].Monster.Count);
                         allRoom[i][j].Container.RemoveRange(0, allRoom[i][j].Container.Count);
                         allRoom[i][j].IsChecked = false;
+                        allRoom[i][j].HasStuff = false;
                     }
                 }
                 FillRooms();
@@ -568,6 +569,7 @@ namespace Fallout
                      */
                     for (int k = 1; k < dice.DiceTrow(4); k++)
                     {
+                        allRoom[i][j].HasStuff = true;
                         allRoom[i][j].Things.Add(allCrap[dice.DiceTrow(allCrap.Count() - 1)]);
                     }
                     if (dice.DiceTrow(100) < 50)

@@ -118,7 +118,10 @@ namespace Fallout
                     Console.ReadKey();
                     break;
                 case ConsoleKey.D3: //bewegen
-                    MovePlayer();
+                    if(game.player.CurrentRoom.IsChecked == true)
+                    {
+                        MovePlayer();
+                    }
                     break;
                 case ConsoleKey.D4: // pickup
                     if (game.player.CurrentRoom.IsChecked == true)
@@ -186,47 +189,63 @@ namespace Fallout
                 Option back = new Option('X', "Zurück");
                 Menuitem.Add(back);
                 ShowOption();
+            /* 
+             * Do While Schleife: Habe sonst eine Argument out of range Exception wenn ich den Index der Liste 
+             * wähle wo nix vorhanden ist.
+             */
+            bool invalidInput = false;
+            do
+            {
                 ConsoleKeyInfo input = Console.ReadKey();
                 Console.Clear();
                 Menuitem.RemoveRange(0, Menuitem.Count);
-                switch (input.Key)
+                invalidInput = false;
+                try
                 {
-                    case ConsoleKey.D1:
-                        if(game.player.CurrentRoom.Things[0] != null)
-                        {
-                            game.player.AddInventar(game.player.CurrentRoom.Things[0]);
-                            game.player.CurrentRoom.Things.RemoveAt(0);
-                        }
-
+                    switch (input.Key)
+                    {
+                        case ConsoleKey.D1:
+                            if(game.player.CurrentRoom.Things[0] != null)
+                            {
+                                game.player.AddInventar(game.player.CurrentRoom.Things[0]);
+                                game.player.CurrentRoom.Things.RemoveAt(0);
+                            }
+                            break;
+                        case ConsoleKey.D2:
+                            if (game.player.CurrentRoom.Things[1] != null)
+                            {
+                                game.player.AddInventar(game.player.CurrentRoom.Things[1]);
+                                game.player.CurrentRoom.Things.RemoveAt(1);
+                            }
+                            break;
+                        case ConsoleKey.D3:
+                            if (game.player.CurrentRoom.Things[2] != null)
+                            {
+                                game.player.AddInventar(game.player.CurrentRoom.Things[2]);
+                                game.player.CurrentRoom.Things.RemoveAt(2);
+                            }
                         break;
-                    case ConsoleKey.D2:
-                        if (game.player.CurrentRoom.Things[1] != null)
-                        {
-                            game.player.AddInventar(game.player.CurrentRoom.Things[1]);
-                            game.player.CurrentRoom.Things.RemoveAt(1);
-                        }
-                        break;
-                    case ConsoleKey.D3:
-                        if (game.player.CurrentRoom.Things[2] != null)
-                        {
-                            game.player.AddInventar(game.player.CurrentRoom.Things[2]);
-                            game.player.CurrentRoom.Things.RemoveAt(2);
-                        }
-                    break;
-                    case ConsoleKey.D4:
-                        if (game.player.CurrentRoom.Things[3] != null)
-                        {
-                            game.player.AddInventar(game.player.CurrentRoom.Things[3]);
-                            game.player.CurrentRoom.Things.RemoveAt(3);
-                        }
-                        break;
-                    case ConsoleKey.X:
-                        GameMenu();
-                        break;
-                    default:
-                        Console.WriteLine("Ich habe sie nicht verstanden");
-                        break;
-                }          
+                        case ConsoleKey.D4:
+                            if (game.player.CurrentRoom.Things[3] != null)
+                            {
+                                game.player.AddInventar(game.player.CurrentRoom.Things[3]);
+                                game.player.CurrentRoom.Things.RemoveAt(3);
+                            }
+                            break;
+                        case ConsoleKey.X:
+                            GameMenu();
+                            break;
+                        default:
+                            Console.WriteLine("Ich habe sie nicht verstanden.");
+                            break;
+                    } 
+                }
+                catch (ArgumentOutOfRangeException a)
+                {
+                    invalidInput = true;
+                    Console.WriteLine("An dieser Stelle gibt es nix.");
+                }
+            } while (invalidInput);
         }
         public void ShowRooms()
         {
