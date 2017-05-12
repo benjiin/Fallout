@@ -73,7 +73,7 @@ namespace Fallout
             Menuitem.Add(search);
             Option inv = new Option('2', "Inventar");
             Menuitem.Add(inv);
-            if (game.player.Home == game.player.CurrentRoom)
+            if (game.player.CurrentRoom.Place == "Vault")
             {
                 Option save = new Option('S', "Speichern");
                 Menuitem.Add(save);
@@ -84,10 +84,10 @@ namespace Fallout
             {
                 Option pickup = new Option('4', "Aufheben");
                 Menuitem.Add(pickup);
-                Option fight = new Option('5', "Kämpfen");
-                Menuitem.Add(fight);
-                Option loot = new Option('6', "Öffnen");
+                Option loot = new Option('5', "Öffnen");
                 Menuitem.Add(loot);
+                Option fight = new Option('6', "Kämpfen");
+                Menuitem.Add(fight);
             }
             Option back = new Option('X', "Zurück");
             Menuitem.Add(back);
@@ -320,6 +320,7 @@ namespace Fallout
         public void MovePlayer()
         {
             Console.Clear();
+            game.ClearRooms();
             ShowRooms();
             try
             {
@@ -432,8 +433,9 @@ namespace Fallout
             Console.Clear();
             Console.WriteLine("Bitte geben Sie Ihren Namen");
             game.player.Name = Console.ReadLine();
-            game.player.CurrentRoom = game.roomF[2];
+            game.player.CurrentRoom = game.roomG[1];
             game.player.Home = game.roomB[4];
+
         }
         public void SearchRoom()
         {
@@ -445,29 +447,55 @@ namespace Fallout
                 Console.Write(".");
             }
             Console.WriteLine();
+            Console.WriteLine();
 
-            if(game.player.CurrentRoom.Things == null && game.player.CurrentRoom.Container == null)
+            if (game.player.CurrentRoom.Things == null && game.player.CurrentRoom.Container == null)
             {
                 Console.WriteLine("Nix");
             }
-            foreach (var item in game.player.CurrentRoom.Things)
+            if(game.player.CurrentRoom.Things != null)
             {
-                Console.WriteLine("Crap: );
-                Console.ForegroundColor = ConsoleColor.Gray;
-                Console.WriteLine(item.Name);
                 Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write("Müll:");
+                foreach (var item in game.player.CurrentRoom.Things)
+                {
+                    Console.WriteLine();
+                    Console.ResetColor();
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    Console.Write("\t\t+ " + item.Name);
+                    Console.ResetColor();
+                }
             }
-            foreach (var item in game.player.CurrentRoom.Container)
+            Console.WriteLine();
+            if(game.player.CurrentRoom.Container != null)
             {
-                Console.ForegroundColor = ConsoleColor.DarkYellow;
-                Console.WriteLine(item.Name);
                 Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write("Behälter:");
+                foreach (var item in game.player.CurrentRoom.Container)
+                {
+                    Console.WriteLine();
+                    Console.ResetColor();
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    Console.Write("\t\t+ " + item.Name);
+                    Console.ResetColor();
+                }
             }
-            foreach (var item in game.player.CurrentRoom.Monster)
+            Console.WriteLine();
+            if(game.player.CurrentRoom.Monster != null)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine(item.Name);
                 Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write("Gegner:");
+                foreach (var item in game.player.CurrentRoom.Monster)
+                {
+                    Console.WriteLine();
+                    Console.ResetColor();
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write("\t\t+ " + item.Name);
+                    Console.ResetColor();
+                }
             }
             Console.ResetColor();
             Console.ReadKey();

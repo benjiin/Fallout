@@ -444,10 +444,25 @@ namespace Fallout
                 Weapon knuckleduster = new Weapon("Schlagring", 10, 1, 25, dice.DiceTrow(5));
                 allWeapon.Add(knuckleduster);
                 FillRooms();
-                
             }
         }
 
+        public void ClearRooms()
+        {
+            if (this.player.CurrentRoom.Place == "Vault")
+            {
+                Room[][] allRoom = { roomA, roomB, roomC, roomD, roomE, roomF, roomG };
+                for (int i = 2; i < 7; i++)
+                {
+                    for (int j = 0; j < 11; j++)
+                    {
+                        allRoom[i][j].Things.RemoveRange(0, allRoom[i][j].Things.Count); 
+                        allRoom[i][j].Monster.RemoveRange(0, allRoom[i][j].Monster.Count);
+                        allRoom[i][j].IsChecked = false;
+                    }
+                }
+            }
+        }
         public void FillRooms()
         {
 
@@ -550,7 +565,7 @@ namespace Fallout
                     }
                     if (dice.DiceTrow(100) < 50)
                     {
-                        allRoom[i][j].Things.Add(bottlecaps = new Tools("Kronkorke/n", 1, 100, dice.DiceTrow(10), 2));
+                        allRoom[i][j].Things.Add(bottlecaps = new Tools("Kronkorken", 1, 100, dice.DiceTrow(10), 2));
                     }
                     /*
                      * Ausloten ob dieser Raum ein Monster hat 
