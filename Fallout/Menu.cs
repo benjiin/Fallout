@@ -189,97 +189,95 @@ namespace Fallout
                 case ConsoleKey.D1:
                     if (game.player.CurrentRoom.Container[0] != null)
                     {
-                        if (game.player.CurrentRoom.Container[0].Locked == false)
+                        //if (game.player.CurrentRoom.Container[0].Locked == false)
+                        //{
+                        //    Console.Clear();
+                        //    Playerborder();
+                        //    Menuitem = new List<Option>();
+
+                        //    for (int i = 0; i < game.player.CurrentRoom.Container[0].HaveStuff.Count; i++)
+                        //    {
+                        //        Option stuff = new Option((char)(49 + i), game.player.CurrentRoom.Container[0].HaveStuff[i].Name);
+                        //        if (game.player.CurrentRoom.Container[0].HaveStuff[i].ID == 2 || game.player.CurrentRoom.Container[0].HaveStuff[i].ID == 3)
+                        //        {
+                        //            stuff.MenuChoice += "(" + game.player.CurrentRoom.Container[0].HaveStuff[i].Amount + ")";
+                        //        }
+                        //        Menuitem.Add(stuff);
+                        //    }
+                        //    Option back2 = new Option('X', "Zurück");
+                        //    Menuitem.Add(back2);
+                        //    ShowOption();
+
+
+                        //    bool invalidInput = false;
+                        //    do
+                        //    {
+                        //        invalidInput = false;
+                        //        ConsoleKeyInfo input2 = Console.ReadKey();
+                        //        Console.Clear();
+                        //        Menuitem.RemoveRange(0, Menuitem.Count);
+                        //        try
+                        //        {
+                        //            switch (input2.Key)
+                        //            {
+                        //                case ConsoleKey.D1:
+                        //                    if (game.player.CurrentRoom.Container[0].HaveStuff[0] != null)
+                        //                    {
+                        //                        if (game.player.CarryWeight < game.player.CarryWeightMax)
+                        //                        {
+                        //                            game.player.AddInventar(game.player.CurrentRoom.Container[0].HaveStuff[0]);
+                        //                            game.player.CurrentRoom.Container[0].HaveStuff.RemoveAt(0);
+                        //                        }
+                        //                    }
+                        //                    break;
+                        //                case ConsoleKey.X:
+                        //                    OpenContainer();
+                        //                    break;
+                        //                default:
+                        //                    break;
+                        //            }
+                        //        }
+                        //        catch (Exception)
+                        //        {
+                        //            invalidInput = true;
+                        //            Console.WriteLine("Falsch eingabe");
+                        //            Console.ReadKey();
+                        //            OpenContainer();
+                        //        }
+
+                        //    } while (invalidInput);
+                        //} 
+                        if (game.player.CurrentRoom.Container[0].Locked == true)
                         {
-                            Console.Clear();
-                            Playerborder();
-                            Menuitem = new List<Option>();
-
-                            for (int i = 0; i < game.player.CurrentRoom.Container[0].HaveStuff.Count; i++)
-                            {
-                                Option stuff = new Option((char)(49 + i), game.player.CurrentRoom.Container[0].HaveStuff[i].Name);
-                                if (game.player.CurrentRoom.Container[0].HaveStuff[i].ID == 2 || game.player.CurrentRoom.Container[0].HaveStuff[i].ID == 3)
-                                {
-                                    stuff.MenuChoice += "(" + game.player.CurrentRoom.Container[0].HaveStuff[i].Amount + ")";
-                                }
-                                Menuitem.Add(stuff);
-                            }
-                            Option back2 = new Option('X', "Zurück");
-                            Menuitem.Add(back2);
-                            ShowOption();
-
-
-                            bool invalidInput = false;
-                            do
-                            {
-                                invalidInput = false;
-                                ConsoleKeyInfo input2 = Console.ReadKey();
-                                Console.Clear();
-                                Menuitem.RemoveRange(0, Menuitem.Count);
-                                try
-                                {
-                                    switch (input2.Key)
-                                    {
-                                        case ConsoleKey.D1:
-                                            if (game.player.CurrentRoom.Container[0].HaveStuff[0] != null)
-                                            {
-                                                if (game.player.CarryWeight < game.player.CarryWeightMax)
-                                                {
-                                                    game.player.AddInventar(game.player.CurrentRoom.Container[0].HaveStuff[0]);
-                                                    game.player.CurrentRoom.Container[0].HaveStuff.RemoveAt(0);
-                                                }
-                                            }
-                                            break;
-                                        case ConsoleKey.X:
-                                            OpenContainer();
-                                            break;
-                                        default:
-                                            break;
-                                    }
-                                }
-                                catch (Exception)
-                                {
-                                    invalidInput = true;
-                                    Console.WriteLine("Falsch eingabe");
-                                    Console.ReadKey();
-                                    OpenContainer();
-                                }
-
-                            } while (invalidInput);
-                        } 
-                        else if(game.player.CurrentRoom.Container[0].Locked == true)
-                        {
-                            bool invalidchoice = false;
-                            do
-                            {
-
-                                Console.WriteLine("Diese Truhe ist verschlossen und du brauchst eine Haarklammer sowie Glück um diese zu öffnen");
-                                Console.ReadKey();
-
-
-                                Console.Clear();
-                                Playerborder();
-                                Menuitem = new List<Option>();
-
-                            
-                                Option back2 = new Option('X', "Zurück");
-                                Menuitem.Add(back2);
-                                ShowOption();
+                            Console.WriteLine("sdasda");
+                            Console.ReadKey();
 
 
 
 
+                            /*
+                             * HIER WEITER MACHEN MANN dfnsdfnsrdfnsdjkfg
+                             * 
+                             * 
+                             * 
+                             * 
+                             * 
+                             * 
+                             * 
+                             * 
+                             * 
+                             * 
+                             * allen scheiss einfügen... der fehler war das sich die methode immer wieder aufrufte 
+                             * 
+                             * 
+                             * 
+                             * 
+                             * 
+                             * 
+                             * 
+                             * 
+                             */
 
-
-
-
-
-
-
-
-                                //game.player.RemoveBobby(game.player.CurrentRoom.Container[0]);
-
-                            } while (invalidchoice);
                         }
                     }
                     break;
@@ -293,7 +291,6 @@ namespace Fallout
                 default:
                     break;
             }
-            OpenContainer();
         }
         public void PickupItems()
         {
