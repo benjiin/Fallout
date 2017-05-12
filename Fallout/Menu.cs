@@ -45,8 +45,8 @@ namespace Fallout
                     GameMenu();
                     break;
                 case ConsoleKey.D2:
-                    Console.WriteLine("Spiel Laden");
-                    Console.WriteLine("Spiel laden");
+                    Console.WriteLine("Spiel laden in development");
+                    Thread.Sleep(1000);
                     break;
                 case ConsoleKey.X:
                     Environment.Exit(0);
@@ -61,9 +61,6 @@ namespace Fallout
 
             //game.MovePlayer();
         }
-
-
-
         public void GameMenu()
         {
             Console.Clear();
@@ -73,21 +70,33 @@ namespace Fallout
             Menuitem.Add(search);
             Option inv = new Option('2', "Inventar");
             Menuitem.Add(inv);
+            if(game.player.CurrentRoom.IsChecked == true)
+            {
+                Option move = new Option('3', "Bewegen");
+                Menuitem.Add(move);
+            }
+            if (game.player.CurrentRoom.IsChecked == true)
+            {
+                if(game.player.CurrentRoom.Things.Count != 0)
+                {
+                    Option pickup = new Option('4', "Aufheben");
+                    Menuitem.Add(pickup);
+                }
+                if(game.player.CurrentRoom.Container.Count != 0)
+                {
+                    Option loot = new Option('5', "Öffnen");
+                    Menuitem.Add(loot);
+                }
+                if(game.player.CurrentRoom.Monster.Count != 0)
+                {
+                Option fight = new Option('6', "Kämpfen");
+                Menuitem.Add(fight);
+                }
+            }
             if (game.player.CurrentRoom.Place == "Vault")
             {
                 Option save = new Option('S', "Speichern");
                 Menuitem.Add(save);
-            }
-            Option move = new Option('3', "Bewegen");
-            Menuitem.Add(move);
-            if (game.player.CurrentRoom.IsChecked == true)
-            {
-                Option pickup = new Option('4', "Aufheben");
-                Menuitem.Add(pickup);
-                Option loot = new Option('5', "Öffnen");
-                Menuitem.Add(loot);
-                Option fight = new Option('6', "Kämpfen");
-                Menuitem.Add(fight);
             }
             Option back = new Option('X', "Zurück");
             Menuitem.Add(back);
@@ -99,42 +108,43 @@ namespace Fallout
             Menuitem.RemoveRange(0, Menuitem.Count);
             switch (input.Key)
             {
-                case ConsoleKey.D1:
+                case ConsoleKey.D1: 
                     SearchRoom();
                     game.player.CurrentRoom.IsChecked = true;
                     break;
-                case ConsoleKey.D2:
+                case ConsoleKey.D2: 
                     Console.SetCursorPosition(0, 0);
                     game.player.GetallInventar();
                     Console.ReadKey();
                     break;
-                case ConsoleKey.D3:
+                case ConsoleKey.D3: //bewegen
                     MovePlayer();
                     break;
-                case ConsoleKey.D4:
+                case ConsoleKey.D4: // pickup
                     if (game.player.CurrentRoom.IsChecked == true)
                     {
-                        if(game.player.CurrentRoom.Things.Any())
+                        if(game.player.CurrentRoom.Things.Count != 0)
+                        {
+                            Console.Clear();
+                            PickupItems();
+                            //Thread.Sleep(1000);
+                        }
+                    }
+                    break;
+                case ConsoleKey.D5: //öffnen
+                    if (game.player.CurrentRoom.IsChecked == true)
+                    {
+                        if (game.player.CurrentRoom.Container.Count != 0)
                         {
                             Console.Clear();
                             Thread.Sleep(1000);
                         }
                     }
                     break;
-                case ConsoleKey.D5:
+                case ConsoleKey.D6: //kämpfen
                     if (game.player.CurrentRoom.IsChecked == true)
                     {
-                        if (game.player.CurrentRoom.HasMonster == true)
-                        {
-                            Console.Clear();
-                            Thread.Sleep(1000);
-                        }
-                    }
-                    break;
-                case ConsoleKey.D6:
-                    if (game.player.CurrentRoom.IsChecked == true)
-                    {
-                        if (game.player.CurrentRoom.Container.Any())
+                        if (game.player.CurrentRoom.Monster.Count != 0)
                         {
                             Console.Clear();
                             Thread.Sleep(1000);
@@ -155,107 +165,68 @@ namespace Fallout
 
 
         }
-
-        //public void Actions()
-        //{
-        //    Console.Clear();
-        //    Playerborder();
-        //    Menuitem = new List<Option>();
-        //    Option first = new Option('1', "Untersuchen");
-        //    Menuitem.Add(first);
-        //    Option second = new Option('2', "Bewegen");
-        //    Menuitem.Add(second);
-        //    if(game.player.CurrentRoom.IsChecked == true)
-        //    {
-        //        Option pickup = new Option('3', "Aufheben");
-        //        Menuitem.Add(pickup);
-        //        Option fight = new Option('4', "Kämpfen");
-        //        Menuitem.Add(fight);
-        //        Option loot = new Option('5', "Öffnen");
-        //        Menuitem.Add(loot);
-        //    }
-        //    Option close = new Option('X', "Zurück");
-        //    Menuitem.Add(close);
-
-        //    ShowOption();
-
-
-        //    ConsoleKeyInfo input = Console.ReadKey();
-        //    Console.Clear();
-        //    Menuitem.RemoveRange(0, Menuitem.Count);
-
-        //    switch (input.Key)
-        //    {
-        //        case ConsoleKey.D1:
-        //            SearchRoom();
-        //            game.player.CurrentRoom.IsChecked = true;
-        //            break;
-        //        case ConsoleKey.D2:
-        //            MovePlayer();
-        //            break;
-        //        case ConsoleKey.X:
-        //            GameMenu();
-        //            break;
-        //        default:
-        //            Console.WriteLine("Ich habe Ihre Eingabe nicht verstanden");
-        //            Thread.Sleep(500);
-        //            Actions();
-        //            break;
-        //    }
-        //            Actions();
-        //}
-
-        public void MenuBorder()
+        public void PickupItems()
         {
-            Console.SetCursorPosition(0, 39);
-            for (int i = 0; i < Console.WindowWidth - 1; i++)
-            {
-                if (i == 0 || i == Console.WindowWidth - 2)
-                {
-                    Console.Write("+");
-                }
-                else
-                {
-                    Console.Write("-");
-                }
-            }
-            
-            Console.SetCursorPosition(0, 40);
-         
-        }
-        public void Playerborder()
-        {
-            
-            Console.SetCursorPosition(0, 36);
-            for (int i = 0; i < Console.WindowWidth - 1; i++)
-            {
-                if (i == 0 || i == Console.WindowWidth - 2)
-                {
-                    Console.Write("+");
-                }
-                else
-                {
-                    Console.Write("-");
-                }
-            }
-            Console.SetCursorPosition(0, 37);
+            Console.Clear();
+            Playerborder();
+            Menuitem = new List<Option>();
 
-            game.player.GetStats();
-            Console.SetCursorPosition(0, 39);
-            for (int i = 0; i < Console.WindowWidth - 1; i++)
-            {
-                if (i == 0 || i == Console.WindowWidth - 2)
+                if (game.player.CurrentRoom.Things.Count != 0)
                 {
-                    Console.Write("+");
+                    for(int i=0; i<game.player.CurrentRoom.Things.Count; i++)
+                    {
+                        Option stuff = new Option((char)(49 + i), game.player.CurrentRoom.Things[i].Name);
+                        if(game.player.CurrentRoom.Things[i].ID ==2)
+                        {
+                            stuff.MenuChoice += "(" + game.player.CurrentRoom.Things[i].Amount + ")";
+                        }
+                        Menuitem.Add(stuff);
+                    }
                 }
-                else
+                Option back = new Option('X', "Zurück");
+                Menuitem.Add(back);
+                ShowOption();
+                ConsoleKeyInfo input = Console.ReadKey();
+                Console.Clear();
+                Menuitem.RemoveRange(0, Menuitem.Count);
+                switch (input.Key)
                 {
-                    Console.Write("-");
-                }
-            }
+                    case ConsoleKey.D1:
+                        if(game.player.CurrentRoom.Things[0] != null)
+                        {
+                            game.player.AddInventar(game.player.CurrentRoom.Things[0]);
+                            game.player.CurrentRoom.Things.RemoveAt(0);
+                        }
 
-            Console.SetCursorPosition(0, 40);
-
+                        break;
+                    case ConsoleKey.D2:
+                        if (game.player.CurrentRoom.Things[1] != null)
+                        {
+                            game.player.AddInventar(game.player.CurrentRoom.Things[1]);
+                            game.player.CurrentRoom.Things.RemoveAt(1);
+                        }
+                        break;
+                    case ConsoleKey.D3:
+                        if (game.player.CurrentRoom.Things[2] != null)
+                        {
+                            game.player.AddInventar(game.player.CurrentRoom.Things[2]);
+                            game.player.CurrentRoom.Things.RemoveAt(2);
+                        }
+                    break;
+                    case ConsoleKey.D4:
+                        if (game.player.CurrentRoom.Things[3] != null)
+                        {
+                            game.player.AddInventar(game.player.CurrentRoom.Things[3]);
+                            game.player.CurrentRoom.Things.RemoveAt(3);
+                        }
+                        break;
+                    case ConsoleKey.X:
+                        GameMenu();
+                        break;
+                    default:
+                        Console.WriteLine("Ich habe sie nicht verstanden");
+                        break;
+                }          
         }
         public void ShowRooms()
         {
@@ -320,8 +291,8 @@ namespace Fallout
         public void MovePlayer()
         {
             Console.Clear();
-            game.ClearRooms();
             ShowRooms();
+            game.ClearRooms();
             try
             {
                 Console.WriteLine("\nWohin möchtest du gehen?");
@@ -331,31 +302,65 @@ namespace Fallout
                 }
                 if (game.player.CurrentRoom.PathNorth != null)
                 {
-                    Console.WriteLine("\t\t(↑)Nord");
+                    Console.Write("\t\t(");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write("↑");
+                    Console.ResetColor();
+                    Console.WriteLine(")Nord");
+                    
                 }
                 if (game.player.CurrentRoom.PathEast != null && game.player.CurrentRoom.PathWest != null)
                 {
-                    Console.WriteLine("\t(←)West\t\t(→)Ost");
+                    Console.Write("\t(");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write("←");
+                    Console.ResetColor();
+                    Console.Write(")West\t\t(");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write("→");
+                    Console.ResetColor();
+                    Console.WriteLine(")Ost");
                 }
                 else if (game.player.CurrentRoom.PathEast != null)
                 {
-                    Console.WriteLine("\t\t\t(→)Ost");
+                    Console.Write("\t\t\t(");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write("→");
+                    Console.ResetColor();
+                    Console.WriteLine(")Ost");
+
                 }
                 else if (game.player.CurrentRoom.PathWest != null)
                 {
-                    Console.WriteLine("\t(←)West");
+                    Console.Write("\t(");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write("←");
+                    Console.ResetColor();
+                    Console.WriteLine(")West");
                 }
                 if (game.player.CurrentRoom.PathSouth != null)
                 {
-                    Console.WriteLine("\t\t(↓)Süd");
+                    Console.Write("\t\t(");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write("↓");
+                    Console.ResetColor();
+                    Console.WriteLine(")Süd");
                 }
                 if (game.player.CurrentRoom.PathUp != null)
                 {
-                    Console.WriteLine("(+)Aufwärts)");    
+                    Console.Write("(");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write("+");
+                    Console.ResetColor();
+                    Console.WriteLine(")Aufwärts");    
                 }
                 if (game.player.CurrentRoom.PathDown != null)
                 {
-                    Console.WriteLine("(-)Abwärts");  
+                    Console.Write("(");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write("-");
+                    Console.ResetColor();
+                    Console.WriteLine(")Abwärts");  
                 }
                 //GetStats();
                 ConsoleKeyInfo input = Console.ReadKey();
@@ -427,33 +432,26 @@ namespace Fallout
                 Console.WriteLine("] " + item.MenuChoice);
             }
         }
-        public void NewPlayer()
-        {
-            game = new Game();
-            Console.Clear();
-            Console.WriteLine("Bitte geben Sie Ihren Namen");
-            game.player.Name = Console.ReadLine();
-            game.player.CurrentRoom = game.roomG[1];
-            game.player.Home = game.roomB[4];
-
-        }
         public void SearchRoom()
         {
             Console.SetCursorPosition(0, 0);
             Console.Write("Du guckst um Dich herum und findest");
-            for(int i=0; i<5; i++)
+            for(int i=0; i<8; i++)
             {
-                Thread.Sleep(450);
+                Thread.Sleep(100);
                 Console.Write(".");
             }
+            Console.Clear();
+            ShowRooms();
+
             Console.WriteLine();
             Console.WriteLine();
 
-            if (game.player.CurrentRoom.Things == null && game.player.CurrentRoom.Container == null)
+            if (game.player.CurrentRoom.Things.Count == 0 && game.player.CurrentRoom.Container.Count == 0 && game.player.CurrentRoom.Monster.Count == 0)
             {
                 Console.WriteLine("Nix");
             }
-            if(game.player.CurrentRoom.Things != null)
+            if(game.player.CurrentRoom.Things.Count != 0)
             {
                 Console.ResetColor();
                 Console.ForegroundColor = ConsoleColor.White;
@@ -463,12 +461,18 @@ namespace Fallout
                     Console.WriteLine();
                     Console.ResetColor();
                     Console.ForegroundColor = ConsoleColor.Gray;
-                    Console.Write("\t\t+ " + item.Name);
+                    if (item.ID == 2)
+                    {
+                        Console.Write("\t\t+ " + item.Name + "(" + item.Amount + ")");
+                    }else
+                    {
+                        Console.Write("\t\t+ " + item.Name);
+                    }
                     Console.ResetColor();
                 }
             }
             Console.WriteLine();
-            if(game.player.CurrentRoom.Container != null)
+            if(game.player.CurrentRoom.Container.Count != 0)
             {
                 Console.ResetColor();
                 Console.ForegroundColor = ConsoleColor.White;
@@ -483,7 +487,7 @@ namespace Fallout
                 }
             }
             Console.WriteLine();
-            if(game.player.CurrentRoom.Monster != null)
+            if(game.player.CurrentRoom.Monster.Count != 0)
             {
                 Console.ResetColor();
                 Console.ForegroundColor = ConsoleColor.White;
@@ -499,6 +503,69 @@ namespace Fallout
             }
             Console.ResetColor();
             Console.ReadKey();
+        }
+
+        public void MenuBorder()
+        {
+            Console.SetCursorPosition(0, 39);
+            for (int i = 0; i < Console.WindowWidth - 1; i++)
+            {
+                if (i == 0 || i == Console.WindowWidth - 2)
+                {
+                    Console.Write("+");
+                }
+                else
+                {
+                    Console.Write("-");
+                }
+            }
+            
+            Console.SetCursorPosition(0, 40);
+         
+        }
+        public void NewPlayer()
+        {
+            game = new Game();
+            Console.Clear();
+            Console.WriteLine("Bitte geben Sie Ihren Namen");
+            game.player.Name = Console.ReadLine();
+            game.player.CurrentRoom = game.roomG[1];
+            game.player.Home = game.roomB[4];
+
+        }
+        public void Playerborder()
+        {
+            
+            Console.SetCursorPosition(0, 36);
+            for (int i = 0; i < Console.WindowWidth - 1; i++)
+            {
+                if (i == 0 || i == Console.WindowWidth - 2)
+                {
+                    Console.Write("+");
+                }
+                else
+                {
+                    Console.Write("-");
+                }
+            }
+            Console.SetCursorPosition(0, 37);
+
+            game.player.GetStats();
+            Console.SetCursorPosition(0, 39);
+            for (int i = 0; i < Console.WindowWidth - 1; i++)
+            {
+                if (i == 0 || i == Console.WindowWidth - 2)
+                {
+                    Console.Write("+");
+                }
+                else
+                {
+                    Console.Write("-");
+                }
+            }
+
+            Console.SetCursorPosition(0, 40);
+
         }
         public void Welcome()
         {

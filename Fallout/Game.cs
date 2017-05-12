@@ -447,6 +447,11 @@ namespace Fallout
             }
         }
 
+        /*
+         * Wenn der Spieler das Vault betritt, wird diese Methode ausgeführt und das Commonwealth
+         * wird wieder neu befüllt. Alle Items und Gegner raus und neue rein. Ausserdem muss der Spieler
+         * nun wieder alle Räume neu angucken. 
+         */
         public void ClearRooms()
         {
             if (this.player.CurrentRoom.Place == "Vault")
@@ -458,9 +463,11 @@ namespace Fallout
                     {
                         allRoom[i][j].Things.RemoveRange(0, allRoom[i][j].Things.Count); 
                         allRoom[i][j].Monster.RemoveRange(0, allRoom[i][j].Monster.Count);
+                        allRoom[i][j].Container.RemoveRange(0, allRoom[i][j].Container.Count);
                         allRoom[i][j].IsChecked = false;
                     }
                 }
+                FillRooms();
             }
         }
         public void FillRooms()

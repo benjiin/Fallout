@@ -22,7 +22,7 @@ namespace Fallout
             this.Dodge = this.Dexterity * 2;
             this.MaxHealthPoints = ((this.Strength + this.Constitution) / 2);
             this.HealthPoints = this.MaxHealthPoints;
-            this.CarryWeightMax = ((this.Strength + 5) * 2);
+            this.CarryWeightMax = 10; //((this.Strength + 5) * 2);
             this.CarryWeight = 0;
             
             this.Level = 1;
@@ -35,7 +35,7 @@ namespace Fallout
         {
             if(item is Tools)
             {
-                if(item.ID ==2)
+                if(item.ID == 2)
                 {
                     this.Money += item.Amount;
                 }
@@ -57,12 +57,18 @@ namespace Fallout
 
         public void GetallInventar()
         {
-            Console.Clear();
             Console.WriteLine("Inventar: ");
-            Console.ForegroundColor = ConsoleColor.Green;
-            foreach (var item in this.Inventory)
+            if(this.Inventory.Count == 0)
             {
-                Console.WriteLine("\t" + item.Name);
+                Console.WriteLine("Hier scheint nix zu sein");
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                foreach (var item in this.Inventory)
+                {
+                    Console.WriteLine("\t" + item.Name);
+                }
             }
             Console.ResetColor();
         }
