@@ -86,7 +86,7 @@ namespace Fallout
                     {
                         Console.ForegroundColor = ConsoleColor.DarkYellow;
                         Console.WriteLine("\t" + item.Name);
-                        if(item.Amount > 2)
+                        if(item.Amount < 1)
                         {
                             item.Name += "(" + item.Amount + ")";
                         }
@@ -160,18 +160,18 @@ namespace Fallout
             return false;
         }
 
-        public void RemoveBobby(Container chest)
+        public void RemoveBobby()
         {
-            for(int i=0; i<this.Inventory.Count; i++)
+            if (this.Inventory != null)
             {
-                if(this.Inventory[i].ID == 3)
+                for (int i = 0; i < this.Inventory.Count; i++)
                 {
-                    this.Inventory.RemoveAt(i);
-                    chest.Locked = false;
+                    if (this.Inventory[i].ID == 3)
+                    {
+                        this.Inventory.RemoveAt(i);
+                    }
                 }
             }
         }
-
-
     }
 }

@@ -11,7 +11,7 @@ namespace Fallout
     {
         Game game;
         public List<Option> Menuitem { get; set; }
-
+        Dice dice = new Dice();
         public Menu()
         {
             //Welcome();
@@ -223,7 +223,7 @@ namespace Fallout
                                     }
                                     Console.ReadKey();
                                 }
-                                else
+                                if(game.player.CurrentRoom.Container[0].Locked == true)
                                 {
                                     Console.Clear();
                                     Menuitem.RemoveRange(0, Menuitem.Count);
@@ -236,11 +236,39 @@ namespace Fallout
                                         if(item.ID==3)
                                         {
                                             Menuitem.Add(lockpick);
+                                            break; 
                                         }
                                     }
                                     Menuitem.Add(back);
                                     ShowOption();
-                                    Console.ReadKey();
+                                    ConsoleKeyInfo input2 = Console.ReadKey();
+
+                                    switch (input2.Key)
+                                    {
+                                        case ConsoleKey.D1:
+                                            if(game.player.HasBobbypin())
+                                            {
+                                                game.player.RemoveBobby();
+                                                    if (dice.DiceTrow(100) < 100)//game.player.Dexterity)
+                                                    {
+                                                        Console.Clear();
+                                                        Console.WriteLine("Erfolgreich geöffnet");
+                                                        game.player.CurrentRoom.Container[0].Locked = false;
+                                                        Console.ReadKey();
+                                                        OpenContainer();
+                                                        break;
+                                                    }
+                                                    else
+                                                    {
+                                                        Console.Clear();
+                                                        Console.WriteLine("Konnte nicht geöffnet werden");
+                                                    }
+
+                                            }  
+                                            break;
+                                        default:
+                                            break;
+                                    }
                                 }
 
                             }
