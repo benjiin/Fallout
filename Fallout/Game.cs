@@ -26,9 +26,9 @@ namespace Fallout
         List<Tools> allTools = new List<Tools>();
         List<NPC> allNPC = new List<NPC>();
         Quest quest = new Quest();
-        NPC npc = new NPC();
         Tools bobbypin;
         Tools bottlecaps;
+        NPC npc;
         public Game()
         {
             /*
@@ -85,10 +85,6 @@ namespace Fallout
                 /*
                  * Vault1
                  */
-
-                // Desciption
-
-
                 roomA[0].PathNorth = roomB[0];
                 roomA[0].PathEast = roomA[1];
 
@@ -361,26 +357,7 @@ namespace Fallout
 
                 roomG[10].PathSouth = roomF[10];
                 roomG[10].PathWest = roomG[9];
-                // Ende der Räume
 
-
-                //Start und Position des Spieler
-
-
-                /*
-                 * Erstellen der ersten NPC
-                 * 
-                 * Erstmal 6 Stück = 2 Für jedes Vault.
-                 * Einer der Sachen verkauft und Quest vergibt 
-                 * Und ein Arzt um gegen Geld heilen oder Rad heilen zu lassen
-                 * 
-                 */
-                CreateNPC("Doktor Vault1", roomA[1]);
-                CreateNPC("Doktor Vault2", roomB[3]);
-                CreateNPC("Doktor Vault3", roomA[7]);
-                CreateNPC("Questgeber Vault1", roomB[0]);
-                CreateNPC("Questgeber Vault2", roomB[3]);
-                CreateNPC("Questgeber Vault3", roomB[7]);
                 /*
                  * Crap-Item erstellen (Müll nur zum verkaufen gedacht)
                  * 
@@ -473,13 +450,51 @@ namespace Fallout
         }
         public void FillRooms()
         {
+            /*
+             * Erstellen der ersten NPC
+             * 
+             * Erstmal 6 Stück = 2 Für jedes Vault.
+             * Einer der Sachen verkauft und Quest vergibt 
+             * Und ein Arzt um gegen Geld heilen oder Rad heilen zu lassen
+             */
+            roomA[1].NPC.Add(npc = new NPC("Doktor"));
 
+             ///
+             //(/// WIE bekomme ich die NPC in die Liste und kann auf diese auch zugreifen
+
+
+
+
+
+            //Doc.CurrentRoom = roomA[1];
+            //Doc.CurrentRoom.HasSomeToFight = true;
+            //NPC Doc2 = new NPC("Doktor");
+            //Doc2.CurrentRoom = roomA[3];
+            //Doc2.CurrentRoom.HasSomeToFight = true;
+            //NPC Doc3 = new NPC("Doktor");
+            //Doc3.CurrentRoom = roomA[7];
+            //Doc3.CurrentRoom.HasSomeToFight = true;
+
+            //NPC Res1 = new NPC("Bewohner");
+            //Res1.CurrentRoom = roomB[1];
+            //Res1.CurrentRoom.HasSomeToFight = true;
+            //NPC Res2 = new NPC("Bewohner");
+            //Res2.CurrentRoom = roomB[3];
+            //Res2.CurrentRoom.HasSomeToFight = true;
+            //NPC Res3 = new NPC("Bewohner");
+            //Res3.CurrentRoom = roomB[7];
+            //Res3.CurrentRoom.HasSomeToFight = true;
+
+            //roomA[3].NPC.Add(Doc2);
+            //roomA[7].NPC.Add(Doc3);
+            //Res1.CurrentRoom.NPC.Add(Res1);
+            //Res2.CurrentRoom.NPC.Add(Res2);
+            //Res3.CurrentRoom.NPC.Add(Res3);
             /* 
              * Alle Raumelemente in eine weiteres Array zum angreifen 
              */
             Room[][] allRoom = { roomA, roomB, roomC, roomD, roomE, roomF, roomG };
             Tools code = new Tools("Zugangscode", 50, 10, 1, 1);
-
             /* 
                  * Jeder Raum bekommt einen Beutel, Kiste oder Truhe.
                  * Wenn eines von diesen im Raum vorkommt, wird diese gleich mit zufälligen 
@@ -663,12 +678,7 @@ namespace Fallout
             roomC[5].Description = "Von Hier geht es zurück ins Vault 1";
             roomF[9].Description = "Ein merkwürdiger Busch ist hier zu sehen";
         }
-        public void CreateNPC(string name, Room room)
-        {
-            NPC npc = new NPC();
-            npc.Name = name;
-            room.HasSomeToFight = true;            
-        }
+
     }
 
 

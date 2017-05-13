@@ -8,11 +8,6 @@ namespace Fallout
 {
     class LivingCreature
     {
-        //public int Intelligence { get; set; }
-        //public int Mana { get; set; }
-        //public int Apperance { get; set; }
-        //public int Knowledge { get; set; }
-        //public int Size { get; set; }
         public List<Stuff> Inventory { get; set; }
         public string Name { get; set; }
         public int Dexterity { get; set; }
@@ -28,11 +23,6 @@ namespace Fallout
         public double CarryWeight { get; set; }
         public Room CurrentRoom { get; set; }
 
-
-        public LivingCreature()
-        {
-
-        }
 
     
 

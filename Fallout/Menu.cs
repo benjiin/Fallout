@@ -146,7 +146,7 @@ namespace Fallout
                     {
                         if (game.player.CurrentRoom.Monster.Count != 0)
                         {
-                            Fight();
+                            FightOption();
                         }
                     }
                     break;
@@ -168,22 +168,58 @@ namespace Fallout
          *  Ebenso wie der Spieler können Gegner auch auch Auchweichen Würfeln. Wenn der Ausweichenwurf erfolgreich war (2 * Geschicklichkeit)"
          *  Gilt der vorher erfolgreiche Angriff als parriert.
          */
-        public void Fight()
+         /// <summary>
+         /// Kampfoption
+         /// </summary>
+        public void FightOption()
         {
-            Console.Clear();
-            Console.WriteLine("");
-            Console.ReadKey();
             Console.Clear();
             Playerborder();
             Menuitem = new List<Option>();
-            bool alive = true;
 
             if(game.player.CurrentRoom.HasSomeToFight == true)
             {
-                Option = new Option('1', game.player.CurrentRoom.Monster.ElementAt(;
-
+                if(game.player.CurrentRoom.Monster != null)
+                {
+                    Option attack = new Option('1', game.player.CurrentRoom.Monster[0].Name);
+                    Menuitem.Add(attack);
+                }
             }
 
+            Option back = new Option('X', "Zurück");
+            Menuitem.Add(back);
+            ShowOption();
+
+            ConsoleKeyInfo input = Console.ReadKey();
+            Menuitem.RemoveRange(0, Menuitem.Count);
+            Console.Clear();
+
+            switch (input.Key)
+            {
+                case ConsoleKey.D1:
+                    if(game.player.CurrentRoom.Monster != null)
+                    {
+                        Fight(game.player.CurrentRoom.Monster[0]);
+                    }
+                    else
+                    {
+                        Fight(game.player.CurrentRoom.NPC[0]);
+                    }
+                    break;
+                case ConsoleKey.X:
+                    GameMenu();
+                    break;
+                default:
+                    break;
+            }
+        }
+        /*
+         * Der richtige Kampf
+         */
+         public void Fight(LivingCreature creature)
+        {
+            Console.WriteLine(creature.Name);
+            Console.ReadKey();
         }
 
         /*
@@ -971,10 +1007,7 @@ namespace Fallout
             Console.WriteLine();
             Console.WriteLine();
 
-            if (game.player.CurrentRoom.Things.Count == 0 && game.player.CurrentRoom.Container.Count == 0 && game.player.CurrentRoom.Monster.Count == 0)
-            {
-                Console.WriteLine("Nix");
-            }
+
             if(game.player.CurrentRoom.Things.Count != 0)
             {
                 Console.ResetColor();
@@ -1021,6 +1054,21 @@ namespace Fallout
                     Console.WriteLine();
                     Console.ResetColor();
                     Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write("\t\t+ " + item.Name);
+                    Console.ResetColor();
+                }
+            }
+            Console.WriteLine();
+            if (game.player.CurrentRoom.NPC.Count != 0)
+            {
+                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write("NPC:");
+                foreach (var item in game.player.CurrentRoom.NPC)
+                {
+                    Console.WriteLine();
+                    Console.ResetColor();
+                    Console.ForegroundColor = ConsoleColor.Cyan;
                     Console.Write("\t\t+ " + item.Name);
                     Console.ResetColor();
                 }
@@ -1095,7 +1143,7 @@ namespace Fallout
             Console.Clear();
             Console.WriteLine("Bitte geben Sie Ihren Namen");
             game.player.Name = Console.ReadLine();
-            game.player.CurrentRoom = game.roomG[1];
+            game.player.CurrentRoom = game.roomB[1];
             game.player.Home = game.roomB[4];
 
         }

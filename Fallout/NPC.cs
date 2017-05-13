@@ -10,7 +10,7 @@ namespace Fallout
     {
         Dice dice = new Dice();
         List<Quest> Quest;
-        public NPC()
+        public NPC(string name)
         {
             this.Quest = new List<Quest>();
 
@@ -21,6 +21,8 @@ namespace Fallout
             this.Dodge = this.Dexterity * 2;
             this.HealthPoints = this.MaxHealthPoints;
             this.CarryWeightMax = double.MaxValue;
+            this.Name = name;
+
 
         }
     }
