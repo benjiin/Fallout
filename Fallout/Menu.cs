@@ -16,13 +16,13 @@ namespace Fallout
         {
             //Welcome();
         }
+        /*
+        * Menü erstellen und anschliessend mit den jeweiligen Optionen fühlen"
+        * Mit ShowOption() wird dann die Option ausgegeben wobei die Zahl farbig hervorgehoben
+        * Wird um zudeutlichen was zu drücken ist 
+        */
         public void Start()
         {
-            /*
-             * Menü erstellen und anschliessend mit den jeweiligen Optionen fühlen"
-             * Mit ShowOption() wird dann die Option ausgegeben wobei die Zahl farbig hervorgehoben
-             * Wird um zudeutlichen was zu drücken ist 
-             */
             MenuBorder();
             Menuitem = new List<Option>();
             Option first = new Option('1', "Neues Spiel");
@@ -84,7 +84,7 @@ namespace Fallout
                 }
                 if(game.player.CurrentRoom.Container.Count != 0)
                 {
-                    Option loot = new Option('5', "Öffnen");
+                    Option loot = new Option('5', "Behälter öffnen");
                     Menuitem.Add(loot);
                 }
                 if(game.player.CurrentRoom.Monster.Count != 0)
@@ -162,6 +162,13 @@ namespace Fallout
             }
             GameMenu();
         }
+        /*
+         * Der Raum wird überprüft ob dieser denn auch Container hat. 
+         * Beutel und Kisten lassen sich so öffnen, für Truhen aber braucht man Haarklammern.
+         * 
+         * Wenn man Haarklammern im Besitz hat, wird ein Wurf unter der Geschicklichkeit gewürfelt. Ist dieser Bestanden öffnet sich die Truhe. 
+         * Andernfalls bleibt sie geschlossen. In beiden Fällen wird eine Haarklammer aus dem Inventar entfernt.
+         */
         public void OpenContainer()
         {
             Console.Clear();
@@ -194,7 +201,7 @@ namespace Fallout
                     {
                         case ConsoleKey.D1:
                             Console.Clear();
-                            if(game.player.CurrentRoom.Container != null)
+                            if (game.player.CurrentRoom.Container[0] != null)
                             {
                                 if (game.player.CurrentRoom.Container[0].Locked == false)
                                 {
@@ -218,10 +225,54 @@ namespace Fallout
                                                 }
                                             }
                                             break;
+                                        case ConsoleKey.D2:
+                                            if (game.player.CurrentRoom.Container[0].HaveStuff[1] != null)
+                                            {
+                                                if (game.player.CarryWeight < game.player.CarryWeightMax)
+                                                {
+                                                    game.player.AddInventar(game.player.CurrentRoom.Container[0].HaveStuff[1]);
+                                                    game.player.CurrentRoom.Container[0].HaveStuff.RemoveAt(1);
+                                                }
+                                            }
+                                            break;
+                                        case ConsoleKey.D3:
+                                            if (game.player.CurrentRoom.Container[0].HaveStuff[2] != null)
+                                            {
+                                                if (game.player.CarryWeight < game.player.CarryWeightMax)
+                                                {
+                                                    game.player.AddInventar(game.player.CurrentRoom.Container[0].HaveStuff[2]);
+                                                    game.player.CurrentRoom.Container[0].HaveStuff.RemoveAt(2);
+                                                }
+                                            }
+                                            break;
+                                        case ConsoleKey.D4:
+                                            if (game.player.CurrentRoom.Container[0].HaveStuff[3] != null)
+                                            {
+                                                if (game.player.CarryWeight < game.player.CarryWeightMax)
+                                                {
+                                                    game.player.AddInventar(game.player.CurrentRoom.Container[0].HaveStuff[3]);
+                                                    game.player.CurrentRoom.Container[0].HaveStuff.RemoveAt(3);
+                                                }
+                                            }
+                                            break;
+                                            case ConsoleKey.D5:
+                                            if (game.player.CurrentRoom.Container[0].HaveStuff[4] != null)
+                                            {
+                                                if (game.player.CarryWeight < game.player.CarryWeightMax)
+                                                {
+                                                    game.player.AddInventar(game.player.CurrentRoom.Container[0].HaveStuff[4]);
+                                                    game.player.CurrentRoom.Container[0].HaveStuff.RemoveAt(4);
+                                                }
+                                            }
+                                            break;
                                         default:
+                                            Console.Clear();
+                                            Console.WriteLine("Hier ist nix");
+                                            Console.ReadKey();
                                             break;
                                     }
                                     Console.ReadKey();
+                                    OpenContainer();
                                 }
                                 if(game.player.CurrentRoom.Container[0].Locked == true)
                                 {
@@ -249,7 +300,7 @@ namespace Fallout
                                             if(game.player.HasBobbypin())
                                             {
                                                 game.player.RemoveBobby();
-                                                    if (dice.DiceTrow(100) < 100)//game.player.Dexterity)
+                                                    if (dice.DiceTrow(100) < game.player.Dexterity)
                                                     {
                                                         Console.Clear();
                                                         Console.WriteLine("Erfolgreich geöffnet");
@@ -262,7 +313,8 @@ namespace Fallout
                                                     {
                                                         Console.Clear();
                                                         Console.WriteLine("Konnte nicht geöffnet werden");
-                                                    }
+                                                        Console.ReadKey();
+                                                }
 
                                             }  
                                             break;
@@ -274,14 +326,260 @@ namespace Fallout
                             }
                             break;
                         case ConsoleKey.D2:
+                            if (game.player.CurrentRoom.Container[1] != null)
+                            {
+                                if (game.player.CurrentRoom.Container[1].Locked == false)
+                                {
+                                    Playerborder();
+                                    for (int i = 0; i < game.player.CurrentRoom.Container[1].HaveStuff.Count; i++)
+                                    {
+                                        Option stuff = new Option((char)(49 + i), game.player.CurrentRoom.Container[1].HaveStuff[i].Name);
+                                        Menuitem.Add(stuff);
+                                    }
+                                    Menuitem.Add(back);
+                                    ShowOption();
+                                    switch (input.Key)
+                                    {
+                                        case ConsoleKey.D1:
+                                            if (game.player.CurrentRoom.Container[1].HaveStuff[0] != null)
+                                            {
+                                                if (game.player.CarryWeight < game.player.CarryWeightMax)
+                                                {
+                                                    game.player.AddInventar(game.player.CurrentRoom.Container[1].HaveStuff[0]);
+                                                    game.player.CurrentRoom.Container[1].HaveStuff.RemoveAt(0);
+                                                }
+                                            }
+                                            break;
+                                        case ConsoleKey.D2:
+                                            if (game.player.CurrentRoom.Container[1].HaveStuff[1] != null)
+                                            {
+                                                if (game.player.CarryWeight < game.player.CarryWeightMax)
+                                                {
+                                                    game.player.AddInventar(game.player.CurrentRoom.Container[1].HaveStuff[1]);
+                                                    game.player.CurrentRoom.Container[1].HaveStuff.RemoveAt(1);
+                                                }
+                                            }
+                                            break;
+                                        case ConsoleKey.D3:
+                                            if (game.player.CurrentRoom.Container[1].HaveStuff[2] != null)
+                                            {
+                                                if (game.player.CarryWeight < game.player.CarryWeightMax)
+                                                {
+                                                    game.player.AddInventar(game.player.CurrentRoom.Container[1].HaveStuff[2]);
+                                                    game.player.CurrentRoom.Container[1].HaveStuff.RemoveAt(2);
+                                                }
+                                            }
+                                            break;
+                                        case ConsoleKey.D4:
+                                            if (game.player.CurrentRoom.Container[1].HaveStuff[3] != null)
+                                            {
+                                                if (game.player.CarryWeight < game.player.CarryWeightMax)
+                                                {
+                                                    game.player.AddInventar(game.player.CurrentRoom.Container[1].HaveStuff[3]);
+                                                    game.player.CurrentRoom.Container[1].HaveStuff.RemoveAt(3);
+                                                }
+                                            }
+                                            break;
+                                        case ConsoleKey.D5:
+                                            if (game.player.CurrentRoom.Container[1].HaveStuff[4] != null)
+                                            {
+                                                if (game.player.CarryWeight < game.player.CarryWeightMax)
+                                                {
+                                                    game.player.AddInventar(game.player.CurrentRoom.Container[1].HaveStuff[4]);
+                                                    game.player.CurrentRoom.Container[1].HaveStuff.RemoveAt(4);
+                                                }
+                                            }
+                                            break;
+                                        default:
+                                            Console.Clear();
+                                            Console.WriteLine("Hier ist nix");
+                                            Console.ReadKey();
+                                            break;
+                                    }
+                                    Console.ReadKey();
+                                    OpenContainer();
+                                }
+                                if (game.player.CurrentRoom.Container[1].Locked == true)
+                                {
+                                    Console.Clear();
+                                    Menuitem.RemoveRange(0, Menuitem.Count);
+                                    Console.WriteLine("Abgeschlossen");
+                                    Console.ReadKey();
+                                    Playerborder();
+                                    Option lockpick = new Option('1', "Schloss knacken");
+                                    foreach (var item in game.player.Inventory)
+                                    {
+                                        if (item.ID == 3)
+                                        {
+                                            Menuitem.Add(lockpick);
+                                            break;
+                                        }
+                                    }
+                                    Menuitem.Add(back);
+                                    ShowOption();
+                                    ConsoleKeyInfo input2 = Console.ReadKey();
+
+                                    switch (input2.Key)
+                                    {
+                                        case ConsoleKey.D1:
+                                            if (game.player.HasBobbypin())
+                                            {
+                                                game.player.RemoveBobby();
+                                                if (dice.DiceTrow(100) < game.player.Dexterity)
+                                                {
+                                                    Console.Clear();
+                                                    Console.WriteLine("Erfolgreich geöffnet");
+                                                    game.player.CurrentRoom.Container[1].Locked = false;
+                                                    Console.ReadKey();
+                                                    OpenContainer();
+                                                    break;
+                                                }
+                                                else
+                                                {
+                                                    Console.Clear();
+                                                    Console.WriteLine("Konnte nicht geöffnet werden");
+                                                    Console.ReadKey();
+
+                                                }
+
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                }
+
+                            }
                             break;
                         case ConsoleKey.D3:
+                            if (game.player.CurrentRoom.Container[2] != null)
+                            {
+                                if (game.player.CurrentRoom.Container[2].Locked == false)
+                                {
+                                    Playerborder();
+                                    for (int i = 0; i < game.player.CurrentRoom.Container[2].HaveStuff.Count; i++)
+                                    {
+                                        Option stuff = new Option((char)(49 + i), game.player.CurrentRoom.Container[2].HaveStuff[i].Name);
+                                        Menuitem.Add(stuff);
+                                    }
+                                    Menuitem.Add(back);
+                                    ShowOption();
+                                    switch (input.Key)
+                                    {
+                                        case ConsoleKey.D1:
+                                            if (game.player.CurrentRoom.Container[2].HaveStuff[0] != null)
+                                            {
+                                                if (game.player.CarryWeight < game.player.CarryWeightMax)
+                                                {
+                                                    game.player.AddInventar(game.player.CurrentRoom.Container[2].HaveStuff[0]);
+                                                    game.player.CurrentRoom.Container[2].HaveStuff.RemoveAt(0);
+                                                }
+                                            }
+                                            break;
+                                        case ConsoleKey.D2:
+                                            if (game.player.CurrentRoom.Container[2].HaveStuff[1] != null)
+                                            {
+                                                if (game.player.CarryWeight < game.player.CarryWeightMax)
+                                                {
+                                                    game.player.AddInventar(game.player.CurrentRoom.Container[2].HaveStuff[1]);
+                                                    game.player.CurrentRoom.Container[2].HaveStuff.RemoveAt(1);
+                                                }
+                                            }
+                                            break;
+                                        case ConsoleKey.D3:
+                                            if (game.player.CurrentRoom.Container[2].HaveStuff[2] != null)
+                                            {
+                                                if (game.player.CarryWeight < game.player.CarryWeightMax)
+                                                {
+                                                    game.player.AddInventar(game.player.CurrentRoom.Container[2].HaveStuff[2]);
+                                                    game.player.CurrentRoom.Container[2].HaveStuff.RemoveAt(2);
+                                                }
+                                            }
+                                            break;
+                                        case ConsoleKey.D4:
+                                            if (game.player.CurrentRoom.Container[2].HaveStuff[3] != null)
+                                            {
+                                                if (game.player.CarryWeight < game.player.CarryWeightMax)
+                                                {
+                                                    game.player.AddInventar(game.player.CurrentRoom.Container[2].HaveStuff[3]);
+                                                    game.player.CurrentRoom.Container[2].HaveStuff.RemoveAt(3);
+                                                }
+                                            }
+                                            break;
+                                        case ConsoleKey.D5:
+                                            if (game.player.CurrentRoom.Container[2].HaveStuff[4] != null)
+                                            {
+                                                if (game.player.CarryWeight < game.player.CarryWeightMax)
+                                                {
+                                                    game.player.AddInventar(game.player.CurrentRoom.Container[2].HaveStuff[4]);
+                                                    game.player.CurrentRoom.Container[2].HaveStuff.RemoveAt(4);
+                                                }
+                                            }
+                                            break;
+                                        default:
+                                            Console.Clear();
+                                            Console.WriteLine("Hier ist nix");
+                                            Console.ReadKey();
+                                            break;
+                                    }
+                                    Console.ReadKey();
+                                    OpenContainer();
+                                }
+                                if (game.player.CurrentRoom.Container[2].Locked == true)
+                                {
+                                    Console.Clear();
+                                    Menuitem.RemoveRange(0, Menuitem.Count);
+                                    Console.WriteLine("Abgeschlossen");
+                                    Console.ReadKey();
+                                    Playerborder();
+                                    Option lockpick = new Option('1', "Schloss knacken");
+                                    foreach (var item in game.player.Inventory)
+                                    {
+                                        if (item.ID == 3)
+                                        {
+                                            Menuitem.Add(lockpick);
+                                            break;
+                                        }
+                                    }
+                                    Menuitem.Add(back);
+                                    ShowOption();
+                                    ConsoleKeyInfo input2 = Console.ReadKey();
+
+                                    switch (input2.Key)
+                                    {
+                                        case ConsoleKey.D1:
+                                            if (game.player.HasBobbypin())
+                                            {
+                                                game.player.RemoveBobby();
+                                                if (dice.DiceTrow(100) < game.player.Dexterity)
+                                                {
+                                                    Console.Clear();
+                                                    Console.WriteLine("Erfolgreich geöffnet");
+                                                    game.player.CurrentRoom.Container[2].Locked = false;
+                                                    Console.ReadKey();
+                                                    OpenContainer();
+                                                    break;
+                                                }
+                                                else
+                                                {
+                                                    Console.Clear();
+                                                    Console.WriteLine("Konnte nicht geöffnet werden");
+                                                    Console.ReadKey();
+                                                }
+
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                }
+
+                            }
                             break;
                         case ConsoleKey.X:
                             GameMenu();
                             break;
                         default:
-                            OpenContainer();
                             break;
                     }
 
@@ -296,6 +594,9 @@ namespace Fallout
 
             } while (invalidInput);
         }
+        /*
+         * Items die auf den Boden liegen ins Inventar packen 
+         */
         public void PickupItems()
         {
             Console.Clear();
@@ -410,6 +711,9 @@ namespace Fallout
                 }
             } while (invalidInput);
         }
+        /*
+         * Zeige mir die Nachbar Räume
+         */
         public void ShowRooms()
         {
             Console.SetCursorPosition(0, 0);
@@ -470,6 +774,12 @@ namespace Fallout
             }
 
         }
+        /*
+         * Bewege den Spieler. 
+         * Es wird (nachdem man sich den Raum angeschaut hat) angezeigt in welche Räume man gehen kann. 
+         * 
+         * Es wird auch noch eine Beschreibung des Raumes gegeben um so "die Quest" zu vollenden.
+         */
         public void MovePlayer()
         {
             Console.Clear();
@@ -603,6 +913,9 @@ namespace Fallout
             }
 
         }
+        /*
+         * Zeige mir alle Optionen für mein Menu an
+         */
         public void ShowOption()
         {
             foreach (var item in Menuitem)
@@ -614,6 +927,11 @@ namespace Fallout
                 Console.WriteLine("] " + item.MenuChoice);
             }
         }
+        /*
+         * Den aktuellen Raum nach Gegenständen, Behälter oder Monster absuchen
+         * 
+         * Erst nachdem ein Raum abgesucht wurde, ist es möglich mit den Raum zu interargieren.
+         */
         public void SearchRoom()
         {
             Console.SetCursorPosition(0, 0);
@@ -686,6 +1004,9 @@ namespace Fallout
             Console.ResetColor();
             Console.ReadKey();
         }
+        /*
+         * Der erste Menu Entwurf
+         */
         public void MenuBorder()
         {
             Console.SetCursorPosition(0, 39);
@@ -704,16 +1025,9 @@ namespace Fallout
             Console.SetCursorPosition(0, 40);
          
         }
-        public void NewPlayer()
-        {
-            game = new Game();
-            Console.Clear();
-            Console.WriteLine("Bitte geben Sie Ihren Namen");
-            game.player.Name = Console.ReadLine();
-            game.player.CurrentRoom = game.roomG[1];
-            game.player.Home = game.roomB[4];
-
-        }
+        /*
+         * Das Menu, welches erstellt wird nachdem es einen Spieler in dem Spiel gibt
+         */
         public void Playerborder()
         {
             
@@ -746,6 +1060,19 @@ namespace Fallout
             }
 
             Console.SetCursorPosition(0, 40);
+
+        }
+        /*
+         * Das Erstellen eines neuen Spieler und das Festsetzen seines Startpunktes
+         */
+        public void NewPlayer()
+        {
+            game = new Game();
+            Console.Clear();
+            Console.WriteLine("Bitte geben Sie Ihren Namen");
+            game.player.Name = Console.ReadLine();
+            game.player.CurrentRoom = game.roomG[1];
+            game.player.Home = game.roomB[4];
 
         }
         public void Welcome()

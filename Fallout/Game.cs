@@ -528,7 +528,7 @@ namespace Fallout
                      * 4. Potions   2x Verbrauchsitem 
                      * 5. Weapons   Waffe (mit Dropchancenwurf) 
                      */
-                    if (dice.DiceTrow(100) < 0) //60
+                    if (dice.DiceTrow(100) < 60)
                     {
                         Container bag = new Container("Beutel", false, 1);
                         allRoom[i][j].Container.Add(bag);
@@ -540,7 +540,7 @@ namespace Fallout
                             bag.HaveStuff.Add(bobbypin = new Tools("Haarklammer", 1, 45, dice.DiceTrow(3), 3));
                         }
                     }
-                    if (dice.DiceTrow(100) < 0) //35
+                    if (dice.DiceTrow(100) < 35) 
                     {
                         Container box = new Container("Kiste", false, 2);
                         allRoom[i][j].Container.Add(box);
@@ -550,7 +550,7 @@ namespace Fallout
                         box.HaveStuff.Add(bobbypin = new Tools("Haarklammer", 1, 45, dice.DiceTrow(3), 3));
                         box.HaveStuff.Add(allPotions[dice.DiceTrow(allPotions.Count() - 1)]);
                     }
-                    if (dice.DiceTrow(100) < 110) //15
+                    if (dice.DiceTrow(100) < 15)
                     {
                         Container chest = new Container("Truhe", true, 3);
                         allRoom[i][j].Container.Add(chest);
@@ -575,8 +575,6 @@ namespace Fallout
                     {
                         allRoom[i][j].HasStuff = true;
                         allRoom[i][j].Things.Add(allCrap[dice.DiceTrow(allCrap.Count() - 1)]);
-                        /////////////////////
-                        allRoom[i][j].Things.Add(bobbypin = new Tools("Haarklammer", 1, 45, dice.DiceTrow(3), 3));
 
                     }
                     if (dice.DiceTrow(100) < 50)
