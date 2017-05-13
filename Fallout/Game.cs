@@ -618,35 +618,35 @@ namespace Fallout
                     Monster ghul;
                     if (dice.DiceTrow(100) < 50)  // 50
                     {
-                        allRoom[i][j].HasMonster = true;
                         int whichMonster = dice.DiceTrow(100);
                         if (whichMonster <= 25) // 25
                         {
-                            allRoom[i][j].Monster.Add(rat = new Monster("Ratte", dice.DiceTrow(6), dice.DiceTrow(3), 1));
+                            allRoom[i][j].Monster.Add(rat = new Monster("Ratte", dice.DiceTrow(6), dice.DiceTrow(30), 1));
+                            allRoom[i][j].HasSomeToFight = true;
                         }
                         else if (whichMonster <= 50)
                         {
-                            allRoom[i][j].Monster.Add(bug = new Monster("Käfer", dice.DiceTrow(6) + 4, dice.DiceTrow(4), 2));
+                            allRoom[i][j].Monster.Add(bug = new Monster("Käfer", dice.DiceTrow(6) + 4, dice.DiceTrow(40), 2));
+                            allRoom[i][j].HasSomeToFight = true;
                         }
                         else if (whichMonster <= 75)
                         {
-                            allRoom[i][j].Monster.Add(scorpion = new Monster("Skorpion", dice.DiceTrow(6) + 8, dice.DiceTrow(8), 3));
+                            allRoom[i][j].Monster.Add(scorpion = new Monster("Skorpion", dice.DiceTrow(6) + 8, dice.DiceTrow(80), 3));
+                            allRoom[i][j].HasSomeToFight = true;
                         }
                         else if (whichMonster <= 100)
                         {
-                            allRoom[i][j].Monster.Add(ghul = new Monster("Ghul", dice.DiceTrow(6) + 10, dice.DiceTrow(10), 4));
+                            allRoom[i][j].Monster.Add(ghul = new Monster("Ghul", dice.DiceTrow(6) + 10, dice.DiceTrow(100), 4));
+                            allRoom[i][j].HasSomeToFight = true;
                         }
                     }
                 }
             }
         }
-
-
         public string GetCurrentPlace()
         {
             return this.player.CurrentRoom.Place;
         }
-
         public void MakeDescription()
         {
             roomB[5].Description = "Dein Zimmer";
@@ -663,25 +663,11 @@ namespace Fallout
             roomC[5].Description = "Von Hier geht es zurück ins Vault 1";
             roomF[9].Description = "Ein merkwürdiger Busch ist hier zu sehen";
         }
-
-
-
-
-        
-
-        public void RemoveCrap(int index)
-        {
-            this.player.CurrentRoom.Things.RemoveAt(index);
-        }
-
-
-
-        
         public void CreateNPC(string name, Room room)
         {
             NPC npc = new NPC();
             npc.Name = name;
-            
+            room.HasSomeToFight = true;            
         }
     }
 

@@ -29,7 +29,7 @@ namespace Fallout
         }
 
 
-        public bool HasMonster { get; set; } = false;
+        public bool HasSomeToFight { get; set; } = false;
         public bool HasStuff { get; set; } = false;
         public string Name { get; set; }
         public Room PathDown { get; set; }

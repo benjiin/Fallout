@@ -22,6 +22,5 @@ namespace Fallout
             this.HealthRestore = healthback;
             this.RadiationRestore = radiationRestore;
         }
-
     }
 }

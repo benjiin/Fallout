@@ -18,11 +18,5 @@ namespace Fallout
             this.ID = id;
             AllTools.Add(this);
         }
-
-
-        public Tools GetSpecificItem(int index)
-        {
-            return AllTools.ElementAt(index - 1);
-        }
     }
 }

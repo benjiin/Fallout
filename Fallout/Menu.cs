@@ -146,8 +146,7 @@ namespace Fallout
                     {
                         if (game.player.CurrentRoom.Monster.Count != 0)
                         {
-                            Console.Clear();
-                            Thread.Sleep(1000);
+                            Fight();
                         }
                     }
                     break;
@@ -162,6 +161,31 @@ namespace Fallout
             }
             GameMenu();
         }
+        /*
+         * Kämpfe laufen unter einen ganz einfachen Schema ab 2 rein einer raus!"
+         * Es wird mit einem W100 Würfel gewürfelt ,Für den Player gilt seine Stärke *2 muss gleich unter dem Würfel Ergebnis kommen."
+         * (z.B. STR = 12, Erfolgreicher Angriff würde dann 24 sein. Sollte der Würfel 1-24 zeigen, gilt der Angriff als Erfolgreich)
+         *  Ebenso wie der Spieler können Gegner auch auch Auchweichen Würfeln. Wenn der Ausweichenwurf erfolgreich war (2 * Geschicklichkeit)"
+         *  Gilt der vorher erfolgreiche Angriff als parriert.
+         */
+        public void Fight()
+        {
+            Console.Clear();
+            Console.WriteLine("");
+            Console.ReadKey();
+            Console.Clear();
+            Playerborder();
+            Menuitem = new List<Option>();
+            bool alive = true;
+
+            if(game.player.CurrentRoom.HasSomeToFight == true)
+            {
+                Option = new Option('1', game.player.CurrentRoom.Monster.ElementAt(;
+
+            }
+
+        }
+
         /*
          * Der Raum wird überprüft ob dieser denn auch Container hat. 
          * Beutel und Kisten lassen sich so öffnen, für Truhen aber braucht man Haarklammern.

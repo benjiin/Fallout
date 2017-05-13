@@ -23,6 +23,7 @@ namespace Fallout
             this.Name = name;
             this.Strength = str + dice.DiceTrow(6);
             this.Constitution = str + dice.DiceTrow(6);
+            this.Dodge = 
             this.MaxHealthPoints = ((this.Strength + this.Constitution) / 2);
             this.HealthPoints = this.MaxHealthPoints;
             this.RewardGold = Strength + rGold;
