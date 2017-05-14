@@ -87,10 +87,10 @@ namespace Fallout
                     Option loot = new Option('5', "Behälter öffnen");
                     Menuitem.Add(loot);
                 }
-                if(game.player.CurrentRoom.Monster.Count != 0)
+                if(game.player.CurrentRoom.Monster.Count != 0 || game.player.CurrentRoom.NPC.Count != 0)
                 {
-                Option fight = new Option('6', "Kämpfen");
-                Menuitem.Add(fight);
+                    Option fight = new Option('6', "Kämpfen");
+                    Menuitem.Add(fight);
                 }
             }
             if (game.player.CurrentRoom.Place == "Vault")
@@ -144,7 +144,7 @@ namespace Fallout
                 case ConsoleKey.D6: //kämpfen
                     if (game.player.CurrentRoom.IsChecked == true)
                     {
-                        if (game.player.CurrentRoom.Monster.Count != 0)
+                        if (game.player.CurrentRoom.Monster.Count != 0 || game.player.CurrentRoom.NPC.Count != 0)
                         {
                             FightOption();
                         }
@@ -161,16 +161,7 @@ namespace Fallout
             }
             GameMenu();
         }
-        /*
-         * Kämpfe laufen unter einen ganz einfachen Schema ab 2 rein einer raus!"
-         * Es wird mit einem W100 Würfel gewürfelt ,Für den Player gilt seine Stärke *2 muss gleich unter dem Würfel Ergebnis kommen."
-         * (z.B. STR = 12, Erfolgreicher Angriff würde dann 24 sein. Sollte der Würfel 1-24 zeigen, gilt der Angriff als Erfolgreich)
-         *  Ebenso wie der Spieler können Gegner auch auch Auchweichen Würfeln. Wenn der Ausweichenwurf erfolgreich war (2 * Geschicklichkeit)"
-         *  Gilt der vorher erfolgreiche Angriff als parriert.
-         */
-         /// <summary>
-         /// Kampfoption
-         /// </summary>
+
         public void FightOption()
         {
             Console.Clear();
@@ -179,9 +170,18 @@ namespace Fallout
 
             if(game.player.CurrentRoom.HasSomeToFight == true)
             {
-                if(game.player.CurrentRoom.Monster != null)
+                /*
+                 *Hier vielleicht eine andere Schreibweise an den Tag bringen um mehr Gegner angreifen zu können. 
+                 * Aktuell wird nur der erste Index der Liste Monster oder aber NPC abgegriffen.
+                 */
+                if(game.player.CurrentRoom.Monster.Count != 0)
                 {
                     Option attack = new Option('1', game.player.CurrentRoom.Monster[0].Name);
+                    Menuitem.Add(attack);
+                }
+                else if (game.player.CurrentRoom.NPC.Count != 0)
+                {
+                    Option attack = new Option('1', game.player.CurrentRoom.NPC[0].Name);
                     Menuitem.Add(attack);
                 }
             }
@@ -197,11 +197,11 @@ namespace Fallout
             switch (input.Key)
             {
                 case ConsoleKey.D1:
-                    if(game.player.CurrentRoom.Monster != null)
+                    if(game.player.CurrentRoom.Monster.Count != 0)
                     {
                         Fight(game.player.CurrentRoom.Monster[0]);
                     }
-                    else
+                    else if(game.player.CurrentRoom.NPC.Count != 0)
                     {
                         Fight(game.player.CurrentRoom.NPC[0]);
                     }
@@ -214,12 +214,21 @@ namespace Fallout
             }
         }
         /*
-         * Der richtige Kampf
+         * Kämpfe laufen unter einen ganz einfachen Schema ab: Zwei Mann geh’n rein, ein Mann geht raus!
+         * Es wird mit einem W100 Würfel gewürfelt ,Für den Player gilt seine Stärke *2 muss gleich unter dem Würfel Ergebnis kommen."
+         * (z.B. STR = 12, Erfolgreicher Angriff würde dann 24 sein. Sollte der Würfel 1-24 zeigen, gilt der Angriff als Erfolgreich)
+         *  Ebenso wie der Spieler können Gegner auch auch Auchweichen Würfeln. Wenn der Ausweichenwurf erfolgreich war (2 * Geschicklichkeit)"
+         *  Gilt der vorher erfolgreiche Angriff als parriert.
          */
-         public void Fight(LivingCreature creature)
+        /// <summary>
+        /// Kampfoption
+        /// </summary>
+        public void Fight(LivingCreature creature)
         {
-            Console.WriteLine(creature.Name);
-            Console.ReadKey();
+            if(game.player.HealthPoints >= 1)
+            {
+
+            }
         }
 
         /*

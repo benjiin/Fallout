@@ -85,7 +85,7 @@ namespace Fallout
             /* 
              * Räume verbinden (Siehe Bild Anhang: Raumplan.png)
              */
-            {  
+            {
                 /*
                  * Vault1
                  */
@@ -163,7 +163,7 @@ namespace Fallout
                 roomB[10].PathUp = roomF[9];
                 /* 
                  * Commonwealth 
-                 */ 
+                 */
                 roomC[0].PathNorth = roomD[0];
                 roomC[0].PathEast = roomC[1];
 
@@ -429,14 +429,20 @@ namespace Fallout
                  * Einer der Sachen verkauft und Quest vergibt 
                  * Und ein Arzt um gegen Geld heilen oder Rad heilen zu lassen
                  */
-                 //Ärzte
+                //Ärzte
                 roomA[1].NPC.Add(doc = new NPC("Doktor", dice.DiceTrow(6), dice.DiceTrow(6), dice.DiceTrow(6)));
+                roomA[1].HasSomeToFight = true;
                 roomA[3].NPC.Add(doc = new NPC("Doktor", dice.DiceTrow(6), dice.DiceTrow(6), dice.DiceTrow(6)));
+                roomA[3].HasSomeToFight = true;
                 roomA[7].NPC.Add(doc = new NPC("Doktor", dice.DiceTrow(6), dice.DiceTrow(6), dice.DiceTrow(6)));
+                roomA[7].HasSomeToFight = true;
                 //Questgeber
                 roomB[1].NPC.Add(follower = new NPC("Bewohner", dice.DiceTrow(6), dice.DiceTrow(6), dice.DiceTrow(6)));
+                roomB[1].HasSomeToFight = true;
                 roomB[3].NPC.Add(follower = new NPC("Bewohner", dice.DiceTrow(6), dice.DiceTrow(6), dice.DiceTrow(6)));
+                roomB[3].HasSomeToFight = true;
                 roomB[7].NPC.Add(follower = new NPC("Bewohner", dice.DiceTrow(6), dice.DiceTrow(6), dice.DiceTrow(6)));
+                roomB[7].HasSomeToFight = true;
                 FillRooms();
             }
         }
@@ -458,6 +464,7 @@ namespace Fallout
                         allRoom[i][j].Monster.RemoveRange(0, allRoom[i][j].Monster.Count);
                         allRoom[i][j].Container.RemoveRange(0, allRoom[i][j].Container.Count);
                         allRoom[i][j].IsChecked = false;
+                        allRoom[i][j].HasSomeToFight = false;
                         allRoom[i][j].HasStuff = false;
                     }
                 }
@@ -466,9 +473,6 @@ namespace Fallout
         }
         public void FillRooms()
         {
-
-
-
             /* 
              * Alle Raumelemente in eine weiteres Array zum angreifen 
              */

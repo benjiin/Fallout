@@ -28,7 +28,6 @@ namespace Fallout
             this.HealthPoints = this.MaxHealthPoints;
             this.RewardGold = Strength + rGold;
             this.RewardExperiencePoints = dice.DiceTrow(Strength) * xpmult;
-            
         }
 
     }
