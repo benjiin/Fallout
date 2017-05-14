@@ -10,20 +10,18 @@ namespace Fallout
     {
         Dice dice = new Dice();
         List<Quest> Quest;
-        public NPC(string name)
+        public NPC(string name, int str, int dex, int con)
         {
             this.Quest = new List<Quest>();
 
-            this.Strength = (dice.DiceTrow(6) + dice.DiceTrow(6));
-            this.Dexterity = (dice.DiceTrow(6) + dice.DiceTrow(6));
-            this.Constitution = (dice.DiceTrow(6) + dice.DiceTrow(6));
+            this.Strength = (dice.DiceTrow(6) + str);
+            this.Dexterity = (dice.DiceTrow(6) + dex);
+            this.Constitution = (dice.DiceTrow(6) + con);
             this.MaxHealthPoints = ((this.Strength + this.Constitution) / 2);
             this.Dodge = this.Dexterity * 2;
             this.HealthPoints = this.MaxHealthPoints;
             this.CarryWeightMax = double.MaxValue;
             this.Name = name;
-
-
         }
     }
 }

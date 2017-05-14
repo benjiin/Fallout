@@ -28,7 +28,9 @@ namespace Fallout
         Quest quest = new Quest();
         Tools bobbypin;
         Tools bottlecaps;
-        NPC npc;
+        NPC doc;
+        NPC follower;
+
         public Game()
         {
             /*
@@ -40,6 +42,7 @@ namespace Fallout
              * 
              *Die Vaults sind NICHT kontaminiert mit der Strahlung während es im Commonwealth zufällig zu Strahlung kommen kann.
              */
+
             for (int i = 0; i <= 10; i++)
             {
                 roomA[i] = new Room("A" + (i));
@@ -77,6 +80,7 @@ namespace Fallout
                     roomG[i].IsContaminated = true;
                 }
             }
+
             MakeDescription();
             /* 
              * Räume verbinden (Siehe Bild Anhang: Raumplan.png)
@@ -408,9 +412,6 @@ namespace Fallout
                 allPotions.Add(beer);
                 Potions radaway = new Potions("Radaway", 20, 0, 50, 0, 0, 10);
                 allPotions.Add(radaway);
-                /* Tools / Benutzbares (Haarklammern, Code...)
-                 * Tools = Name, Wert der Einheit, Dropchance
-                 */
                 /*
                  * Weapons  Einfache Waffen, erstmal ohne Schusswaffen sondern nur Verbesseung der Stats. 
                  *  Weapons = Name, Wert der Einheit, Gewicht, Dropchance, Schadenmultiplikator
@@ -420,10 +421,25 @@ namespace Fallout
                 allWeapon.Add(bat);
                 Weapon knuckleduster = new Weapon("Schlagring", 10, 1, 25, dice.DiceTrow(5));
                 allWeapon.Add(knuckleduster);
+
+                /*
+                 * Erstellen der ersten NPC
+                 * 
+                 * Erstmal 6 Stück = 2 Für jedes Vault.
+                 * Einer der Sachen verkauft und Quest vergibt 
+                 * Und ein Arzt um gegen Geld heilen oder Rad heilen zu lassen
+                 */
+                 //Ärzte
+                roomA[1].NPC.Add(doc = new NPC("Doktor", dice.DiceTrow(6), dice.DiceTrow(6), dice.DiceTrow(6)));
+                roomA[3].NPC.Add(doc = new NPC("Doktor", dice.DiceTrow(6), dice.DiceTrow(6), dice.DiceTrow(6)));
+                roomA[7].NPC.Add(doc = new NPC("Doktor", dice.DiceTrow(6), dice.DiceTrow(6), dice.DiceTrow(6)));
+                //Questgeber
+                roomB[1].NPC.Add(follower = new NPC("Bewohner", dice.DiceTrow(6), dice.DiceTrow(6), dice.DiceTrow(6)));
+                roomB[3].NPC.Add(follower = new NPC("Bewohner", dice.DiceTrow(6), dice.DiceTrow(6), dice.DiceTrow(6)));
+                roomB[7].NPC.Add(follower = new NPC("Bewohner", dice.DiceTrow(6), dice.DiceTrow(6), dice.DiceTrow(6)));
                 FillRooms();
             }
         }
-
         /*
          * Wenn der Spieler das Vault betritt, wird diese Methode ausgeführt und das Commonwealth
          * wird wieder neu befüllt. Alle Items und Gegner raus und neue rein. Ausserdem muss der Spieler
@@ -450,46 +466,9 @@ namespace Fallout
         }
         public void FillRooms()
         {
-            /*
-             * Erstellen der ersten NPC
-             * 
-             * Erstmal 6 Stück = 2 Für jedes Vault.
-             * Einer der Sachen verkauft und Quest vergibt 
-             * Und ein Arzt um gegen Geld heilen oder Rad heilen zu lassen
-             */
-            roomA[1].NPC.Add(npc = new NPC("Doktor"));
-
-             ///
-             //(/// WIE bekomme ich die NPC in die Liste und kann auf diese auch zugreifen
 
 
 
-
-
-            //Doc.CurrentRoom = roomA[1];
-            //Doc.CurrentRoom.HasSomeToFight = true;
-            //NPC Doc2 = new NPC("Doktor");
-            //Doc2.CurrentRoom = roomA[3];
-            //Doc2.CurrentRoom.HasSomeToFight = true;
-            //NPC Doc3 = new NPC("Doktor");
-            //Doc3.CurrentRoom = roomA[7];
-            //Doc3.CurrentRoom.HasSomeToFight = true;
-
-            //NPC Res1 = new NPC("Bewohner");
-            //Res1.CurrentRoom = roomB[1];
-            //Res1.CurrentRoom.HasSomeToFight = true;
-            //NPC Res2 = new NPC("Bewohner");
-            //Res2.CurrentRoom = roomB[3];
-            //Res2.CurrentRoom.HasSomeToFight = true;
-            //NPC Res3 = new NPC("Bewohner");
-            //Res3.CurrentRoom = roomB[7];
-            //Res3.CurrentRoom.HasSomeToFight = true;
-
-            //roomA[3].NPC.Add(Doc2);
-            //roomA[7].NPC.Add(Doc3);
-            //Res1.CurrentRoom.NPC.Add(Res1);
-            //Res2.CurrentRoom.NPC.Add(Res2);
-            //Res3.CurrentRoom.NPC.Add(Res3);
             /* 
              * Alle Raumelemente in eine weiteres Array zum angreifen 
              */
@@ -549,13 +528,13 @@ namespace Fallout
                         allRoom[i][j].Container.Add(bag);
                         bag.HaveStuff.Add(allCrap[dice.DiceTrow(allCrap.Count() - 1)]);
                         bag.HaveStuff.Add(allCrap[dice.DiceTrow(allCrap.Count() - 1)]);
-                        bag.HaveStuff.Add(bottlecaps= new Tools("Kronkorken", 1, 100, dice.DiceTrow(10), 2));
-                        if(dice.DiceTrow(100) < 45)
+                        bag.HaveStuff.Add(bottlecaps = new Tools("Kronkorken", 1, 100, dice.DiceTrow(10), 2));
+                        if (dice.DiceTrow(100) < 45)
                         {
                             bag.HaveStuff.Add(bobbypin = new Tools("Haarklammer", 1, 45, dice.DiceTrow(3), 3));
                         }
                     }
-                    if (dice.DiceTrow(100) < 35) 
+                    if (dice.DiceTrow(100) < 35)
                     {
                         Container box = new Container("Kiste", false, 2);
                         allRoom[i][j].Container.Add(box);
@@ -680,8 +659,5 @@ namespace Fallout
         }
 
     }
-
-
-
 }
 

@@ -27,11 +27,12 @@ namespace Fallout
             get { return monster; }
             set { monster = value; }
         }
+
         private List<NPC> npc = new List<NPC>();
 
         public List<NPC> NPC
         {
-            get { return npc = new List<NPC>(); }
+            get { return npc; }
             set { npc = value; }
         }
 

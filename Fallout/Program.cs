@@ -17,7 +17,7 @@ namespace Fallout
 
 
             //Game game = new Game();
-            //game.MovePlayer();
+            //game.klo();
 
             Console.ReadKey(); 
 
