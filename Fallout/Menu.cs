@@ -287,6 +287,8 @@ namespace Fallout
                         Thread.Sleep(1500);
                     }
 
+                    // sterbe kram 
+
                 }
             } while (alive);
             if (creature.HealthPoints <= 0)
