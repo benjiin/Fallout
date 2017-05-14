@@ -20,7 +20,7 @@ namespace Fallout
         public Room[] roomE = new Room[11];
         public Room[] roomF = new Room[11];
         public Room[] roomG = new Room[11];
-        List<Crap> allCrap = new List<Crap>();
+        public  List<Crap> allCrap = new List<Crap>();
         List<Potions> allPotions = new List<Potions>();
         List<Weapon> allWeapon = new List<Weapon>();
         List<Tools> allTools = new List<Tools>();
