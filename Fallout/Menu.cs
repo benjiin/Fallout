@@ -234,7 +234,7 @@ namespace Fallout
             {
                 Console.WriteLine("Du holst aus...");
                 Thread.Sleep(1500);
-                if (dice.DiceTrow((game.player.Strength * 2)) < game.player.Strength)
+                if (dice.DiceTrow((game.player.Strength * 2)) < 100)//game.player.Strength) 
                 {
                     if (dice.DiceTrow((creature.Dexterity * 2)) < creature.Dexterity)
                     {
@@ -258,44 +258,48 @@ namespace Fallout
                     Console.WriteLine("...aber verfehlst {0}", creature.Name);
                     Thread.Sleep(1500);
                 }
-                Console.WriteLine("{0} greift Dich an...", creature.Name);
-                Thread.Sleep(1500);
-                if(dice.DiceTrow((creature.Strength * 2)) < creature.Strength)
+                if(creature.HealthPoints <= 0)
                 {
-                    if(dice.DiceTrow((game.player.Dexterity * 2)) < game.player.Dexterity)
+                    Console.WriteLine("{0} greift Dich an...", creature.Name);
+                    Thread.Sleep(1500);
+                    if(dice.DiceTrow((creature.Strength * 2)) < creature.Strength)
                     {
-                        Console.WriteLine("...Du ({0}) kannst gekonnt blocken", game.player.Name);
-                        Thread.Sleep(1500);
+                        if(dice.DiceTrow((game.player.Dexterity * 2)) < game.player.Dexterity)
+                        {
+                            Console.WriteLine("...Du ({0}) kannst gekonnt blocken", game.player.Name);
+                            Thread.Sleep(1500);
+                        }
+                        else
+                        {
+                            int creatureDMG = dice.DiceTrow(3);
+                            Console.WriteLine("...und trifft dich für {0} Schaden", creatureDMG);
+                            Thread.Sleep(1500);
+                            game.player.HealthPoints -= creatureDMG;
+                            if(game.player.HealthPoints <= 0)
+                            {
+                                alive = false;
+                            }
+                        }
                     }
                     else
                     {
-                        int creatureDMG = dice.DiceTrow(3);
-                        Console.WriteLine("...und trifft dich für {0} Schaden", creatureDMG);
+                        Console.WriteLine("...verfehlt Dich aber");
                         Thread.Sleep(1500);
-                        game.player.HealthPoints -= creatureDMG;
-                        if(game.player.HealthPoints <= 0)
-                        {
-                            alive = false;
-                        }
                     }
-                }
-                else
-                {
-                    Console.WriteLine("...verfehlt Dich aber");
-                    Thread.Sleep(1500);
-                }
 
-
+                }
             } while (alive);
-            if(creature.HealthPoints <= 0)
+            if (creature.HealthPoints <= 0)
             {
+                game.player.CurrentRoom.NPC.RemoveAt(0);
                 Tools bootlecaps;
                 Console.WriteLine("Du hast gewonnen");
+                Thread.Sleep(1500);
                 game.player.CurrentRoom.HasSomeToFight = false;
                 Crap Loot = game.allCrap[dice.DiceTrow(game.allCrap.Count)];
                 game.player.CurrentRoom.Things.Add(Loot);
                 game.player.CurrentRoom.Things.Add(bootlecaps = new Tools("Kronkorken", 1, 100, dice.DiceTrow(10), 2));
-                Console.WriteLine("{0}, hat folgenenes fallen gelassen:\n\t+{1}\n\t+[2}({3})", creature.Name, Loot, bootlecaps, bootlecaps.Amount);
+                Console.WriteLine("{0}, hat folgenenes fallen gelassen:\n\t+{1}\n\t+{2}({3})", creature.Name, Loot.Name, bootlecaps.Name, bootlecaps.Amount);
             }
             if(game.player.HealthPoints <= 0)
             {
