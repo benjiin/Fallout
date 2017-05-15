@@ -9,10 +9,7 @@ namespace Fallout
     class Potions : Stuff
     {
 
-        public int Radiation { get; set; }
-        public int HealthRestore { get; set; }
-        public int RadiationRestore { get; set; }
-        public Potions(string name, double value, double weight, int dropChance, int radiation, int healthback, int radiationRestore)
+        public Potions(string name, double value, double weight, int dropChance, int radiation, int healthback, int radiationRestore, int id)
         {
             this.Name = name;
             this.Value = value;
@@ -21,6 +18,7 @@ namespace Fallout
             this.Radiation = radiation;
             this.HealthRestore = healthback;
             this.RadiationRestore = radiationRestore;
+            this.ID = id;
         }
     }
 }

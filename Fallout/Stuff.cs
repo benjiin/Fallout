@@ -14,6 +14,11 @@ namespace Fallout
         public int DropChance { get; set; }
         public int Amount { get; set; }
         public int ID { get; set; }
+        public int HealthRestore { get; set; }
+        public int Radiation { get; set; }
+        public int RadiationRestore { get; set; }
+
+
 
     }
 }

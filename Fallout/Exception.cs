@@ -6,16 +6,8 @@ using System.Threading.Tasks;
 
 namespace Fallout
 {
-    class Program
+    class Exception : NullReferenceException
     {
-        static void Main(string[] args)
-        {
-            Menu menu = new Menu();
-            menu.Start();
-
-
-
-        }
-
     }
+
 }

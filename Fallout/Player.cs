@@ -105,7 +105,7 @@ namespace Fallout
             Console.ForegroundColor = ConsoleColor.White;
             if (this.Name.Length > 5)
             {
-                Console.Write(this.Name.Substring(0, 5)+ "..");
+                Console.Write(this.Name.Substring(0, 7));// + "..");
             }
             else
             {
@@ -146,18 +146,27 @@ namespace Fallout
             Console.Write(this.XrayRadiation);
             Console.ResetColor();
         }
-
-        public bool HasBobbypin()
+        /*
+         * Beste Methode ... Überprüfe mein Inventar ob es bestimmte Items hat
+         * 2 == Kronkorken
+         * 3 == Tools
+         * 4 == Potions 
+         */
+        public bool HasItem(int id)
         {
             foreach (var item in Inventory)
             {
-                if(item.ID == 3)
+                if(item.ID == id)
                 {
                     return true;
                 }
                     
             }
             return false;
+        }
+        public void RemoveItem(int id)
+        {
+
         }
 
         public void RemoveBobby()
@@ -169,6 +178,7 @@ namespace Fallout
                     if (this.Inventory[i].ID == 3)
                     {
                         this.Inventory.RemoveAt(i);
+                        return;
                     }
                 }
             }

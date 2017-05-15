@@ -43,14 +43,14 @@ namespace Fallout
                     break;
                 case ConsoleKey.D2:
                     Console.WriteLine("Spiel laden in development");
-                    Console.ReadKey();
+                    PressAnyKey();
                     break;
                 case ConsoleKey.X:
                     Environment.Exit(0);
                     break;
                 default:
                     Console.WriteLine("Ich habe Ihre Eingabe nicht verstanden");
-                    Console.ReadKey();
+                    PressAnyKey();
                     Start();
                     break;
             }           
@@ -61,6 +61,10 @@ namespace Fallout
         public void GameMenu()
         {
             Console.Clear();
+            if(game.player.CurrentRoom.IsChecked == true)
+            {
+                Console.WriteLine(game.player.CurrentRoom.Place);
+            }
             Playerborder();
             Menuitem = new List<Option>();
             Option search = new Option('1', "Untersuchen");
@@ -108,8 +112,7 @@ namespace Fallout
                 case ConsoleKey.D2: //inventar
                     Console.SetCursorPosition(0, 0);
                     game.player.GetallInventar();
-                    UseInventory();
-                    Console.ReadKey();
+                    ShowInventory();
                     break;
                 case ConsoleKey.D3: //bewegen
                     if(game.player.CurrentRoom.IsChecked == true)
@@ -205,23 +208,112 @@ namespace Fallout
         /*
          * Prohejktkriterium Verwertbare Gegenstände 
          */
-        public void UseInventory()
+        public void UseItems()
         {
-
             Playerborder();
             Menuitem = new List<Option>();
-
+            /*
+             * Auch NUR die Potions anzeigen lassen.. Erwähnte ich die geilste Methode HasItem() ?
+             * Bedeutet aber auch ich muss die ganze Menu Klasse noch schick machen ;_; 
+             */
             if(game.player.Inventory.Count != 0)
             {
-                for (int i = 0; i < game.player.Inventory.Count; i++)
+                if(game.player.HasItem(4))
                 {
-                    Option stuff = new Option((char)(49 + i), game.player.Inventory[i].Name);
-                    Menuitem.Add(stuff);
+                    for (int i = 0; i < game.player.Inventory.Count; i++)
+                    {
+                        if(game.player.Inventory[i].ID == 4)
+                        {
+                            string itemname = game.player.Inventory[i].Name 
+                                + " +" + game.player.Inventory[i].HealthRestore + " HP" 
+                                + " +"  + game.player.Inventory[i].Radiation + " Strahlung"
+                                + " -" + game.player.Inventory[i].RadiationRestore + " Strahlung";
+                            Option stuff = new Option((char)(49 + i), itemname);
+                            Menuitem.Add(stuff);
+                        }
+                    }
                 }
             }
             Option back = new Option('X', "Zurück");
             Menuitem.Add(back);
             ShowOption();
+            bool InvalidInput = true;
+            if(game.player.HasItem(4))
+            {
+                do
+                {
+                    ConsoleKeyInfo input = Console.ReadKey();
+                    Console.Clear();
+                    Menuitem.RemoveRange(0, Menuitem.Count);
+
+                    switch (input.Key)
+                    {
+                        case ConsoleKey.D1:
+                            EatItem(game.player.Inventory[0]);
+                            InvalidInput = false;
+                            break;
+                        case ConsoleKey.X:
+                            GameMenu();
+                            break;
+                        default:
+                            Console.WriteLine("Ich habe Ihre Eingabe nicht verstanden");
+                            PressAnyKey();
+                            Console.Clear();
+                            game.player.GetallInventar();
+                            UseItems();
+                            break;
+                    }
+                } while (InvalidInput);
+
+            }
+        }
+        public void EatItem(Stuff item)
+        {
+            int HPrestore = game.player.HealthPoints
+            Console.WriteLine("Du benutzt {0} aus deinen Inventar",item.Name);
+            Console.WriteLine("Du heilst dich für {0}HP", );
+            PressAnyKey();
+        }
+        public void ShowInventory()
+        {
+            Console.Clear();
+            Playerborder();
+            Menuitem = new List<Option>();
+
+            Option use = new Option('1', "Benutzen");
+            Menuitem.Add(use);
+            Option throws = new Option('2', "Fallen lassen");
+            Menuitem.Add(throws);
+            Option back = new Option('X', "Zurück");
+            Menuitem.Add(back);
+            ShowOption();
+            bool InvalidInput = true;
+            do
+            {
+                ConsoleKeyInfo input = Console.ReadKey();
+                Console.Clear();
+                Menuitem.RemoveRange(0, Menuitem.Count);
+
+                switch (input.Key)
+                {
+                    case ConsoleKey.D1:
+                        UseItems();
+                        break;
+                    case ConsoleKey.D2:
+                        InvalidInput = false;
+                        ShowInventory();
+                        break;
+                    case ConsoleKey.X:
+                        InvalidInput = false;
+                        break;
+                    default:
+                        Console.WriteLine("Ich habe Ihre Eingabe nicht verstanden");
+                        ShowInventory();
+                        PressAnyKey();
+                        break;
+                }
+
+            } while (InvalidInput);
 
         }
         /*
@@ -233,7 +325,7 @@ namespace Fallout
             {
                 Console.WriteLine();
                 Console.WriteLine("{0} hat dich im Visier und will kämpfen", game.player.CurrentRoom.Monster[0].Name);
-                Console.ReadKey();
+                PressAnyKey();
                 Fight(game.player.CurrentRoom.Monster[0]);
             }
         }
@@ -249,7 +341,7 @@ namespace Fallout
             Console.Clear();
             Playerborder();
             Console.WriteLine("Du kämpst bis aufs Blut Nephalem");
-            Console.ReadKey();
+            PressAnyKey();
             bool alive = true;
             do
             {
@@ -260,13 +352,13 @@ namespace Fallout
                     if (dice.DiceTrow((creature.Dexterity * 2)) < creature.Dexterity)
                     {
                         Console.WriteLine("...doch {0} blockt deinen Angriff", creature.Name);
-                        Thread.Sleep(800);
+                        Thread.Sleep(500);
                     }
                     else
                     {
                         int playerDMG = dice.DiceTrow(3);
                         Console.WriteLine("...und triffst {0} für {1} Schaden", creature.Name, playerDMG);
-                        Thread.Sleep(800);
+                        Thread.Sleep(500);
                         creature.HealthPoints -= playerDMG;
                         if(creature.HealthPoints <= 0 )
                         {
@@ -277,7 +369,7 @@ namespace Fallout
                 else
                 {
                     Console.WriteLine("...aber verfehlst {0}", creature.Name);
-                    Thread.Sleep(800);
+                    Thread.Sleep(500);
                 }
                 if(creature.HealthPoints > 0)
                 {
@@ -288,13 +380,13 @@ namespace Fallout
                         if(dice.DiceTrow((game.player.Dexterity * 2)) < game.player.Dexterity)
                         {
                             Console.WriteLine("...Du ({0}) kannst gekonnt blocken", game.player.Name);
-                            Thread.Sleep(800);
+                            Thread.Sleep(500);
                         }
                         else
                         {
                             int creatureDMG = dice.DiceTrow(3);
                             Console.WriteLine("...und trifft dich für {0} Schaden", creatureDMG);
-                            Thread.Sleep(800);
+                            Thread.Sleep(500);
                             game.player.HealthPoints -= creatureDMG;
                             if(game.player.HealthPoints <= 0)
                             {
@@ -305,7 +397,7 @@ namespace Fallout
                     else
                     {
                         Console.WriteLine("...verfehlt Dich aber");
-                        Thread.Sleep(800);
+                        Thread.Sleep(500);
                     }
 
                     // sterbe kram 
@@ -335,7 +427,7 @@ namespace Fallout
             {
                 Console.WriteLine("Du hast verloren");
             }
-                Console.ReadKey();
+                PressAnyKey();
         }
         /*
          * Der Raum wird überprüft ob dieser denn auch Container hat. 
@@ -441,10 +533,10 @@ namespace Fallout
                                         default:
                                             Console.Clear();
                                             Console.WriteLine("Hier ist nix");
-                                            Console.ReadKey();
+                                            PressAnyKey();
                                             break;
                                     }
-                                    Console.ReadKey();
+                                    PressAnyKey();
                                     OpenContainer();
                                 }
                                 if(game.player.CurrentRoom.Container[0].Locked == true)
@@ -452,7 +544,7 @@ namespace Fallout
                                     Console.Clear();
                                     Menuitem.RemoveRange(0, Menuitem.Count);
                                     Console.WriteLine("Abgeschlossen");
-                                    Console.ReadKey();
+                                    PressAnyKey();
                                     Playerborder();
                                     Option lockpick = new Option('1', "Schloss knacken");
                                     foreach (var item in game.player.Inventory)
@@ -470,7 +562,7 @@ namespace Fallout
                                     switch (input2.Key)
                                     {
                                         case ConsoleKey.D1:
-                                            if(game.player.HasBobbypin())
+                                            if(game.player.HasItem(3))
                                             {
                                                 game.player.RemoveBobby();
                                                     if (dice.DiceTrow(100) < game.player.Dexterity)
@@ -486,7 +578,7 @@ namespace Fallout
                                                     {
                                                         Console.Clear();
                                                         Console.WriteLine("Konnte nicht geöffnet werden");
-                                                        Console.ReadKey();
+                                                        PressAnyKey();
                                                 }
 
                                             }  
@@ -566,10 +658,10 @@ namespace Fallout
                                         default:
                                             Console.Clear();
                                             Console.WriteLine("Hier ist nix");
-                                            Console.ReadKey();
+                                            PressAnyKey();
                                             break;
                                     }
-                                    Console.ReadKey();
+                                    PressAnyKey();
                                     OpenContainer();
                                 }
                                 if (game.player.CurrentRoom.Container[1].Locked == true)
@@ -577,7 +669,7 @@ namespace Fallout
                                     Console.Clear();
                                     Menuitem.RemoveRange(0, Menuitem.Count);
                                     Console.WriteLine("Abgeschlossen");
-                                    Console.ReadKey();
+                                    PressAnyKey();
                                     Playerborder();
                                     Option lockpick = new Option('1', "Schloss knacken");
                                     foreach (var item in game.player.Inventory)
@@ -595,7 +687,7 @@ namespace Fallout
                                     switch (input2.Key)
                                     {
                                         case ConsoleKey.D1:
-                                            if (game.player.HasBobbypin())
+                                            if (game.player.HasItem(3))
                                             {
                                                 game.player.RemoveBobby();
                                                 if (dice.DiceTrow(100) < game.player.Dexterity)
@@ -603,7 +695,7 @@ namespace Fallout
                                                     Console.Clear();
                                                     Console.WriteLine("Erfolgreich geöffnet");
                                                     game.player.CurrentRoom.Container[1].Locked = false;
-                                                    Console.ReadKey();
+                                                    PressAnyKey();
                                                     OpenContainer();
                                                     break;
                                                 }
@@ -611,7 +703,7 @@ namespace Fallout
                                                 {
                                                     Console.Clear();
                                                     Console.WriteLine("Konnte nicht geöffnet werden");
-                                                    Console.ReadKey();
+                                                    PressAnyKey();
 
                                                 }
 
@@ -692,10 +784,10 @@ namespace Fallout
                                         default:
                                             Console.Clear();
                                             Console.WriteLine("Hier ist nix");
-                                            Console.ReadKey();
+                                            PressAnyKey();
                                             break;
                                     }
-                                    Console.ReadKey();
+                                    PressAnyKey();
                                     OpenContainer();
                                 }
                                 if (game.player.CurrentRoom.Container[2].Locked == true)
@@ -703,7 +795,7 @@ namespace Fallout
                                     Console.Clear();
                                     Menuitem.RemoveRange(0, Menuitem.Count);
                                     Console.WriteLine("Abgeschlossen");
-                                    Console.ReadKey();
+                                    PressAnyKey();
                                     Playerborder();
                                     Option lockpick = new Option('1', "Schloss knacken");
                                     foreach (var item in game.player.Inventory)
@@ -721,7 +813,7 @@ namespace Fallout
                                     switch (input2.Key)
                                     {
                                         case ConsoleKey.D1:
-                                            if (game.player.HasBobbypin())
+                                            if (game.player.HasItem(3))
                                             {
                                                 game.player.RemoveBobby();
                                                 if (dice.DiceTrow(100) < game.player.Dexterity)
@@ -729,7 +821,7 @@ namespace Fallout
                                                     Console.Clear();
                                                     Console.WriteLine("Erfolgreich geöffnet");
                                                     game.player.CurrentRoom.Container[2].Locked = false;
-                                                    Console.ReadKey();
+                                                    PressAnyKey();
                                                     OpenContainer();
                                                     break;
                                                 }
@@ -737,7 +829,7 @@ namespace Fallout
                                                 {
                                                     Console.Clear();
                                                     Console.WriteLine("Konnte nicht geöffnet werden");
-                                                    Console.ReadKey();
+                                                    PressAnyKey();
                                                 }
 
                                             }
@@ -760,7 +852,7 @@ namespace Fallout
                 catch (ArgumentOutOfRangeException)
                 {
                     Console.WriteLine("An dieser Stelle gibt es nix.");
-                    Console.ReadKey();
+                    PressAnyKey();
                     OpenContainer();
                     invalidInput = true;
                 }
@@ -878,7 +970,7 @@ namespace Fallout
                 catch (ArgumentOutOfRangeException)
                 {
                     Console.WriteLine("An dieser Stelle gibt es nix.");
-                    Console.ReadKey();
+                    PressAnyKey();
                     PickupItems();
                     invalidInput = true;
                 }
@@ -889,14 +981,12 @@ namespace Fallout
          */
         public void ShowRooms()
         {
-            Console.SetCursorPosition(0, 0);
 
             Console.WriteLine("Du befindest Dich im " + game.player.CurrentRoom.Place);
             if(game.player.CurrentRoom.Description != null)
             {
                 Console.WriteLine(game.player.CurrentRoom.Description);
             }
-            Console.WriteLine(game.player.CurrentRoom.Name); // nur zum testen
             if (game.player.CurrentRoom.PathNorth != null)
             {
                 Console.Write("Im Norden siehst du einen weiteren Raum ");
@@ -1027,7 +1117,6 @@ namespace Fallout
                     Console.ResetColor();
                     Console.WriteLine(")Abwärts");  
                 }
-                //GetStats();
                 ConsoleKeyInfo input = Console.ReadKey();
                 Console.WriteLine();
                 switch (input.Key)
@@ -1083,7 +1172,7 @@ namespace Fallout
             catch (FormatException)
             {
                 Console.WriteLine("Enter a valid Char");
-                Console.ReadKey();
+                PressAnyKey();
             }
 
         }
@@ -1116,10 +1205,8 @@ namespace Fallout
                 Console.Write(".");
             }
             Console.Clear();
-            ShowRooms();
 
-            Console.WriteLine();
-            Console.WriteLine();
+
 
 
             if(game.player.CurrentRoom.Things.Count != 0)
@@ -1188,7 +1275,11 @@ namespace Fallout
                 }
             }
             Console.ResetColor();
-            Console.ReadKey();
+            Console.WriteLine();
+            Console.WriteLine();
+            ShowRooms();
+            Console.WriteLine();
+            PressAnyKey();
             Enemyattack();
         }
         /*
@@ -1251,12 +1342,27 @@ namespace Fallout
         {
             game = new Game();
             Console.Clear();
-            Console.WriteLine("Bitte geben Sie Ihren Namen");
+            Console.WriteLine("Bitte geben Sie Ihren Namen ein. \n(max 7 Zeichen, keine Leerzeichen oder Zahlen ala xXCuntdestroyer96Xx)");
             game.player.Name = Console.ReadLine();
-            game.player.CurrentRoom = game.roomC[5];
-            game.player.Home = game.roomB[5];
-            Welcome();
-
+            if(game.player.Name != string.Empty && game.player.Name.Any(char.IsLetter) && !game.player.Name.Contains(" "))
+            {
+                game.player.CurrentRoom = game.roomB[5];
+                game.player.Home = game.roomB[5];
+                Welcome();
+            } else
+            {
+                Console.WriteLine("Nur Buchstaben und keine Leerzeichen");
+                PressAnyKey();
+                Console.Clear();
+                NewPlayer();
+            }
+        }
+        public void PressAnyKey()
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Drücken Sie eine beliebe Taste . . .");
+            Console.ReadKey();
+            Console.ResetColor();
         }
         /*
          * Startbildschirm 
@@ -1286,7 +1392,7 @@ namespace Fallout
             }
             Console.ForegroundColor = ConsoleColor.Green;
             Console.ResetColor();
-            Console.ReadKey();
+            PressAnyKey();
             Console.Clear();
         }
     }
