@@ -12,10 +12,7 @@ namespace Fallout
         Game game;
         public List<Option> Menuitem { get; set; }
         Dice dice = new Dice();
-        public Menu()
-        {
-           // Welcome();
-        }
+
         /*
         * Menü erstellen und anschliessend mit den jeweiligen Optionen fühlen"
         * Mit ShowOption() wird dann die Option ausgegeben wobei die Zahl farbig hervorgehoben
@@ -1235,6 +1232,7 @@ namespace Fallout
             game.player.Name = Console.ReadLine();
             game.player.CurrentRoom = game.roomC[5];
             game.player.Home = game.roomB[5];
+            Welcome();
 
         }
         public void Welcome()
@@ -1246,6 +1244,7 @@ namespace Fallout
             Console.WriteLine(s);
             Console.ResetColor();
             Console.WriteLine("Das folgene Spiel hat den einen oder anderen Bug, geschrieben von Programierer  oder unter der Anleitung von \"Programmierer\". Der Erfinder dieser Grütze und alle die hinter ihm stehen müssen darauf bestehen das keiner dieses Spiel oder ähnliche Bezüge hierraus nachahmt.");
+            
             List<String> text = new List<string>();
             text.Add("\t\t\t\t  _____      ");
             text.Add("\t\t\t\t /      \\    ");

@@ -18,7 +18,5 @@ namespace Fallout
             this.DropChance = dropchance;
             this.DamageBoost = damageBoost;
         }
-
-
     }
 }
