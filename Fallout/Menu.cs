@@ -218,7 +218,7 @@ namespace Fallout
              */
             if(game.player.Inventory.Count != 0)
             {
-                if(game.player.HasItem(4))
+                if(game.player.HasPotions())
                 {
                     for (int i = 0; i < game.player.Inventory.Count; i++)
                     {
@@ -238,7 +238,7 @@ namespace Fallout
             Menuitem.Add(back);
             ShowOption();
             bool InvalidInput = true;
-            if(game.player.HasItem(4))
+            if(game.player.HasPotions())
             {
                 do
                 {
@@ -269,14 +269,25 @@ namespace Fallout
         }
         public void EatItem(Stuff item)
         {
-            int HPrestore = game.player.HealthPoints
+            int HpRestore;
+            if ((game.player.MaxHealthPoints - game.player.HealthPoints) > item.HealthRestore)
+            {
+                HpRestore = item.HealthRestore;
+            }
+            else
+            {
+                HpRestore = (game.player.MaxHealthPoints - game.player.HealthPoints);
+            }
             Console.WriteLine("Du benutzt {0} aus deinen Inventar",item.Name);
-            Console.WriteLine("Du heilst dich für {0}HP", );
+            Console.WriteLine("Du heilst dich für {0} HP", HpRestore);
+            game.player.HealthPoints += HpRestore;
+            game.player.Inventory.Remove(item);
             PressAnyKey();
         }
         public void ShowInventory()
         {
             Console.Clear();
+            game.player.GetallInventar();
             Playerborder();
             Menuitem = new List<Option>();
 
@@ -297,7 +308,9 @@ namespace Fallout
                 switch (input.Key)
                 {
                     case ConsoleKey.D1:
+                        game.player.GetallInventar();
                         UseItems();
+
                         break;
                     case ConsoleKey.D2:
                         InvalidInput = false;
@@ -562,7 +575,7 @@ namespace Fallout
                                     switch (input2.Key)
                                     {
                                         case ConsoleKey.D1:
-                                            if(game.player.HasItem(3))
+                                            if(game.player.HasTools())
                                             {
                                                 game.player.RemoveBobby();
                                                     if (dice.DiceTrow(100) < game.player.Dexterity)
@@ -687,7 +700,7 @@ namespace Fallout
                                     switch (input2.Key)
                                     {
                                         case ConsoleKey.D1:
-                                            if (game.player.HasItem(3))
+                                            if (game.player.HasTools())
                                             {
                                                 game.player.RemoveBobby();
                                                 if (dice.DiceTrow(100) < game.player.Dexterity)
@@ -813,7 +826,7 @@ namespace Fallout
                                     switch (input2.Key)
                                     {
                                         case ConsoleKey.D1:
-                                            if (game.player.HasItem(3))
+                                            if (game.player.HasTools())
                                             {
                                                 game.player.RemoveBobby();
                                                 if (dice.DiceTrow(100) < game.player.Dexterity)

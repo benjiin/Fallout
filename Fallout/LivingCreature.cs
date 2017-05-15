@@ -18,6 +18,7 @@ namespace Fallout
         public int HealthPoints { get; set; }
         public double Money { get; set; }
         public double XrayRadiation { get; set; }
+        public double MaxXrayRadiation { get; set; }
         public int Level { get; set; } 
         public double CarryWeightMax { get; set; }
         public double CarryWeight { get; set; }

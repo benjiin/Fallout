@@ -152,11 +152,11 @@ namespace Fallout
          * 3 == Tools
          * 4 == Potions 
          */
-        public bool HasItem(int id)
+        public bool HasTools()
         {
-            foreach (var item in Inventory)
+            foreach (var item in this.Inventory)
             {
-                if(item.ID == id)
+                if(item is Tools)
                 {
                     return true;
                 }
@@ -164,8 +164,53 @@ namespace Fallout
             }
             return false;
         }
-        public void RemoveItem(int id)
+        public bool HasCrap()
         {
+            foreach (var item in this.Inventory)
+            {
+                if (item is Crap)
+                {
+                    return true;
+                }
+
+            }
+            return false;
+        }
+        public bool HasPotions()
+        {
+            foreach (var item in this.Inventory)
+            {
+                if (item is Potions)
+                {
+                    return true;
+                }
+
+            }
+            return false;
+        }
+        public bool HasWeapons()
+        {
+            foreach (var item in this.Inventory)
+            {
+                if (item is Weapon)
+                {
+                    return true;
+                }
+
+            }
+            return false;
+        }
+
+        public void RemoveItem(Stuff thing)
+        {
+            //this.
+            //for(int i = 0; i < this.Inventory.Count; i++)
+            //{
+            //    if(this.Inventory[i] is Potions)
+            //    {
+
+            //    }
+            //}
 
         }
 

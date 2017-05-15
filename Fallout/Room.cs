@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Fallout
 {
+    [Serializable] // fsdklflksdfjklsdfjklsdfj klsd f
     class Room 
     {
         private List<Stuff> things = new List<Stuff>();
@@ -14,6 +15,7 @@ namespace Fallout
             get { return things; }
             set { things = value; }
         }
+
 
         private List<Container> container = new List<Container>();
         public List<Container> Container
@@ -32,7 +34,7 @@ namespace Fallout
 
         public List<NPC> NPC
         {
-            get { return npc; }
+            get { return npc ; }
             set { npc = value; }
         }
 

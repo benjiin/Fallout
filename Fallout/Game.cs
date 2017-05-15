@@ -403,13 +403,13 @@ namespace Fallout
                  * Potions = Name, Wert der Einheit, Gewicht pro Einheit, DropChance, Hinzugefügte Strahlung, Hergestellte HP, Strahlung reduzieren
                  *  
                  */
-                Potions carrot = new Potions("Verstrahlte Karotte", 3, 1, 90, 3, 10, 0, 4);
+                Potions carrot = new Potions("Verstrahlte Karotte", 3, 1, 90, 3, 3, 0, 4);
                 allPotions.Add(carrot);
-                Potions corn = new Potions("Verstrahlter Maiskolben", 3, 1, 90, 6, 10, 0, 4);
+                Potions corn = new Potions("Verstrahlter Maiskolben", 3, 1, 90, 6, 3, 0, 4);
                 allPotions.Add(corn);
-                Potions tomato = new Potions("Verstrahlte Tomate", 3, 1, 90, 4, 5, 0, 4);
+                Potions tomato = new Potions("Verstrahlte Tomate", 3, 1, 90, 4, 3, 0, 4);
                 allPotions.Add(tomato);
-                Potions stimpack = new Potions("Stimpack", 25, 0, 55, 0, 25, 0, 4);
+                Potions stimpack = new Potions("Stimpack", 25, 0, 55, 0, 5, 0, 4);
                 allPotions.Add(stimpack);
                 Potions beer = new Potions("Flasche Bier", 5, 1, 70, 0, 2, 5, 4);
                 allPotions.Add(beer);
