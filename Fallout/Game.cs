@@ -31,7 +31,9 @@ namespace Fallout
         Tools bottlecaps;
         NPC doc;
         NPC follower;
-
+        /*
+         * Das Herzstück des Projekt 
+         */
         public Game()
         {
             /*
@@ -472,6 +474,9 @@ namespace Fallout
                 FillRooms();
             }
         }
+        /*
+         * Die Räume werden mir allen Spiel elementen gefüllt: Items, Behälter, Monster 
+         */
         public void FillRooms()
         {
             /* 
@@ -642,10 +647,9 @@ namespace Fallout
                 }
             }
         }
-        public string GetCurrentPlace()
-        {
-            return this.player.CurrentRoom.Place;
-        }
+        /*
+         * Den Räumen eine Beschreibung mit auf dem Weg geben 
+         */
         public void MakeDescription()
         {
             roomB[5].Description = "Dein Zimmer";

@@ -55,6 +55,9 @@ namespace Fallout
                     break;
             }           
         }
+        /*
+         * Der Dreh und Angelpunkt des Spieles das Spielmenu 
+         */
         public void GameMenu()
         {
             Console.Clear();
@@ -91,9 +94,7 @@ namespace Fallout
             {
                 Option save = new Option('S', "Speichern");
                 Menuitem.Add(save);
-            }
-            Option back = new Option('X', "Zurück");
-            Menuitem.Add(back);            
+            }       
             ShowOption();
             ConsoleKeyInfo input = Console.ReadKey();
             Console.Clear();
@@ -107,6 +108,7 @@ namespace Fallout
                 case ConsoleKey.D2: //inventar
                     Console.SetCursorPosition(0, 0);
                     game.player.GetallInventar();
+                    UseInventory();
                     Console.ReadKey();
                     break;
                 case ConsoleKey.D3: //bewegen
@@ -141,9 +143,6 @@ namespace Fallout
                             FightOption();
                         }
                     }
-                    break;
-                case ConsoleKey.X:
-                    Start();
                     break;
                 default:
                     Console.WriteLine("Ich habe Ihre Eingabe nicht verstanden");
@@ -203,6 +202,31 @@ namespace Fallout
                     break;
             }
         }
+        /*
+         * Prohejktkriterium Verwertbare Gegenstände 
+         */
+        public void UseInventory()
+        {
+
+            Playerborder();
+            Menuitem = new List<Option>();
+
+            if(game.player.Inventory.Count != 0)
+            {
+                for (int i = 0; i < game.player.Inventory.Count; i++)
+                {
+                    Option stuff = new Option((char)(49 + i), game.player.Inventory[i].Name);
+                    Menuitem.Add(stuff);
+                }
+            }
+            Option back = new Option('X', "Zurück");
+            Menuitem.Add(back);
+            ShowOption();
+
+        }
+        /*
+         * 50/50 Chance, das der Gegner im Raum (nur Monster) Dich angreift 
+         */
         public void Enemyattack()
         {
             if (dice.DiceTrow(100) > 50 && game.player.CurrentRoom.Monster.Count != 0)
@@ -231,7 +255,7 @@ namespace Fallout
             {
                 Console.WriteLine("Du holst aus...");
                 Thread.Sleep(1500);
-                if (dice.DiceTrow((game.player.Strength * 2)) < 100)//game.player.Strength) 
+                if (dice.DiceTrow((game.player.Strength * 2)) < game.player.Strength) 
                 {
                     if (dice.DiceTrow((creature.Dexterity * 2)) < creature.Dexterity)
                     {
@@ -1190,8 +1214,7 @@ namespace Fallout
          * Das Menu, welches erstellt wird nachdem es einen Spieler in dem Spiel gibt
          */
         public void Playerborder()
-        {
-            
+        {            
             Console.SetCursorPosition(0, 36);
             for (int i = 0; i < Console.WindowWidth - 1; i++)
             {
@@ -1235,6 +1258,9 @@ namespace Fallout
             Welcome();
 
         }
+        /*
+         * Startbildschirm 
+         */
         public void Welcome()
         {
             Console.Clear();
