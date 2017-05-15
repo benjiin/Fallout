@@ -14,7 +14,7 @@ namespace Fallout
         Dice dice = new Dice();
         public Menu()
         {
-            //Welcome();
+           // Welcome();
         }
         /*
         * Menü erstellen und anschliessend mit den jeweiligen Optionen fühlen"
@@ -27,8 +27,8 @@ namespace Fallout
             Menuitem = new List<Option>();
             Option first = new Option('1', "Neues Spiel");
             Menuitem.Add(first);
-            Option second = new Option('2', "Spiel Laden");   // Für die letze Option \n um einen Bruch
-            Menuitem.Add(second);                               // zu erschaffen... Hilfe ?
+            Option second = new Option('2', "Spiel Laden");   
+            Menuitem.Add(second);                               
             Option close = new Option('X', "Beenden");
             Menuitem.Add(close);
 
@@ -57,9 +57,6 @@ namespace Fallout
                     Start();
                     break;
             }           
-            
-
-            //game.MovePlayer();
         }
         public void GameMenu()
         {
@@ -99,10 +96,8 @@ namespace Fallout
                 Menuitem.Add(save);
             }
             Option back = new Option('X', "Zurück");
-            Menuitem.Add(back);
-            
+            Menuitem.Add(back);            
             ShowOption();
-
             ConsoleKeyInfo input = Console.ReadKey();
             Console.Clear();
             Menuitem.RemoveRange(0, Menuitem.Count);
@@ -161,13 +156,14 @@ namespace Fallout
             }
             GameMenu();
         }
-
+        /*
+         * Überprüfen ob dieser Raum einen Kampfbaren Gegner hat und wenn ja anzeigen lassen und abkämpfen 
+         */
         public void FightOption()
         {
             Console.Clear();
             Playerborder();
             Menuitem = new List<Option>();
-
             if(game.player.CurrentRoom.HasSomeToFight == true)
             {
                 /*
@@ -185,15 +181,12 @@ namespace Fallout
                     Menuitem.Add(attack);
                 }
             }
-
             Option back = new Option('X', "Zurück");
             Menuitem.Add(back);
             ShowOption();
-
             ConsoleKeyInfo input = Console.ReadKey();
             Menuitem.RemoveRange(0, Menuitem.Count);
             Console.Clear();
-
             switch (input.Key)
             {
                 case ConsoleKey.D1:
@@ -213,6 +206,16 @@ namespace Fallout
                     break;
             }
         }
+        public void Enemyattack()
+        {
+            if (dice.DiceTrow(100) > 50 && game.player.CurrentRoom.Monster.Count != 0)
+            {
+                Console.WriteLine();
+                Console.WriteLine("{0} hat dich im Visier und will kämpfen", game.player.CurrentRoom.Monster[0].Name);
+                Console.ReadKey();
+                Fight(game.player.CurrentRoom.Monster[0]);
+            }
+        }
         /*
          * Kämpfe laufen unter einen ganz einfachen Schema ab: Zwei Mann geh’n rein, ein Mann geht raus!
          * Es wird mit einem W100 Würfel gewürfelt ,Für den Player gilt seine Stärke *2 muss gleich unter dem Würfel Ergebnis kommen."
@@ -220,9 +223,6 @@ namespace Fallout
          *  Ebenso wie der Spieler können Gegner auch auch Auchweichen Würfeln. Wenn der Ausweichenwurf erfolgreich war (2 * Geschicklichkeit)"
          *  Gilt der vorher erfolgreiche Angriff als parriert.
          */
-        /// <summary>
-        /// Kampfoption
-        /// </summary>
         public void Fight(LivingCreature creature)
         {
             Console.Clear();
@@ -239,13 +239,13 @@ namespace Fallout
                     if (dice.DiceTrow((creature.Dexterity * 2)) < creature.Dexterity)
                     {
                         Console.WriteLine("...doch {0} blockt deinen Angriff", creature.Name);
-                        Thread.Sleep(1500);
+                        Thread.Sleep(800);
                     }
                     else
                     {
                         int playerDMG = dice.DiceTrow(3);
                         Console.WriteLine("...und triffst {0} für {1} Schaden", creature.Name, playerDMG);
-                        Thread.Sleep(1500);
+                        Thread.Sleep(800);
                         creature.HealthPoints -= playerDMG;
                         if(creature.HealthPoints <= 0 )
                         {
@@ -256,9 +256,9 @@ namespace Fallout
                 else
                 {
                     Console.WriteLine("...aber verfehlst {0}", creature.Name);
-                    Thread.Sleep(1500);
+                    Thread.Sleep(800);
                 }
-                if(creature.HealthPoints <= 0)
+                if(creature.HealthPoints > 0)
                 {
                     Console.WriteLine("{0} greift Dich an...", creature.Name);
                     Thread.Sleep(1500);
@@ -267,13 +267,13 @@ namespace Fallout
                         if(dice.DiceTrow((game.player.Dexterity * 2)) < game.player.Dexterity)
                         {
                             Console.WriteLine("...Du ({0}) kannst gekonnt blocken", game.player.Name);
-                            Thread.Sleep(1500);
+                            Thread.Sleep(800);
                         }
                         else
                         {
                             int creatureDMG = dice.DiceTrow(3);
                             Console.WriteLine("...und trifft dich für {0} Schaden", creatureDMG);
-                            Thread.Sleep(1500);
+                            Thread.Sleep(800);
                             game.player.HealthPoints -= creatureDMG;
                             if(game.player.HealthPoints <= 0)
                             {
@@ -284,7 +284,7 @@ namespace Fallout
                     else
                     {
                         Console.WriteLine("...verfehlt Dich aber");
-                        Thread.Sleep(1500);
+                        Thread.Sleep(800);
                     }
 
                     // sterbe kram 
@@ -293,7 +293,14 @@ namespace Fallout
             } while (alive);
             if (creature.HealthPoints <= 0)
             {
-                game.player.CurrentRoom.NPC.RemoveAt(0);
+                if(creature is NPC)
+                {
+                    game.player.CurrentRoom.NPC.RemoveAt(0);
+                }
+                else if(creature is Monster)
+                {
+                    game.player.CurrentRoom.Monster.RemoveAt(0);
+                }
                 Tools bootlecaps;
                 Console.WriteLine("Du hast gewonnen");
                 Thread.Sleep(1500);
@@ -309,7 +316,6 @@ namespace Fallout
             }
                 Console.ReadKey();
         }
-
         /*
          * Der Raum wird überprüft ob dieser denn auch Container hat. 
          * Beutel und Kisten lassen sich so öffnen, für Truhen aber braucht man Haarklammern.
@@ -322,7 +328,6 @@ namespace Fallout
             Console.Clear();
             Playerborder();
             Menuitem = new List<Option>();
-
             if (game.player.CurrentRoom.Container.Count != 0)
             {
                 for (int i = 0; i < game.player.CurrentRoom.Container.Count; i++)
@@ -338,7 +343,6 @@ namespace Fallout
             bool invalidInput = false;
             do
             {
-
                 ConsoleKeyInfo input = Console.ReadKey();
                 Console.Clear();
                 Menuitem.RemoveRange(0, Menuitem.Count);
@@ -1058,6 +1062,7 @@ namespace Fallout
             catch (FormatException)
             {
                 Console.WriteLine("Enter a valid Char");
+                Console.ReadKey();
             }
 
         }
@@ -1163,6 +1168,7 @@ namespace Fallout
             }
             Console.ResetColor();
             Console.ReadKey();
+            Enemyattack();
         }
         /*
          * Der erste Menu Entwurf
@@ -1180,10 +1186,8 @@ namespace Fallout
                 {
                     Console.Write("-");
                 }
-            }
-            
-            Console.SetCursorPosition(0, 40);
-         
+            }            
+            Console.SetCursorPosition(0, 40);         
         }
         /*
          * Das Menu, welches erstellt wird nachdem es einen Spieler in dem Spiel gibt
@@ -1218,9 +1222,7 @@ namespace Fallout
                     Console.Write("-");
                 }
             }
-
             Console.SetCursorPosition(0, 40);
-
         }
         /*
          * Das Erstellen eines neuen Spieler und das Festsetzen seines Startpunktes
@@ -1231,8 +1233,8 @@ namespace Fallout
             Console.Clear();
             Console.WriteLine("Bitte geben Sie Ihren Namen");
             game.player.Name = Console.ReadLine();
-            game.player.CurrentRoom = game.roomB[1];
-            game.player.Home = game.roomB[4];
+            game.player.CurrentRoom = game.roomC[5];
+            game.player.Home = game.roomB[5];
 
         }
         public void Welcome()
