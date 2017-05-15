@@ -269,6 +269,9 @@ namespace Fallout
 
             }
         }
+        /*
+         * JEder muss ja mal was essen.
+         */
         public void EatItem(Stuff item)
         {
             int HpRestore;
@@ -280,8 +283,18 @@ namespace Fallout
             {
                 HpRestore = (game.player.MaxHealthPoints - game.player.HealthPoints);
             }
+            game.player.XrayRadiation += item.Radiation;
+            game.player.XrayRadiation -= item.Radiation;
             Console.WriteLine("Du benutzt {0} aus deinen Inventar",item.Name);
             Console.WriteLine("Du heilst dich für {0} HP", HpRestore);
+            if(item.Radiation>0)
+            {
+                Console.WriteLine("Ausserdem erleidest noch {0} Strahlung", item.Radiation);
+            }
+            if(item.Radiation>0)
+            {
+                Console.WriteLine("Durch das benutzen von {0} verringert sich deine Strahlung um {1} %", item.Name, item.RadiationRestore);
+            }
             game.player.HealthPoints += HpRestore;
             game.player.Inventory.Remove(item);
             PressAnyKey();
@@ -371,7 +384,7 @@ namespace Fallout
                     Thread.Sleep(1500);
                     if (dice.DiceTrow(100) < (game.player.Strength * 3)) 
                     {
-                        if (dice.DiceTrow((creature.Dexterity * 2)) < creature.Dexterity)
+                        if (dice.DiceTrow(100) < creature.Dodge)
                         {
                             Console.WriteLine("...doch {0} blockt deinen Angriff", creature.Name);
                             Thread.Sleep(500);
@@ -399,7 +412,7 @@ namespace Fallout
                         Thread.Sleep(1500);
                         if(dice.DiceTrow(100) < (creature.Strength * 3))
                         {
-                            if(dice.DiceTrow((game.player.Dexterity * 2)) < game.player.Dexterity)
+                            if(dice.DiceTrow(100) < game.player.Dodge)
                             {
                                 Console.WriteLine("...Du ({0}) kannst gekonnt blocken", game.player.Name);
                                 Thread.Sleep(500);
@@ -453,6 +466,11 @@ namespace Fallout
                 IsDead();
             }
                 PressAnyKey();
+        }
+        public void PickUpFromContainer(int containerIndex, int itemIndex)
+        {
+            game.player.AddInventar(game.player.CurrentRoom.Container[containerIndex].HaveStuff[itemIndex]);
+            game.player.CurrentRoom.Container[containerIndex].HaveStuff.RemoveAt(itemIndex);
         }
         /*
          * Der Raum wird überprüft ob dieser denn auch Container hat. 
@@ -510,8 +528,7 @@ namespace Fallout
                                             {
                                                 if (game.player.CarryWeight < game.player.CarryWeightMax)
                                                 {
-                                                    game.player.AddInventar(game.player.CurrentRoom.Container[0].HaveStuff[0]);
-                                                    game.player.CurrentRoom.Container[0].HaveStuff.RemoveAt(0);
+                                                    PickUpFromContainer(0, 0);
                                                 }
                                             }
                                             break;
@@ -520,8 +537,7 @@ namespace Fallout
                                             {
                                                 if (game.player.CarryWeight < game.player.CarryWeightMax)
                                                 {
-                                                    game.player.AddInventar(game.player.CurrentRoom.Container[0].HaveStuff[1]);
-                                                    game.player.CurrentRoom.Container[0].HaveStuff.RemoveAt(1);
+                                                    PickUpFromContainer(0, 1);
                                                 }
                                             }
                                             break;
@@ -530,8 +546,7 @@ namespace Fallout
                                             {
                                                 if (game.player.CarryWeight < game.player.CarryWeightMax)
                                                 {
-                                                    game.player.AddInventar(game.player.CurrentRoom.Container[0].HaveStuff[2]);
-                                                    game.player.CurrentRoom.Container[0].HaveStuff.RemoveAt(2);
+                                                    PickUpFromContainer(0, 2);
                                                 }
                                             }
                                             break;
@@ -540,8 +555,7 @@ namespace Fallout
                                             {
                                                 if (game.player.CarryWeight < game.player.CarryWeightMax)
                                                 {
-                                                    game.player.AddInventar(game.player.CurrentRoom.Container[0].HaveStuff[3]);
-                                                    game.player.CurrentRoom.Container[0].HaveStuff.RemoveAt(3);
+                                                    PickUpFromContainer(0, 3);
                                                 }
                                             }
                                             break;
@@ -550,8 +564,7 @@ namespace Fallout
                                             {
                                                 if (game.player.CarryWeight < game.player.CarryWeightMax)
                                                 {
-                                                    game.player.AddInventar(game.player.CurrentRoom.Container[0].HaveStuff[4]);
-                                                    game.player.CurrentRoom.Container[0].HaveStuff.RemoveAt(4);
+                                                    PickUpFromContainer(0, 4);
                                                 }
                                             }
                                             break;
@@ -561,8 +574,8 @@ namespace Fallout
                                             PressAnyKey();
                                             break;
                                     }
-                                    PressAnyKey();
                                     OpenContainer();
+///////////////////////////////
                                 }
                                 if(game.player.CurrentRoom.Container[0].Locked == true)
                                 {
@@ -572,22 +585,18 @@ namespace Fallout
                                     PressAnyKey();
                                     Playerborder();
                                     Option lockpick = new Option('1', "Schloss knacken");
-                                    foreach (var item in game.player.Inventory)
+                                    if(game.player.HasTools(3))
                                     {
-                                        if(item.ID==3)
-                                        {
-                                            Menuitem.Add(lockpick);
-                                            break; 
-                                        }
+                                        Menuitem.Add(lockpick);
                                     }
                                     Menuitem.Add(back);
                                     ShowOption();
-                                    ConsoleKeyInfo input2 = Console.ReadKey();
+                                    //ConsoleKeyInfo input2 = Console.ReadKey();
 
-                                    switch (input2.Key)
+                                    switch (input.Key)
                                     {
                                         case ConsoleKey.D1:
-                                            if(game.player.HasTools())
+                                            if(game.player.HasTools(3))
                                             {
                                                 game.player.RemoveBobby();
                                                     if (dice.DiceTrow(100) < game.player.Dexterity)
@@ -712,7 +721,7 @@ namespace Fallout
                                     switch (input2.Key)
                                     {
                                         case ConsoleKey.D1:
-                                            if (game.player.HasTools())
+                                            if (game.player.HasTools(3))
                                             {
                                                 game.player.RemoveBobby();
                                                 if (dice.DiceTrow(100) < game.player.Dexterity)
@@ -838,7 +847,7 @@ namespace Fallout
                                     switch (input2.Key)
                                     {
                                         case ConsoleKey.D1:
-                                            if (game.player.HasTools())
+                                            if (game.player.HasTools(3))
                                             {
                                                 game.player.RemoveBobby();
                                                 if (dice.DiceTrow(100) < game.player.Dexterity)
@@ -883,6 +892,7 @@ namespace Fallout
                 }
 
             } while (invalidInput);
+            OpenContainer();
         }
         /*
          * Items die auf den Boden liegen ins Inventar packen 

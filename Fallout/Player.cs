@@ -22,12 +22,13 @@ namespace Fallout
             this.Constitution = (dice.DiceTrow(6) + dice.DiceTrow(6) + dice.DiceTrow(6));
             this.Dodge = this.Dexterity * 2;
             this.MaxHealthPoints = ((this.Strength + this.Constitution) / 2);
-            this.HealthPoints = 3;// this.MaxHealthPoints;
+            this.HealthPoints = this.MaxHealthPoints;
             this.CarryWeightMax = ((this.Strength + 5) * 2);
             this.CarryWeight = 0;            
             this.Level = 1;
             this.NeedExperience = this.Level * 100;
             this.XrayRadiation = 0;
+            this.MaxXrayRadiation = 100;
         }
 
 
@@ -59,7 +60,8 @@ namespace Fallout
             
         }
 
-        public void GetallInventar()
+
+        public  void GetallInventar()
         {
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("Inventar: ");
@@ -116,15 +118,18 @@ namespace Fallout
          * 3 == Tools
          * 4 == Potions 
          */
-        public bool HasTools()
+        public bool HasTools(int id)
         {
             foreach (var item in this.Inventory)
             {
                 if(item is Tools)
                 {
-                    return true;
+                    if(item.ID == id)
+                    {
+                        return true;
+
+                    }
                 }
-                    
             }
             return false;
         }

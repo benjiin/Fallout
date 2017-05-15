@@ -675,10 +675,6 @@ namespace Fallout
                     {
                         allRoom[i][j].Things.Add(bottlecaps = new Tools("Kronkorken", 1, 100, dice.DiceTrow(10), 2));
                     }
-
-
-             
-
                     /*
                      * Ausloten ob dieser Raum ein Monster hat 
                      * 4 Arten von Monster erstmal. Wurf gibt an welches Monster es gibt.
