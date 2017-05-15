@@ -719,22 +719,22 @@ namespace Fallout
                         int whichMonster = dice.DiceTrow(100);
                         if (whichMonster <= 25) // 25
                         {
-                            allRoom[i][j].Monster.Add(rat = new Monster("Ratte", dice.DiceTrow(6), dice.DiceTrow(30), 1));
+                            allRoom[i][j].Monster.Add(rat = new Monster("Ratte", dice.DiceTrow(6), dice.DiceTrow(6), dice.DiceTrow(30), 1));
                             allRoom[i][j].HasSomeToFight = true;
                         }
                         else if (whichMonster <= 50)
                         {
-                            allRoom[i][j].Monster.Add(bug = new Monster("Käfer", dice.DiceTrow(6) + 4, dice.DiceTrow(40), 2));
+                            allRoom[i][j].Monster.Add(bug = new Monster("Käfer", dice.DiceTrow(6) + 4, dice.DiceTrow(6), dice.DiceTrow(40), 2));
                             allRoom[i][j].HasSomeToFight = true;
                         }
                         else if (whichMonster <= 75)
                         {
-                            allRoom[i][j].Monster.Add(scorpion = new Monster("Skorpion", dice.DiceTrow(6) + 8, dice.DiceTrow(80), 3));
+                            allRoom[i][j].Monster.Add(scorpion = new Monster("Skorpion", dice.DiceTrow(6) + 8, dice.DiceTrow(6), dice.DiceTrow(80), 3));
                             allRoom[i][j].HasSomeToFight = true;
                         }
                         else if (whichMonster <= 100)
                         {
-                            allRoom[i][j].Monster.Add(ghul = new Monster("Ghul", dice.DiceTrow(6) + 10, dice.DiceTrow(100), 4));
+                            allRoom[i][j].Monster.Add(ghul = new Monster("Ghul", dice.DiceTrow(6) + 10, dice.DiceTrow(6), dice.DiceTrow(100), 4));
                             allRoom[i][j].HasSomeToFight = true;
                         }
                     }

@@ -11,8 +11,7 @@ namespace Fallout
     {
         Dice dice = new Dice();
         public List<Quest> QuestLog { get; set; }
-        public int NeedExperience { get; set; }
-        public int Experience { get; set; }
+
         public Room Home { get; set; }
         public Player()
         {
@@ -23,7 +22,7 @@ namespace Fallout
             this.Constitution = (dice.DiceTrow(6) + dice.DiceTrow(6) + dice.DiceTrow(6));
             this.Dodge = this.Dexterity * 2;
             this.MaxHealthPoints = ((this.Strength + this.Constitution) / 2);
-            this.HealthPoints = this.MaxHealthPoints;
+            this.HealthPoints = 3;// this.MaxHealthPoints;
             this.CarryWeightMax = ((this.Strength + 5) * 2);
             this.CarryWeight = 0;            
             this.Level = 1;
@@ -102,49 +101,14 @@ namespace Fallout
         }
         public void GetStats()
         {
-            Console.ForegroundColor = ConsoleColor.White;
-            if (this.Name.Length > 5)
+            if (this.Name.Length >= 9)
             {
-                Console.Write(this.Name.Substring(0, 7));// + "..");
+                Console.Write(this.Name.Substring(0, 9) + "...");
             }
             else
             {
                 Console.Write(this.Name);
             }
-            Console.ResetColor();
-            Console.Write("\t\tHP: ");
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write(this.HealthPoints + "/" + this.MaxHealthPoints);
-            Console.ResetColor();
-            Console.Write(" STR: ");
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write(this.Strength);
-            Console.ResetColor();
-            Console.Write(" GES: ");
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write(this.Dexterity);
-            Console.ResetColor();
-            Console.Write(" Ausweichen: ");
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write(this.Dodge);
-            Console.ResetColor();
-            Console.Write(" Level: ");
-            Console.Write(this.Level);
-            Console.Write(" XP: ");
-            Console.Write(this.Experience + "/" + this.NeedExperience);
-            Console.WriteLine();
-            Console.Write("\t\tGewicht:");
-            Console.ForegroundColor = ConsoleColor.Magenta;
-            Console.Write(" " +this.CarryWeight + "/" + this.CarryWeightMax);
-            Console.ResetColor();
-            Console.Write(" Kronkorken: ");
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.Write(this.Money);
-            Console.ResetColor();
-            Console.Write(" Radiation: ");
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write(this.XrayRadiation);
-            Console.ResetColor();
         }
         /*
          * Beste Methode ... Überprüfe mein Inventar ob es bestimmte Items hat

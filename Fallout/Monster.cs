@@ -18,12 +18,13 @@ namespace Fallout
          * MaxHealthPoints = (Stärke + Constitution) / 2
          * 
          */
-        public Monster(string name, int str, int rGold, int xpmult)
+        public Monster(string name, int str, int dex, int rGold, int xpmult)
         {
             this.Name = name;
-            this.Strength = str + dice.DiceTrow(6);
-            this.Constitution = str + dice.DiceTrow(6);
-            this.Dodge = 
+            this.Strength = (str + dice.DiceTrow(6));
+            this.Constitution = (str + dice.DiceTrow(6));
+            this.Dexterity = (dex + dice.DiceTrow(6));
+            this.Dodge = (2 * this.Dexterity);
             this.MaxHealthPoints = ((this.Strength + this.Constitution) / 2);
             this.HealthPoints = this.MaxHealthPoints;
             this.RewardGold = Strength + rGold;

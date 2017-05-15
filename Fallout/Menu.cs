@@ -20,7 +20,9 @@ namespace Fallout
         */
         public void Start()
         {
-            MenuBorder();
+            Console.SetBufferSize(80, 80);
+            Console.SetWindowSize(80, 50);
+            MenuBorder(39, 40);
             Menuitem = new List<Option>();
             Option first = new Option('1', "Neues Spiel");
             Menuitem.Add(first);
@@ -354,54 +356,33 @@ namespace Fallout
             Console.Clear();
             Playerborder();
             Console.WriteLine("Du kämpst bis aufs Blut Nephalem");
-            PressAnyKey();
+            Console.ReadKey();
             bool alive = true;
             do
             {
-                Console.WriteLine("Du holst aus...");
-                Thread.Sleep(1500);
-                if (dice.DiceTrow((game.player.Strength * 2)) < game.player.Strength) 
+                if(game.player.HealthPoints > 0)
                 {
-                    if (dice.DiceTrow((creature.Dexterity * 2)) < creature.Dexterity)
-                    {
-                        Console.WriteLine("...doch {0} blockt deinen Angriff", creature.Name);
-                        Thread.Sleep(500);
-                    }
-                    else
-                    {
-                        int playerDMG = dice.DiceTrow(3);
-                        Console.WriteLine("...und triffst {0} für {1} Schaden", creature.Name, playerDMG);
-                        Thread.Sleep(500);
-                        creature.HealthPoints -= playerDMG;
-                        if(creature.HealthPoints <= 0 )
-                        {
-                            alive = false;
-                        }
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("...aber verfehlst {0}", creature.Name);
-                    Thread.Sleep(500);
-                }
-                if(creature.HealthPoints > 0)
-                {
-                    Console.WriteLine("{0} greift Dich an...", creature.Name);
+                    Console.Clear();
+                    MenuBorder(33, 35);
+                    Console.SetCursorPosition(0, 34);
+                    creature.GetStats(34, 35);
+                    Playerborder();
+                    Console.WriteLine("Du holst aus...");
                     Thread.Sleep(1500);
-                    if(dice.DiceTrow((creature.Strength * 2)) < creature.Strength)
+                    if (dice.DiceTrow(100) < (game.player.Strength * 3)) 
                     {
-                        if(dice.DiceTrow((game.player.Dexterity * 2)) < game.player.Dexterity)
+                        if (dice.DiceTrow((creature.Dexterity * 2)) < creature.Dexterity)
                         {
-                            Console.WriteLine("...Du ({0}) kannst gekonnt blocken", game.player.Name);
+                            Console.WriteLine("...doch {0} blockt deinen Angriff", creature.Name);
                             Thread.Sleep(500);
                         }
                         else
                         {
-                            int creatureDMG = dice.DiceTrow(3);
-                            Console.WriteLine("...und trifft dich für {0} Schaden", creatureDMG);
+                            int playerDMG = dice.DiceTrow(3);
+                            Console.WriteLine("...und triffst {0} für {1} Schaden", creature.Name, playerDMG);
                             Thread.Sleep(500);
-                            game.player.HealthPoints -= creatureDMG;
-                            if(game.player.HealthPoints <= 0)
+                            creature.HealthPoints -= playerDMG;
+                            if(creature.HealthPoints <= 0 )
                             {
                                 alive = false;
                             }
@@ -409,12 +390,42 @@ namespace Fallout
                     }
                     else
                     {
-                        Console.WriteLine("...verfehlt Dich aber");
+                        Console.WriteLine("...aber verfehlst {0}", creature.Name);
                         Thread.Sleep(500);
                     }
-
-                    // sterbe kram 
-
+                    if(creature.HealthPoints > 0)
+                    {
+                        Console.WriteLine("{0} greift Dich an...", creature.Name);
+                        Thread.Sleep(1500);
+                        if(dice.DiceTrow(100) < (creature.Strength * 3))
+                        {
+                            if(dice.DiceTrow((game.player.Dexterity * 2)) < game.player.Dexterity)
+                            {
+                                Console.WriteLine("...Du ({0}) kannst gekonnt blocken", game.player.Name);
+                                Thread.Sleep(500);
+                            }
+                            else
+                            {
+                                int creatureDMG = dice.DiceTrow(3);
+                                Console.WriteLine("...und trifft dich für {0} Schaden", creatureDMG);
+                                Thread.Sleep(500);
+                                game.player.HealthPoints -= creatureDMG;
+                                if(game.player.HealthPoints <= 0)
+                                {
+                                    alive = false;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("...verfehlt Dich aber");
+                            Thread.Sleep(500);
+                        }
+                    }
+                    else
+                    {
+                        alive = false;
+                    }
                 }
             } while (alive);
             if (creature.HealthPoints <= 0)
@@ -439,6 +450,7 @@ namespace Fallout
             if(game.player.HealthPoints <= 0)
             {
                 Console.WriteLine("Du hast verloren");
+                IsDead();
             }
                 PressAnyKey();
         }
@@ -1059,6 +1071,7 @@ namespace Fallout
         public void MovePlayer()
         {
             Console.Clear();
+            IsDead();
             ShowRooms();
             game.ClearRooms();
             try
@@ -1208,6 +1221,16 @@ namespace Fallout
          * 
          * Erst nachdem ein Raum abgesucht wurde, ist es möglich mit den Raum zu interargieren.
          */
+        public void IsDead()
+        {
+            if(game.player.HealthPoints <= 0)
+            {
+                Console.Clear();
+                Console.WriteLine("Das Spiel ist jetzt vorbei. Ganz toll ");
+                PressAnyKey();
+                Start();
+            }
+        }
         public void SearchRoom()
         {
             Console.SetCursorPosition(0, 0);
@@ -1298,9 +1321,9 @@ namespace Fallout
         /*
          * Der erste Menu Entwurf
          */
-        public void MenuBorder()
+        public void MenuBorder(int start, int end)
         {
-            Console.SetCursorPosition(0, 39);
+            Console.SetCursorPosition(0, start);
             for (int i = 0; i < Console.WindowWidth - 1; i++)
             {
                 if (i == 0 || i == Console.WindowWidth - 2)
@@ -1312,7 +1335,7 @@ namespace Fallout
                     Console.Write("-");
                 }
             }            
-            Console.SetCursorPosition(0, 40);         
+            Console.SetCursorPosition(0, end);         
         }
         /*
          * Das Menu, welches erstellt wird nachdem es einen Spieler in dem Spiel gibt
@@ -1333,7 +1356,7 @@ namespace Fallout
             }
             Console.SetCursorPosition(0, 37);
 
-            game.player.GetStats();
+            game.player.GetStats(37, 38);
             Console.SetCursorPosition(0, 39);
             for (int i = 0; i < Console.WindowWidth - 1; i++)
             {
@@ -1359,7 +1382,7 @@ namespace Fallout
             game.player.Name = Console.ReadLine();
             if(game.player.Name != string.Empty && game.player.Name.Any(char.IsLetter) && !game.player.Name.Contains(" "))
             {
-                game.player.CurrentRoom = game.roomB[5];
+                game.player.CurrentRoom = game.roomG[5];
                 game.player.Home = game.roomB[5];
                 Welcome();
             } else
