@@ -347,15 +347,22 @@ namespace Fallout
         }
         public void HealNPC()
         {
-            foreach (var item in game.player.Inventory)
+            if(game.player.Inventory != null)
             {
-                if(item.ID == 2)
+                for(int i=0; i <game.player.Inventory.Count; i++)
                 {
-                     if(item.Amount > 0 || item.Amount > 100)
+                    if(game.player.Inventory[i].ID == 2)
                     {
-                        game.player.Inventory[item].
-                    } 
+                        if(game.player.Inventory[i].Amount > 0 && game.player.Inventory[i].Amount > 100)
+                        {
+                            int temp;
+                            game.player.Inventory[i].Amount -= 100;
+                            temp = game.player.MaxHealthPoints;
+                            game.player.HealthPoints = temp;
+                        }
+                    }
                 }
+
             }
         }
         public void GetQuest()

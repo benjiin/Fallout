@@ -20,8 +20,6 @@ namespace Fallout
 
         }
 
-
-
         public Room Home { get; set; }
         public Player()
         {
@@ -32,13 +30,14 @@ namespace Fallout
             this.Constitution = (dice.DiceTrow(6) + dice.DiceTrow(6) + dice.DiceTrow(6));
             this.Dodge = this.Dexterity * 2;
             this.MaxHealthPoints = ((this.Strength + this.Constitution) / 2);
-            this.HealthPoints = this.MaxHealthPoints;
+            this.HealthPoints = 4;// this.MaxHealthPoints;
             this.CarryWeightMax = ((this.Strength + 5) * 2);
             this.CarryWeight = 0;            
             this.Level = 1;
             this.Experience = 0;
             this.XrayRadiation = 0;
             this.MaxXrayRadiation = 100;
+            this.Money = 99;
         }
 
 
