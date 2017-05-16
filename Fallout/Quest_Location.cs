@@ -8,9 +8,10 @@ namespace Fallout
 {
     class Quest_Location : Quest
     {
-        public Quest_Location(Room room)
+        public Quest_Location(Room room, string name)
         {
             this.CurrentRoom = room;
+            this.Name = name;
         }
 
        

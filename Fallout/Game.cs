@@ -51,6 +51,21 @@ namespace Fallout
                 roomA[i].Place = "Vault";
                 roomB[i] = new Room("B" + (i), 2 + i);
                 roomB[i].Place = "Vault";
+                if(i ==0 || i==1 || i ==2)
+                {
+                    roomA[i].Place += " 2";
+                    roomB[i].Place += " 2";
+                }
+                else if(i==3 || i==4 || i==5 || i==6)
+                {
+                    roomA[i].Place += " 1";
+                    roomB[i].Place += " 1";
+                }
+                else if (i == 7 || i == 8 || i == 9 || i == 10)
+                {
+                    roomA[i].Place += " 3";
+                    roomB[i].Place += " 3";
+                }
                 roomC[i] = new Room("C" + (i), 3 + i);
                 roomC[i].Description = "Ödland";
                 if (dice.DiceTrow(100) < 50)
@@ -293,7 +308,7 @@ namespace Fallout
 
                 roomF[2].PathNorth = roomG[2];
                 roomF[2].PathEast = roomF[3];
-                roomF[2].PathSouth = roomE[2];
+                roomF[2].PathSouth = roomE[2];                      
                 roomF[2].PathWest = roomF[1];
 
                 roomF[3].PathNorth = roomG[3];
@@ -432,28 +447,41 @@ namespace Fallout
                  * Und ein Arzt um gegen Geld heilen oder Rad heilen zu lassen
                  */
                 //Ärzte
-                roomA[1].NPC.Add(doc = new NPC("Doktor", dice.DiceTrow(6), dice.DiceTrow(6), dice.DiceTrow(6), "Heilen", 1));
+                roomA[1].NPC.Add(doc = new NPC("Dr. H. Odensack ", dice.DiceTrow(6), dice.DiceTrow(6), dice.DiceTrow(6), "Heilen", 1));
                 roomA[1].HasSomeToFight = true;
-                roomA[3].NPC.Add(doc = new NPC("Doktor", dice.DiceTrow(6), dice.DiceTrow(6), dice.DiceTrow(6), "Heilen", 1));
+                roomA[3].NPC.Add(doc = new NPC("Dr. Uri N. Stein", dice.DiceTrow(6), dice.DiceTrow(6), dice.DiceTrow(6), "Heilen", 1));
                 roomA[3].HasSomeToFight = true;
-                roomA[7].NPC.Add(doc = new NPC("Doktor", dice.DiceTrow(6), dice.DiceTrow(6), dice.DiceTrow(6), "Heilen", 1));
+                roomA[7].NPC.Add(doc = new NPC("Dr. Otto Päde", dice.DiceTrow(6), dice.DiceTrow(6), dice.DiceTrow(6), "Heilen", 1));
                 roomA[7].HasSomeToFight = true;
                 //Questgeber
-                roomB[1].NPC.Add(follower = new NPC("Bewohner", dice.DiceTrow(6), dice.DiceTrow(6), dice.DiceTrow(6), "Handel", 2));
+                roomB[1].NPC.Add(follower = new NPC("Kai Pirinha", dice.DiceTrow(6), dice.DiceTrow(6), dice.DiceTrow(6), "Handel", 2));
                 roomB[1].HasSomeToFight = true;
-                roomB[3].NPC.Add(follower = new NPC("Bewohner", dice.DiceTrow(6), dice.DiceTrow(6), dice.DiceTrow(6), "Handel", 2));
+                roomB[3].NPC.Add(follower = new NPC("Anette Halbestunde", dice.DiceTrow(6), dice.DiceTrow(6), dice.DiceTrow(6), "Handel", 2));
                 roomB[3].HasSomeToFight = true;
-                roomB[7].NPC.Add(follower = new NPC("Bewohner", dice.DiceTrow(6), dice.DiceTrow(6), dice.DiceTrow(6), "Handel", 2));
+                roomB[7].NPC.Add(follower = new NPC("Mahatma Pech", dice.DiceTrow(6), dice.DiceTrow(6), dice.DiceTrow(6), "Handel", 2));
                 roomB[7].HasSomeToFight = true;
                 /*
                  * Quest erstellen 
                  */
-                Quest q1 = new Quest_Location(roomA[4]);
+                Quest q1 = new Quest_Location(roomA[1], "Finde " + roomA[1].NPC[0].Name);
                 q1.ID = 1;
                 if(roomA[3].NPC != null)
                 {
                     roomA[3].NPC[0].Quest.Add(q1);                          
                 }
+
+                Quest q2 = new Quest_Location(roomA[7], "Finde " + roomA[7].NPC[0].Name);
+                if (roomB[1].NPC != null)
+                {
+                    roomB[1].NPC[0].Quest.Add(q2);
+                }
+
+                Quest q3 = new Quest_Location(roomB[3], "Finde " + roomB[3].NPC[0].Name);
+                if (roomB[7].NPC != null)
+                {
+                    roomB[7].NPC[0].Quest.Add(q3);
+                }
+
 
                 FillRooms();
             }
@@ -671,7 +699,7 @@ namespace Fallout
             roomB[2].Description = "Raum mit Treppe";
             roomB[6].Description = "Raum mit Treppe";
             roomB[10].Description = "Raum mit Treppe";
-            roomG[1].Description = "Lukeneingang zum Vault 2";
+            roomG[1].Description = "Kaktusfeld (Lukeneingang zum Vault 2)";
             roomC[5].Description = "Lukeneingang zum Vault 1";
             roomF[9].Description = "Lukeneingang zum Vault 3";
         }

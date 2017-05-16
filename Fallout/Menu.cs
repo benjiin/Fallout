@@ -249,7 +249,8 @@ namespace Fallout
                     switch (input.Key)
                     {
                         case ConsoleKey.D1:
-                            GetQuest();                             
+                            Talkmaster(game.player.CurrentRoom.NPC[0]);
+                            GetQuest();
                             break;
                         case ConsoleKey.D2:
                             UseNPCAbility(npc);
@@ -266,11 +267,17 @@ namespace Fallout
                             InteractionWithNPC(npc);
                             break;
                     }
-
-                } while (InvalidInput);
-               
-                
+                } while (InvalidInput);                   
             }
+        }
+        public void Talkmaster(NPC npc)
+        {
+            Console.Write("Seid gegrüsst Reisender mein Name ist ");
+            Red(npc.Name);
+            Console.Write(" (Zeit lassen fuer Lacher. Ich bitte Dich ");
+            Green(npc.Quest[0].Name);
+            Console.WriteLine(". Auf dich warten grosse Preise");
+            Console.ReadKey();
         }
         public void UseNPCAbility(LivingCreature npc)
         {
@@ -340,24 +347,49 @@ namespace Fallout
         }
         public void HealNPC()
         {
-
+            foreach (var item in game.player.Inventory)
+            {
+                if(item.ID == 2)
+                {
+                     if(item.Amount > 0 || item.Amount > 100)
+                    {
+                        game.player.Inventory[item].
+                    } 
+                }
+            }
         }
         public void GetQuest()
         {
-            Console.WriteLine("BLA BLA BLA mach das jetzt ");
+            Console.Clear();
+   
             game.player.QuestLog.Add(game.player.CurrentRoom.NPC[0].Quest[0]);
-            GameMenu();
+            game.player.CurrentRoom.NPC[0].Quest[0] = null;
+            Playerborder();
+            ShowInventory();
+        }
+        public void Red(string color)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write(color);
+            Console.ResetColor();  
+        }
+        public void Green(string color)
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write(color);
+            Console.ResetColor();
         }
         public void CheckLocationQuest()
         {
-            if(game.player.QuestLog != null)
+            if(game.player.QuestLog.Count != 0)
             {
-                if(game.player.CurrentRoom.Name == game.player.QuestLog[0].CurrentRoom.Name)
+                foreach (var item in game.player.QuestLog)
                 {
-                    game.player.HealthPoints = 2;
-
-                }
-
+                    if(item.CurrentRoom == game.player.CurrentRoom)
+                    {
+                        item.IsCompleted = true;
+                    }
+                }      
             }
         }
         /*
@@ -1431,14 +1463,7 @@ namespace Fallout
         {
             Console.Clear();
             ShowRooms();
-            if (game.player.CurrentRoom.IsContaminated == true)
-            {
-                game.player.XrayRadiation += 0.5;
-                if(game.player.XrayRadiation % 5 == 0)
-                {
-                    game.player.HealthPoints -= 1;
-                }    
-            }
+
             game.ClearRooms();
             try
             {
@@ -1562,6 +1587,14 @@ namespace Fallout
                 Console.WriteLine("Enter a valid Char");
                 PressAnyKey();
             }
+            if (game.player.CurrentRoom.IsContaminated == true)
+            {
+                game.player.XrayRadiation += 0.5;
+                if (game.player.XrayRadiation % 5 == 0)
+                {
+                    game.player.HealthPoints -= 1;
+                }
+            }
             CheckLocationQuest();
             IsDead();
 
@@ -1594,8 +1627,7 @@ namespace Fallout
                 Console.WriteLine("Das Spiel ist jetzt vorbei. Ganz toll ");
                 Start();
             }
-        }
-
+        } 
         public void SearchRoom()
         {
             Console.SetCursorPosition(0, 0);
@@ -1708,8 +1740,49 @@ namespace Fallout
         /*
          * Das Menu, welches erstellt wird nachdem es einen Spieler in dem Spiel gibt
          */
+        public void GetQuestInfo()
+        {
+            for(int i=0; i<game.player.QuestLog.Count; i++)
+            {
+                Console.Write("[");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write(i +1);
+                Console.ResetColor();
+                Console.WriteLine("] ");
+                Console.SetCursorPosition(14, 28);
+                if(game.player.QuestLog[i].IsCompleted)
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write(game.player.QuestLog[i].Name);
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write(game.player.QuestLog[i].Name);
+                }
+                Console.ResetColor();
+            }
+        }
         public void Playerborder()
-        {            
+        {          
+            if(game.player.QuestLog.Count != 0)
+            {
+                Console.SetCursorPosition(0, 27);
+                for (int i = 0; i < Console.WindowWidth - 1; i++)
+                {
+                    if (i == 0 || i == Console.WindowWidth - 2)
+                    {
+                        Console.Write("+");
+                    }
+                    else
+                    {
+                        Console.Write("-");
+                    }
+                }
+                Console.SetCursorPosition(0, 28);
+                GetQuestInfo();
+
+            }
             Console.SetCursorPosition(0, 36);
             for (int i = 0; i < Console.WindowWidth - 1; i++)
             {
@@ -1750,7 +1823,7 @@ namespace Fallout
             game.player.Name = Console.ReadLine();
             if(game.player.Name != string.Empty && game.player.Name.Any(char.IsLetter) && !game.player.Name.Contains(" "))
             {
-                game.player.CurrentRoom = game.roomG[3];
+                game.player.CurrentRoom = game.roomA[3];
                 game.player.Home = game.roomB[5];
                 Welcome();
             } else
@@ -1798,12 +1871,6 @@ namespace Fallout
             Console.ResetColor();
             PressAnyKey();
             Console.Clear();
-        }
-
-
+        }    
     }
-}
-
-
-
-
+}                                   
