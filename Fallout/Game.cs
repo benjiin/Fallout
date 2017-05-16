@@ -47,35 +47,36 @@ namespace Fallout
 
             for (int i = 0; i <= 10; i++)
             {
-                roomA[i] = new Room("A" + (i));
+                roomA[i] = new Room("A" + (i), 1 + i);
                 roomA[i].Place = "Vault";
-                roomB[i] = new Room("B" + (i));
+                roomB[i] = new Room("B" + (i), 2 + i);
                 roomB[i].Place = "Vault";
-                roomC[i] = new Room("C" + (i));
+                roomC[i] = new Room("C" + (i), 3 + i);
                 roomC[i].Description = "Ödland";
                 if (dice.DiceTrow(100) < 50)
                 {
                     roomC[i].IsContaminated = true;
                 }
-                roomD[i] = new Room("D" + (i));
+                roomD[i] = new Room("D" + (i), 4 + i);
+
                 roomD[i].Description = "Ödland";
                 if (dice.DiceTrow(100) < 50)
                 {
                     roomD[i].IsContaminated = true;
                 }
-                roomE[i] = new Room("E" + (i));
+                roomE[i] = new Room("E" + (i), 5 + i);
                 roomE[i].Description = "Ödland";
                 if (dice.DiceTrow(100) < 50)
                 {
                     roomE[i].IsContaminated = true;
                 }
-                roomF[i] = new Room("F" + (i));
+                roomF[i] = new Room("F" + (i), 6 + i);
                 roomF[i].Description = "Ödland";
                 if (dice.DiceTrow(100) < 50)
                 {
                     roomF[i].IsContaminated = true;
                 }
-                roomG[i] = new Room("G" + (i));
+                roomG[i] = new Room("G" + (i), 7 + i);
                 roomG[i].Description = "Ödland";
                 if (dice.DiceTrow(100) < 50)
                 {
@@ -432,23 +433,25 @@ namespace Fallout
                  * Und ein Arzt um gegen Geld heilen oder Rad heilen zu lassen
                  */
                 //Ärzte
-                roomA[1].NPC.Add(doc = new NPC("Doktor", dice.DiceTrow(6), dice.DiceTrow(6), dice.DiceTrow(6)));
+                roomA[1].NPC.Add(doc = new NPC("Doktor", dice.DiceTrow(6), dice.DiceTrow(6), dice.DiceTrow(6), "Heilen", 1));
                 roomA[1].HasSomeToFight = true;
-                roomA[3].NPC.Add(doc = new NPC("Doktor", dice.DiceTrow(6), dice.DiceTrow(6), dice.DiceTrow(6)));
+                roomA[3].NPC.Add(doc = new NPC("Doktor", dice.DiceTrow(6), dice.DiceTrow(6), dice.DiceTrow(6), "Heilen", 1));
                 roomA[3].HasSomeToFight = true;
-                roomA[7].NPC.Add(doc = new NPC("Doktor", dice.DiceTrow(6), dice.DiceTrow(6), dice.DiceTrow(6)));
+                roomA[7].NPC.Add(doc = new NPC("Doktor", dice.DiceTrow(6), dice.DiceTrow(6), dice.DiceTrow(6), "Heilen", 1));
                 roomA[7].HasSomeToFight = true;
                 //Questgeber
-                roomB[1].NPC.Add(follower = new NPC("Bewohner", dice.DiceTrow(6), dice.DiceTrow(6), dice.DiceTrow(6)));
+                roomB[1].NPC.Add(follower = new NPC("Bewohner", dice.DiceTrow(6), dice.DiceTrow(6), dice.DiceTrow(6), "Handel", 2));
                 roomB[1].HasSomeToFight = true;
-                roomB[3].NPC.Add(follower = new NPC("Bewohner", dice.DiceTrow(6), dice.DiceTrow(6), dice.DiceTrow(6)));
+                roomB[3].NPC.Add(follower = new NPC("Bewohner", dice.DiceTrow(6), dice.DiceTrow(6), dice.DiceTrow(6), "Handel", 2));
                 roomB[3].HasSomeToFight = true;
-                roomB[7].NPC.Add(follower = new NPC("Bewohner", dice.DiceTrow(6), dice.DiceTrow(6), dice.DiceTrow(6)));
+                roomB[7].NPC.Add(follower = new NPC("Bewohner", dice.DiceTrow(6), dice.DiceTrow(6), dice.DiceTrow(6), "Handel", 2));
                 roomB[7].HasSomeToFight = true;
                 /*
                  * Quest erstellen 
                  */
                 Quest q1 = new Quest();
+                q1.ID = 1;
+                roomA[1].NPC[0].Quest.Add(q1);                          
 
                 FillRooms();
             }

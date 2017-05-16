@@ -39,7 +39,7 @@ namespace Fallout
         }
 
 
-
+        public int ID { get; set; }
         public bool HasSomeToFight { get; set; } = false;
         public bool HasStuff { get; set; } = false;
         public string Name { get; set; }
@@ -56,10 +56,11 @@ namespace Fallout
         /*
          * Konstruktor 
          */
-        public Room(string name)
+        public Room(string name, int id)
         {
             this.Name = name;
             this.IsContaminated = false;
+            this.ID = id;
         }
 
         public void GetStuff()
@@ -90,6 +91,8 @@ namespace Fallout
                     " MonsterHP: " + item.MaxHealthPoints);
             }
         }
+
+
 
 
     }

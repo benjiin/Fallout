@@ -26,6 +26,7 @@ namespace Fallout
         public int Experience { get; set; }
         public int RewardExperiencePoints { get; set; }
         public int RewardGold { get; set; }
+        public int ID { get; set; }
 
 
 

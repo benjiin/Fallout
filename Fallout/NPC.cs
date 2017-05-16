@@ -9,11 +9,17 @@ namespace Fallout
     class NPC : LivingCreature
     {
         Dice dice = new Dice();
-        List<Quest> Quest;
-        public NPC(string name, int str, int dex, int con)
+        public string Ability { get; set; }
+        private List<Quest> quest;
+        public List<Quest> Quest
         {
-            this.Quest = new List<Quest>();
+            get { return quest; }
+            set { quest = value; }
+        }
 
+        public NPC(string name, int str, int dex, int con, string abi, int id)
+        {
+            quest = new List<Quest>();
             this.Strength = (dice.DiceTrow(6) + str);
             this.Dexterity = (dice.DiceTrow(6) + dex);
             this.Constitution = (dice.DiceTrow(6) + con);
@@ -22,6 +28,8 @@ namespace Fallout
             this.HealthPoints = this.MaxHealthPoints;
             this.CarryWeightMax = double.MaxValue;
             this.Name = name;
+            this.Ability = abi;
+            this.ID = id;
         }
 
         public override void GetStats(int start, int end)

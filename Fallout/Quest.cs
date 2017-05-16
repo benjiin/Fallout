@@ -11,16 +11,23 @@ namespace Fallout
         public int ID { get; set; }
         public string Name { get; set; }
         public string Descripton { get; set; }
-        public string TaskToDo { get; set; }
-        public bool IsCompleted { get; set; }
+        public bool TaskToDo { get; set; } = false;
+        public bool IsCompleted { get; set; } = false;
         public Stuff RewardItem { get; set; }
         public int RewardXP { get; set; }
-        public int RewardGold { get; set; }
+        public int RewardGold { get; set; } 
 
-        public Quest()
+        public void QuestComplete(int id)
         {
-
+            if(id == 1)
+            {
+                if (this.TaskToDo == true)
+                {
+                    this.IsCompleted = true;
+                }
+            }
         }
+
     }
 
 }

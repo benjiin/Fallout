@@ -90,7 +90,7 @@ namespace Fallout
                     Option loot = new Option('5', "Behälter öffnen");
                     Menuitem.Add(loot);
                 }
-                if(game.player.CurrentRoom.Monster.Count != 0 || game.player.CurrentRoom.NPC.Count != 0)
+                if(game.player.CurrentRoom.Monster.Count != 0 || game.player.CurrentRoom.NPC.Count != 0 && game.player.CurrentRoom.Place != "Vault")
                 {
                     Option fight = new Option('6', "Kämpfen");
                     Menuitem.Add(fight);
@@ -148,7 +148,7 @@ namespace Fallout
                 case ConsoleKey.D6: //kämpfen
                     if (game.player.CurrentRoom.IsChecked == true)
                     {
-                        if (game.player.CurrentRoom.Monster.Count != 0 || game.player.CurrentRoom.NPC.Count != 0)
+                        if (game.player.CurrentRoom.Monster.Count != 0 || game.player.CurrentRoom.NPC.Count != 0 && game.player.CurrentRoom.Place != "Vault")
                         {
                             FightOption();
                         }
@@ -159,7 +159,7 @@ namespace Fallout
                     {
                         if(game.player.CurrentRoom.NPC.Count !=0)
                         {
-                            TalkWithNPC();
+                            DoSomeWithNPC();
                         }
                     }
                     break;
@@ -171,9 +171,90 @@ namespace Fallout
             }
             GameMenu();
         }
-        public void TalkWithNPC()
+        public void DoSomeWithNPC()
         {
+            if(game.player.CurrentRoom.NPC != null)
+            {
+                if (game.player.CurrentRoom.IsChecked == true)
+                {
+                    Console.Clear();
+                    Playerborder();
+                    Menuitem = new List<Option>();
 
+                    for (int i = 0; i < game.player.CurrentRoom.NPC.Count; i++)
+                    {
+                        Option npc = new Option((char)(49 + i), game.player.CurrentRoom.NPC[i].Name);
+                        Menuitem.Add(npc);
+                    }
+                    Option back = new Option('X', "Zurück");
+                    Menuitem.Add(back);
+
+                    ShowOption();
+
+                    bool InvalidInput = true;
+
+                    do
+                    {
+                        ConsoleKeyInfo input = Console.ReadKey();
+                        Console.Clear();
+                        Playerborder();
+                        Menuitem.RemoveRange(0, Menuitem.Count);
+
+                        switch (input.Key)
+                        {
+                            case ConsoleKey.D1:
+                                InteractionWithNPC(game.player.CurrentRoom.NPC[0]);
+                                PressAnyKey();
+                                InvalidInput = false;
+                                break;
+                            default:
+                                break;
+                        }
+
+                    } while (InvalidInput);
+
+                }
+            }
+        }
+        public void InteractionWithNPC(NPC npc)
+        {
+            if(npc.HealthPoints>0 && game.player.CurrentRoom.NPC != null)
+            {
+                Console.Clear();
+                Menuitem = new List<Option>();
+                Option talk = new Option('1', "Rede mit " + npc.Name);
+                Menuitem.Add(talk);
+                Option use = new Option('2', npc.Ability);
+                Menuitem.Add(use);
+                Option fight = new Option('3', "Kämpfe gegen " + npc.Name);
+                Menuitem.Add(fight);
+                Option back = new Option('X', "Zurück");
+                Menuitem.Add(back);
+                Playerborder();
+                ShowOption();
+                bool InvalidInput = true;
+
+                do
+                {
+                    ConsoleKeyInfo input = Console.ReadKey();
+                    Console.Clear();
+                    Menuitem.RemoveRange(0, Menuitem.Count);
+
+                    switch (input.Key)
+                    {
+                        case ConsoleKey.D1:
+                            
+                            break;
+                            
+                        default:
+                            
+                            break;
+                    }
+
+                } while (InvalidInput);
+               
+                
+            }
         }
         /*
          * Überprüfen ob dieser Raum einen Kampfbaren Gegner hat und wenn ja anzeigen lassen und abkämpfen 
@@ -481,11 +562,13 @@ namespace Fallout
                 int RewardXP = creature.RewardExperiencePoints;
                 if(creature is NPC)
                 {
-                    game.player.CurrentRoom.NPC.RemoveAt(0);
+                    //game.player.CurrentRoom.NPC.RemoveAt(0);
+                    game.player.CurrentRoom.NPC[0] = null;
                 }
                 else if(creature is Monster)
                 {
-                    game.player.CurrentRoom.Monster.RemoveAt(0);
+                    //game.player.CurrentRoom.Monster.RemoveAt(0);
+                    game.player.CurrentRoom.Monster[0] = null;
                 }
                 Tools bootlecaps;
                 Console.WriteLine("Du hast gewonnen");
@@ -1554,7 +1637,7 @@ namespace Fallout
             game.player.Name = Console.ReadLine();
             if(game.player.Name != string.Empty && game.player.Name.Any(char.IsLetter) && !game.player.Name.Contains(" "))
             {
-                game.player.CurrentRoom = game.roomG[5];
+                game.player.CurrentRoom = game.roomA[3];
                 game.player.Home = game.roomB[5];
                 Welcome();
             } else
@@ -1603,6 +1686,8 @@ namespace Fallout
             PressAnyKey();
             Console.Clear();
         }
+
+
     }
 }
 
