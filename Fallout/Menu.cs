@@ -207,7 +207,13 @@ namespace Fallout
                                 PressAnyKey();
                                 InvalidInput = false;
                                 break;
+                            case ConsoleKey.X:
+                                GameMenu();
+                                break;
                             default:
+                                Console.WriteLine("Ich habe Ihre Eingabe nicht verstanden");
+                                Console.Read();
+                                DoSomeWithNPC();
                                 break;
                         }
 
@@ -243,17 +249,115 @@ namespace Fallout
                     switch (input.Key)
                     {
                         case ConsoleKey.D1:
-                            
+                            GetQuest();                             
                             break;
-                            
+                        case ConsoleKey.D2:
+                            UseNPCAbility(npc);
+                            break;
+                        case ConsoleKey.D3:
+                            Fight(npc);
+                            break;
+                        case ConsoleKey.X:
+                            DoSomeWithNPC();
+                            break;  
                         default:
-                            
+                            Console.WriteLine("Ich habe Ihre Eingabe nicht verstanden");
+                            Console.Read();
+                            InteractionWithNPC(npc);
                             break;
                     }
 
                 } while (InvalidInput);
                
                 
+            }
+        }
+        public void UseNPCAbility(LivingCreature npc)
+        {
+            Console.Clear();
+            Menuitem = new List<Option>();
+            if(npc.ID == 1)
+            {
+                Option healFull = new Option('1', "Komplett heilen (100 Kronkorken)");
+                Menuitem.Add(healFull);
+                Option cureRad = new Option('2', "Komplette Strahlung entfernen (50 Kronkorken)");
+                Menuitem.Add(cureRad);
+            }
+            if(npc.ID == 2)
+            {
+                Option buy = new Option('1', "Kaufen");
+                Menuitem.Add(buy);
+                Option sell = new Option('2', "Verkaufen");
+                Menuitem.Add(sell);
+            }
+            Option back = new Option('X', "Zurück");
+            Menuitem.Add(back);   
+            Playerborder();
+            ShowOption();
+            ConsoleKeyInfo input = Console.ReadKey();
+            Menuitem.RemoveRange(0, Menuitem.Count);
+            switch (input.Key)
+            {
+                case ConsoleKey.D1:
+                    if(npc.ID == 1)
+                    {
+                        HealNPC();
+                    }
+                    if(npc.ID == 2)
+                    {
+                        BuyfromNPC();
+                    }
+                    break;
+                case ConsoleKey.D2:
+                    if(npc.ID == 1)
+                    {
+                        RemoveRad();
+                    }
+                    if(npc.ID ==2)
+                    {
+                        SellfromNPC();
+                    }
+                    break;
+                default:
+                    Console.WriteLine("Ich habe Ihre Eingabe nicht verstanden");
+                    Console.Read();
+                    UseNPCAbility(npc);
+                    break;
+            }
+
+        }
+        public void SellfromNPC()
+        {
+
+        }
+        public void RemoveRad()
+        {
+
+        }
+        public void BuyfromNPC()
+        {
+
+        }
+        public void HealNPC()
+        {
+
+        }
+        public void GetQuest()
+        {
+            Console.WriteLine("BLA BLA BLA mach das jetzt ");
+            game.player.QuestLog.Add(game.player.CurrentRoom.NPC[0].Quest[0]);
+            GameMenu();
+        }
+        public void CheckLocationQuest()
+        {
+            if(game.player.QuestLog != null)
+            {
+                if(game.player.CurrentRoom.Name == game.player.QuestLog[0].CurrentRoom.Name)
+                {
+                    game.player.HealthPoints = 2;
+
+                }
+
             }
         }
         /*
@@ -580,6 +684,10 @@ namespace Fallout
                 Console.WriteLine("{0}, hat folgenenes fallen gelassen:\n\t+{1}\n\t+{2}({3})", creature.Name, Loot.Name, bootlecaps.Name, bootlecaps.Amount);
                 game.player.Experience += creature.RewardExperiencePoints;
                 Console.WriteLine("Du erhältst ausserdem {0} Erfahrungspunkte", creature.RewardExperiencePoints);
+                if(creature is NPC)
+                {
+                    Console.Write(" (Keine XP für Vault Mörder)");
+                }
                 LevelUp();
             }
             if(game.player.HealthPoints <= 0)
@@ -1139,6 +1247,11 @@ namespace Fallout
          */
         public void ShowRooms()
         {
+            //test
+
+            Console.WriteLine("Koordinaten: {0}",game.player.CurrentRoom.Name);
+            Console.WriteLine("ID: {0}", game.player.CurrentRoom.ID);
+
 
             Console.WriteLine("Du befindest Dich im " + game.player.CurrentRoom.Place);
             if(game.player.CurrentRoom.Description != null)
@@ -1317,17 +1430,15 @@ namespace Fallout
         public void MovePlayer()
         {
             Console.Clear();
-            IsDead();
             ShowRooms();
             if (game.player.CurrentRoom.IsContaminated == true)
             {
                 game.player.XrayRadiation += 0.5;
-
+                if(game.player.XrayRadiation % 5 == 0)
+                {
+                    game.player.HealthPoints -= 1;
+                }    
             }
-            if(game.player.XrayRadiation % 5 == 0)
-            {
-                game.player.HealthPoints -= 1;
-            } 
             game.ClearRooms();
             try
             {
@@ -1451,6 +1562,9 @@ namespace Fallout
                 Console.WriteLine("Enter a valid Char");
                 PressAnyKey();
             }
+            CheckLocationQuest();
+            IsDead();
+
 
         }
         /*
@@ -1478,7 +1592,6 @@ namespace Fallout
             {
                 Console.Clear();
                 Console.WriteLine("Das Spiel ist jetzt vorbei. Ganz toll ");
-                PressAnyKey();
                 Start();
             }
         }
@@ -1637,7 +1750,7 @@ namespace Fallout
             game.player.Name = Console.ReadLine();
             if(game.player.Name != string.Empty && game.player.Name.Any(char.IsLetter) && !game.player.Name.Contains(" "))
             {
-                game.player.CurrentRoom = game.roomA[3];
+                game.player.CurrentRoom = game.roomG[3];
                 game.player.Home = game.roomB[5];
                 Welcome();
             } else

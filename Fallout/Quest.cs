@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Fallout
 {
-    class Quest
+    abstract class Quest 
     {
         public int ID { get; set; }
         public string Name { get; set; }
@@ -15,19 +15,16 @@ namespace Fallout
         public bool IsCompleted { get; set; } = false;
         public Stuff RewardItem { get; set; }
         public int RewardXP { get; set; }
-        public int RewardGold { get; set; } 
+        public int RewardGold { get; set; }
+        public Room CurrentRoom { get; set; }
+        public LivingCreature Enemy { get; set; }
+        public Stuff FindThisItem { get; set; }
 
-        public void QuestComplete(int id)
+
+        public void Complete()
         {
-            if(id == 1)
-            {
-                if (this.TaskToDo == true)
-                {
-                    this.IsCompleted = true;
-                }
-            }
-        }
 
+        }
     }
 
 }

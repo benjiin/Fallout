@@ -363,8 +363,7 @@ namespace Fallout
                 roomG[9].PathWest = roomG[8];
 
                 roomG[10].PathSouth = roomF[10];
-                roomG[10].PathWest = roomG[9];
-
+                roomG[10].PathWest = roomG[9];  
                 /*
                  * Crap-Item erstellen (Müll nur zum verkaufen gedacht)
                  * 
@@ -449,9 +448,12 @@ namespace Fallout
                 /*
                  * Quest erstellen 
                  */
-                Quest q1 = new Quest();
+                Quest q1 = new Quest_Location(roomA[4]);
                 q1.ID = 1;
-                roomA[1].NPC[0].Quest.Add(q1);                          
+                if(roomA[3].NPC != null)
+                {
+                    roomA[3].NPC[0].Quest.Add(q1);                          
+                }
 
                 FillRooms();
             }

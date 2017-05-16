@@ -246,5 +246,12 @@ namespace Fallout
                 }
             }
         }
+        public void CheckQuest()
+        {
+            foreach (var item in QuestLog)
+            {
+                
+            }
+        }
     }
 }
