@@ -11,13 +11,23 @@ namespace Fallout
     {
         Dice dice = new Dice();
         public List<Quest> QuestLog { get; set; }
+        
+        public int NeedExperience {
+            get
+            {
+                return this.Level * 100;
+            }
+
+        }
+
+
 
         public Room Home { get; set; }
         public Player()
         {
             this.Inventory = new List<Stuff>();
             this.QuestLog = new List<Quest>();
-            this.Strength = (dice.DiceTrow(6) + dice.DiceTrow(6) + dice.DiceTrow(6));
+            this.Strength = (dice.DiceTrow(6) + dice.DiceTrow(6) + dice.DiceTrow(6)); 
             this.Dexterity = (dice.DiceTrow(6) + dice.DiceTrow(6) + dice.DiceTrow(6));
             this.Constitution = (dice.DiceTrow(6) + dice.DiceTrow(6) + dice.DiceTrow(6));
             this.Dodge = this.Dexterity * 2;
@@ -26,7 +36,7 @@ namespace Fallout
             this.CarryWeightMax = ((this.Strength + 5) * 2);
             this.CarryWeight = 0;            
             this.Level = 1;
-            this.NeedExperience = this.Level * 100;
+            this.Experience = 0;
             this.XrayRadiation = 0;
             this.MaxXrayRadiation = 100;
         }
@@ -56,8 +66,16 @@ namespace Fallout
                 {
                     Console.WriteLine("Zu schwer");
                 }
+            }            
+        }
+
+        public void RemoveInventar(Stuff item)
+        {
+            if(this.Inventory.Contains(item))
+            {
+                this.Inventory.Remove(item);
+                this.CarryWeight -= item.Weight;
             }
-            
         }
 
 
@@ -100,17 +118,6 @@ namespace Fallout
                 }     
             }
             Console.ResetColor();
-        }
-        public void GetStats()
-        {
-            if (this.Name.Length >= 9)
-            {
-                Console.Write(this.Name.Substring(0, 9) + "...");
-            }
-            else
-            {
-                Console.Write(this.Name);
-            }
         }
         /*
          * Beste Methode ... Überprüfe mein Inventar ob es bestimmte Items hat
@@ -182,6 +189,48 @@ namespace Fallout
             //}
 
         }
+
+        public override void GetStats(int start, int end)
+        {
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write(this.Name);
+            Console.ResetColor();
+            Console.SetCursorPosition(14, start);
+            Console.Write("HP: ");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write(this.HealthPoints + "/" + this.MaxHealthPoints);
+            Console.ResetColor();
+            Console.Write(" STR: ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write(this.Strength);
+            Console.ResetColor();
+            Console.Write(" GES: ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write(this.Dexterity);
+            Console.ResetColor();
+            Console.Write(" Ausweichen: ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write(this.Dodge);
+            Console.ResetColor();
+            Console.Write(" Level: ");
+            Console.Write(this.Level);
+            Console.Write(" XP: ");
+            Console.Write(this.Experience + "/" + this.NeedExperience);
+            Console.SetCursorPosition(14, end);
+            Console.Write("Gewicht:");
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.Write(" " + this.CarryWeight + "/" + this.CarryWeightMax);
+            Console.ResetColor();
+            Console.Write(" Kronkorken: ");
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.Write(this.Money);
+            Console.ResetColor();
+            Console.Write(" Radiation: ");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write(this.XrayRadiation);
+            Console.ResetColor();
+        }
+
 
         public void RemoveBobby()
         {

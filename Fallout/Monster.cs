@@ -9,9 +9,6 @@ namespace Fallout
     class Monster : LivingCreature
     {
         Dice dice = new Dice();
-        public int RewardExperiencePoints { get; set; }
-        public int RewardGold { get; set; }
-
         /*
          * Stärke = str + W6
          * Constitution = Stärke + W6
@@ -29,6 +26,30 @@ namespace Fallout
             this.HealthPoints = this.MaxHealthPoints;
             this.RewardGold = Strength + rGold;
             this.RewardExperiencePoints = dice.DiceTrow(Strength) * xpmult;
+        }
+
+        public override  void GetStats(int start, int end)
+        {
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write(this.Name);
+            Console.ResetColor();
+            Console.SetCursorPosition(15, start);
+            Console.Write("HP: ");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write(this.HealthPoints + "/" + this.MaxHealthPoints);
+            Console.ResetColor();
+            Console.Write(" STR: ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write(this.Strength);
+            Console.ResetColor();
+            Console.Write(" GES: ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write(this.Dexterity);
+            Console.ResetColor();
+            Console.Write(" Ausweichen: ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write(this.Dodge);
+            Console.ResetColor();
         }
 
     }

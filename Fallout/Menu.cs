@@ -21,7 +21,7 @@ namespace Fallout
         public void Start()
         {
             Console.SetBufferSize(80, 80);
-            Console.SetWindowSize(80, 50);
+            Console.SetWindowSize(80, 60);
             MenuBorder(39, 40);
             Menuitem = new List<Option>();
             Option first = new Option('1', "Neues Spiel");
@@ -95,6 +95,11 @@ namespace Fallout
                     Option fight = new Option('6', "Kämpfen");
                     Menuitem.Add(fight);
                 }
+                if(game.player.CurrentRoom.NPC.Count !=0)
+                {
+                    Option talk = new Option('7', "Reden");
+                    Menuitem.Add(talk);
+                }
             }
             if (game.player.CurrentRoom.Place == "Vault")
             {
@@ -149,6 +154,15 @@ namespace Fallout
                         }
                     }
                     break;
+                case ConsoleKey.D7:
+                    if(game.player.CurrentRoom.IsChecked == true)
+                    {
+                        if(game.player.CurrentRoom.NPC.Count !=0)
+                        {
+                            TalkWithNPC();
+                        }
+                    }
+                    break;
                 default:
                     Console.WriteLine("Ich habe Ihre Eingabe nicht verstanden");
                     Console.Read();
@@ -156,6 +170,10 @@ namespace Fallout
                     break;
             }
             GameMenu();
+        }
+        public void TalkWithNPC()
+        {
+
         }
         /*
          * Überprüfen ob dieser Raum einen Kampfbaren Gegner hat und wenn ja anzeigen lassen und abkämpfen 
@@ -269,6 +287,24 @@ namespace Fallout
 
             }
         }
+        public void LevelUp()
+        {
+            if (game.player.Experience >= game.player.NeedExperience)
+            {
+                game.player.Experience -= game.player.NeedExperience;
+                int diceStr = dice.DiceTrow(6),
+                    diceDex = dice.DiceTrow(6),
+                    diceCon = dice.DiceTrow(6);
+                game.player.Level += 1;
+                game.player.Strength += diceStr;
+                game.player.Dexterity += diceDex;
+                game.player.Constitution += diceCon;
+                Console.WriteLine("Glückwunsch Du hast einen neuen Level erreicht");
+                Console.WriteLine("Deine Stärke hast sich um {0} erhöht und auch deine Geschicklichkeit ist um {1} " +
+                    "gestiegen. Ausserdem erhöht sich deine Konstitution um {2} was Dich mehr tragen lässt. Mach weiter " +
+                    "so du kleiner Racker.", diceStr, diceDex, diceCon);
+            }
+        }
         /*
          * JEder muss ja mal was essen.
          */
@@ -328,8 +364,7 @@ namespace Fallout
 
                         break;
                     case ConsoleKey.D2:
-                        InvalidInput = false;
-                        ShowInventory();
+                        DropItems();
                         break;
                     case ConsoleKey.X:
                         InvalidInput = false;
@@ -382,16 +417,16 @@ namespace Fallout
                     Playerborder();
                     Console.WriteLine("Du holst aus...");
                     Thread.Sleep(1500);
-                    if (dice.DiceTrow(100) < (game.player.Strength * 3)) 
+                    if (dice.DiceTrow(50) < (game.player.Strength)) 
                     {
-                        if (dice.DiceTrow(100) < creature.Dodge)
+                        if (dice.DiceTrow(50) < creature.Dodge)
                         {
                             Console.WriteLine("...doch {0} blockt deinen Angriff", creature.Name);
                             Thread.Sleep(500);
                         }
                         else
                         {
-                            int playerDMG = dice.DiceTrow(3);
+                            int playerDMG = dice.DiceTrow(6);
                             Console.WriteLine("...und triffst {0} für {1} Schaden", creature.Name, playerDMG);
                             Thread.Sleep(500);
                             creature.HealthPoints -= playerDMG;
@@ -410,16 +445,16 @@ namespace Fallout
                     {
                         Console.WriteLine("{0} greift Dich an...", creature.Name);
                         Thread.Sleep(1500);
-                        if(dice.DiceTrow(100) < (creature.Strength * 3))
+                        if(dice.DiceTrow(20) < (creature.Strength))
                         {
-                            if(dice.DiceTrow(100) < game.player.Dodge)
+                            if(dice.DiceTrow(50) < game.player.Dodge)
                             {
                                 Console.WriteLine("...Du ({0}) kannst gekonnt blocken", game.player.Name);
                                 Thread.Sleep(500);
                             }
                             else
                             {
-                                int creatureDMG = dice.DiceTrow(3);
+                                int creatureDMG = dice.DiceTrow(6);
                                 Console.WriteLine("...und trifft dich für {0} Schaden", creatureDMG);
                                 Thread.Sleep(500);
                                 game.player.HealthPoints -= creatureDMG;
@@ -443,6 +478,7 @@ namespace Fallout
             } while (alive);
             if (creature.HealthPoints <= 0)
             {
+                int RewardXP = creature.RewardExperiencePoints;
                 if(creature is NPC)
                 {
                     game.player.CurrentRoom.NPC.RemoveAt(0);
@@ -457,15 +493,19 @@ namespace Fallout
                 game.player.CurrentRoom.HasSomeToFight = false;
                 Crap Loot = game.allCrap[dice.DiceTrow(game.allCrap.Count)];
                 game.player.CurrentRoom.Things.Add(Loot);
-                game.player.CurrentRoom.Things.Add(bootlecaps = new Tools("Kronkorken", 1, 100, dice.DiceTrow(10), 2));
+                game.player.CurrentRoom.Things.Add(bootlecaps = new Tools("Kronkorken", 1, 100, creature.RewardGold, 2));
                 Console.WriteLine("{0}, hat folgenenes fallen gelassen:\n\t+{1}\n\t+{2}({3})", creature.Name, Loot.Name, bootlecaps.Name, bootlecaps.Amount);
+                game.player.Experience += creature.RewardExperiencePoints;
+                Console.WriteLine("Du erhältst ausserdem {0} Erfahrungspunkte", creature.RewardExperiencePoints);
+                LevelUp();
             }
             if(game.player.HealthPoints <= 0)
             {
                 Console.WriteLine("Du hast verloren");
                 IsDead();
             }
-                PressAnyKey();
+            game.player.CurrentRoom.IsChecked = true;
+            PressAnyKey();
         }
         public void PickUpFromContainer(int containerIndex, int itemIndex)
         {
@@ -1072,6 +1112,119 @@ namespace Fallout
             }
 
         }
+        public void DropItems()
+        {
+            Console.Clear();
+            Playerborder();
+            Menuitem = new List<Option>();
+
+            if (game.player.Inventory.Count != 0)
+            {
+                for (int i = 0; i < game.player.Inventory.Count; i++)
+                {
+                    Option stuff = new Option((char)(49 + i), game.player.Inventory[i].Name);
+                    if (game.player.Inventory[i].ID == 3)
+                    {
+                        stuff.MenuChoice += "(" + game.player.Inventory[i].Amount + ")";
+                    }
+                    Menuitem.Add(stuff);
+                }
+            }
+            Option back = new Option('X', "Zurück");
+            Menuitem.Add(back);
+            ShowOption();
+            bool invalidInput = false;
+            do
+            {
+                ConsoleKeyInfo input = Console.ReadKey();
+                Console.Clear();
+                Menuitem.RemoveRange(0, Menuitem.Count);
+                invalidInput = false;
+                try
+                {
+                    switch (input.Key)
+                    {
+                        case ConsoleKey.D1:
+                            if (game.player.Inventory[0] != null)
+                            {
+                                game.player.CurrentRoom.Things.Add(game.player.Inventory[0]);
+                                game.player.RemoveInventar(game.player.Inventory[0]);
+                            }
+                            break;
+                        case ConsoleKey.D2:
+                            if (game.player.Inventory[1] != null)
+                            {
+                                game.player.CurrentRoom.Things.Add(game.player.Inventory[1]);
+                                game.player.RemoveInventar(game.player.Inventory[1]);
+                            }
+                            break;
+                        case ConsoleKey.D3:
+                            if (game.player.Inventory[2] != null)
+                            {
+                                game.player.CurrentRoom.Things.Add(game.player.Inventory[2]);
+                                game.player.RemoveInventar(game.player.Inventory[2]);
+                            }
+                            break;
+                        case ConsoleKey.D4:
+                            if (game.player.Inventory[3] != null)
+                            {
+                                game.player.CurrentRoom.Things.Add(game.player.Inventory[3]);
+                                game.player.RemoveInventar(game.player.Inventory[3]);
+                            }
+                            break;
+                        case ConsoleKey.D5:
+                            if (game.player.Inventory[4] != null)
+                            {
+                                game.player.CurrentRoom.Things.Add(game.player.Inventory[4]);
+                                game.player.RemoveInventar(game.player.Inventory[4]);
+                            }
+                            break;
+                        case ConsoleKey.D6:
+                            if (game.player.Inventory[4] != null)
+                            {
+                                game.player.CurrentRoom.Things.Add(game.player.Inventory[5]);
+                                game.player.RemoveInventar(game.player.Inventory[5]);
+                            }
+                            break;
+                        case ConsoleKey.D7:
+                            if (game.player.Inventory[4] != null)
+                            {
+                                game.player.CurrentRoom.Things.Add(game.player.Inventory[6]);
+                                game.player.RemoveInventar(game.player.Inventory[6]);
+                            }
+                            break;
+                        case ConsoleKey.D8:
+                            if (game.player.Inventory[4] != null)
+                            {
+                                game.player.CurrentRoom.Things.Add(game.player.Inventory[7]);
+                                game.player.RemoveInventar(game.player.Inventory[7]);
+                            }
+                            break;
+                        case ConsoleKey.D9:
+                            if (game.player.Inventory[4] != null)
+                            {
+                                game.player.CurrentRoom.Things.Add(game.player.Inventory[8]);
+                                game.player.RemoveInventar(game.player.Inventory[8]);
+                            }
+                            break;
+                        case ConsoleKey.X:
+                            GameMenu();
+                            break;
+                        default:
+                            Console.WriteLine("Ich habe sie nicht verstanden.");
+                            break;
+                    }
+                    DropItems();
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    Console.WriteLine("An dieser Stelle gibt es nix.");
+                    PressAnyKey();
+                    DropItems();
+                    invalidInput = true;
+                }
+            } while (invalidInput);
+        }
         /*
          * Bewege den Spieler. 
          * Es wird (nachdem man sich den Raum angeschaut hat) angezeigt in welche Räume man gehen kann. 
@@ -1083,14 +1236,19 @@ namespace Fallout
             Console.Clear();
             IsDead();
             ShowRooms();
+            if (game.player.CurrentRoom.IsContaminated == true)
+            {
+                game.player.XrayRadiation += 0.5;
+
+            }
+            if(game.player.XrayRadiation % 5 == 0)
+            {
+                game.player.HealthPoints -= 1;
+            } 
             game.ClearRooms();
             try
             {
                 Console.WriteLine("\nWohin möchtest du gehen?");
-                if (game.player.CurrentRoom.IsContaminated == true)
-                {
-                    game.player.XrayRadiation += 0.5;
-                }
                 if (game.player.CurrentRoom.PathNorth != null)
                 {
                     Console.Write("\t\t(");
@@ -1241,6 +1399,7 @@ namespace Fallout
                 Start();
             }
         }
+
         public void SearchRoom()
         {
             Console.SetCursorPosition(0, 0);
@@ -1251,10 +1410,6 @@ namespace Fallout
                 Console.Write(".");
             }
             Console.Clear();
-
-
-
-
             if(game.player.CurrentRoom.Things.Count != 0)
             {
                 Console.ResetColor();
@@ -1326,7 +1481,14 @@ namespace Fallout
             ShowRooms();
             Console.WriteLine();
             PressAnyKey();
-            Enemyattack();
+         //   Enemyattack();
+            /////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////
         }
         /*
          * Der erste Menu Entwurf

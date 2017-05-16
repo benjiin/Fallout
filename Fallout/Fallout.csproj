@@ -46,7 +46,6 @@
     <Compile Include="Container.cs" />
     <Compile Include="Crap.cs" />
     <Compile Include="Dice.cs" />
-    <Compile Include="Enemy.cs" />
     <Compile Include="Exception.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="LivingCreature.cs" />

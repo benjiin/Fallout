@@ -23,5 +23,29 @@ namespace Fallout
             this.CarryWeightMax = double.MaxValue;
             this.Name = name;
         }
+
+        public override void GetStats(int start, int end)
+        {
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write(this.Name);
+            Console.ResetColor();
+            Console.SetCursorPosition(15, start);
+            Console.Write("HP: ");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write(this.HealthPoints + "/" + this.MaxHealthPoints);
+            Console.ResetColor();
+            Console.Write(" STR: ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write(this.Strength);
+            Console.ResetColor();
+            Console.Write(" GES: ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write(this.Dexterity);
+            Console.ResetColor();
+            Console.Write(" Ausweichen: ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write(this.Dodge);
+            Console.ResetColor();
+        }
     }
 }
