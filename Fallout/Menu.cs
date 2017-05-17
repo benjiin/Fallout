@@ -1479,7 +1479,7 @@ namespace Fallout
          * Es wird (nachdem man sich den Raum angeschaut hat) angezeigt in welche Räume man gehen kann. 
          * 
          * Es wird auch noch eine Beschreibung des Raumes gegeben um so "die Quest" zu vollenden.
-         */                                              mkm 
+         */                                               
         public void MovePlayer()
         {
             Console.Clear();
