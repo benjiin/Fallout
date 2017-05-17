@@ -150,7 +150,7 @@ namespace Fallout
                 case ConsoleKey.D6: //kämpfen
                     if (game.player.CurrentRoom.IsChecked == true)
                     {
-                        if (game.player.CurrentRoom.Monster.Count != 0 || game.player.CurrentRoom.NPC.Count != 0 && game.player.CurrentRoom.Place != "Vault")
+                        if (game.player.CurrentRoom.Monster.Count != 0 || game.player.CurrentRoom.NPC.Count != 0 && game.player.CurrentRoom.Place != "Vault" || game.player.CurrentRoom.HasSomeToFight == true)
                         {
                             FightOption();
                         }
