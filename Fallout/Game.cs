@@ -465,18 +465,21 @@ namespace Fallout
                  */
                 Quest q1 = new Quest_Location(roomA[1], "Finde " + roomA[1].NPC[0].Name);
                 q1.ID = 1;
+                q1.Hint = roomG[1].Description;
                 if(roomA[3].NPC != null)
                 {
                     roomA[3].NPC[0].Quest.Add(q1);                          
                 }
 
                 Quest q2 = new Quest_Location(roomA[7], "Finde " + roomA[7].NPC[0].Name);
+                q2.Hint = roomC[5].Description;
                 if (roomB[1].NPC != null)
                 {
                     roomB[1].NPC[0].Quest.Add(q2);
                 }
 
                 Quest q3 = new Quest_Location(roomB[3], "Finde " + roomB[3].NPC[0].Name);
+                q3.Hint = roomF[9].Description;
                 if (roomB[7].NPC != null)
                 {
                     roomB[7].NPC[0].Quest.Add(q3);
@@ -700,8 +703,8 @@ namespace Fallout
             roomB[6].Description = "Raum mit Treppe";
             roomB[10].Description = "Raum mit Treppe";
             roomG[1].Description = "Kaktusfeld (Lukeneingang zum Vault 2)";
-            roomC[5].Description = "Lukeneingang zum Vault 1";
-            roomF[9].Description = "Lukeneingang zum Vault 3";
+            roomC[5].Description = "Agavenfeld (Lukeneingang zum Vault 1)";
+            roomF[9].Description = "Lemonenbaum (Lukeneingang zum Vault 3)";
         }
 
     }

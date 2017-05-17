@@ -20,9 +20,11 @@ namespace Fallout
         */
         public void Start()
         {
-            Console.SetBufferSize(80, 80);
-            Console.SetWindowSize(80, 60);
+            Console.SetBufferSize(120, 100);
+            Console.SetWindowSize(100, 80);
+            Welcome();
             MenuBorder(39, 40);
+
             Menuitem = new List<Option>();
             Option first = new Option('1', "Neues Spiel");
             Menuitem.Add(first);
@@ -303,34 +305,40 @@ namespace Fallout
             ShowOption();
             ConsoleKeyInfo input = Console.ReadKey();
             Menuitem.RemoveRange(0, Menuitem.Count);
-            switch (input.Key)
+            bool invalidinput = true;
+            do
             {
-                case ConsoleKey.D1:
-                    if(npc.ID == 1)
-                    {
-                        HealNPC();
-                    }
-                    if(npc.ID == 2)
-                    {
-                        BuyfromNPC();
-                    }
-                    break;
-                case ConsoleKey.D2:
-                    if(npc.ID == 1)
-                    {
-                        RemoveRad();
-                    }
-                    if(npc.ID ==2)
-                    {
-                        SellfromNPC();
-                    }
-                    break;
-                default:
-                    Console.WriteLine("Ich habe Ihre Eingabe nicht verstanden");
-                    Console.Read();
-                    UseNPCAbility(npc);
-                    break;
-            }
+                switch (input.Key)
+                {
+                    case ConsoleKey.D1:
+                        if(npc.ID == 1)
+                        {
+                            HealNPC();
+                            invalidinput = false;
+                        }
+                        if(npc.ID == 2)
+                        {
+                            BuyfromNPC();
+                        }
+                        break;
+                    case ConsoleKey.D2:
+                        if(npc.ID == 1)
+                        {
+                            RemoveRad();
+                        }
+                        if(npc.ID ==2)
+                        {
+                            SellfromNPC();
+                        }
+                        break;
+                    default:
+                        Console.WriteLine("Ich habe Ihre Eingabe nicht verstanden");
+                        Console.Read();
+                        //UseNPCAbility(npc);
+                        break;
+                }
+
+            } while (invalidinput);
 
         }
         public void SellfromNPC()
@@ -373,6 +381,12 @@ namespace Fallout
             game.player.CurrentRoom.NPC[0].Quest[0] = null;
             Playerborder();
             ShowInventory();
+        }
+        public void Yellow(string color)
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write(color);
+            Console.ResetColor();  
         }
         public void Red(string color)
         {
@@ -646,13 +660,13 @@ namespace Fallout
                         if (dice.DiceTrow(50) < creature.Dodge)
                         {
                             Console.WriteLine("...doch {0} blockt deinen Angriff", creature.Name);
-                            Thread.Sleep(500);
+                            Thread.Sleep(800);
                         }
                         else
                         {
                             int playerDMG = dice.DiceTrow(6);
                             Console.WriteLine("...und triffst {0} für {1} Schaden", creature.Name, playerDMG);
-                            Thread.Sleep(500);
+                            Thread.Sleep(800);
                             creature.HealthPoints -= playerDMG;
                             if(creature.HealthPoints <= 0 )
                             {
@@ -663,7 +677,7 @@ namespace Fallout
                     else
                     {
                         Console.WriteLine("...aber verfehlst {0}", creature.Name);
-                        Thread.Sleep(500);
+                        Thread.Sleep(800);
                     }
                     if(creature.HealthPoints > 0)
                     {
@@ -673,14 +687,14 @@ namespace Fallout
                         {
                             if(dice.DiceTrow(50) < game.player.Dodge)
                             {
-                                Console.WriteLine("...Du ({0}) kannst gekonnt blocken", game.player.Name);
-                                Thread.Sleep(500);
+                                Console.WriteLine("...du kannst gekonnt blocken");
+                                Thread.Sleep(800);
                             }
                             else
                             {
                                 int creatureDMG = dice.DiceTrow(6);
                                 Console.WriteLine("...und trifft dich für {0} Schaden", creatureDMG);
-                                Thread.Sleep(500);
+                                Thread.Sleep(800);
                                 game.player.HealthPoints -= creatureDMG;
                                 if(game.player.HealthPoints <= 0)
                                 {
@@ -691,7 +705,7 @@ namespace Fallout
                         else
                         {
                             Console.WriteLine("...verfehlt Dich aber");
-                            Thread.Sleep(500);
+                            Thread.Sleep(800);
                         }
                     }
                     else
@@ -1288,8 +1302,7 @@ namespace Fallout
         {
             //test
 
-            Console.WriteLine("Koordinaten: {0}",game.player.CurrentRoom.Name);
-            Console.WriteLine("ID: {0}", game.player.CurrentRoom.ID);
+            Console.WriteLine("(Orientierungshilfe) Koordinaten: {0}",game.player.CurrentRoom.Name);
 
 
             Console.WriteLine("Du befindest Dich im " + game.player.CurrentRoom.Place);
@@ -1345,6 +1358,7 @@ namespace Fallout
                     Console.WriteLine("(" + game.player.CurrentRoom.PathDown.Description + ")");
                 }
             }
+
 
         }
         public void DropItems()
@@ -1465,12 +1479,12 @@ namespace Fallout
          * Es wird (nachdem man sich den Raum angeschaut hat) angezeigt in welche Räume man gehen kann. 
          * 
          * Es wird auch noch eine Beschreibung des Raumes gegeben um so "die Quest" zu vollenden.
-         */
+         */                                              mkm 
         public void MovePlayer()
         {
             Console.Clear();
-            ShowRooms();
-
+            Playerborder();
+            ShowRooms();        
             game.ClearRooms();
             try
             {
@@ -1594,6 +1608,7 @@ namespace Fallout
                 Console.WriteLine("Enter a valid Char");
                 PressAnyKey();
             }
+
             if (game.player.CurrentRoom.IsContaminated == true)
             {
                 game.player.XrayRadiation += 0.5;
@@ -1645,7 +1660,10 @@ namespace Fallout
                 Console.Write(".");
             }
             Console.Clear();
-            if(game.player.CurrentRoom.Things.Count != 0)
+            Playerborder();
+            ShowRooms();
+            Console.WriteLine();
+            if (game.player.CurrentRoom.Things.Count != 0)
             {
                 Console.ResetColor();
                 Console.ForegroundColor = ConsoleColor.White;
@@ -1712,18 +1730,10 @@ namespace Fallout
             }
             Console.ResetColor();
             Console.WriteLine();
-            Console.WriteLine();
-            ShowRooms();
-            Console.WriteLine();
             PressAnyKey();
-         //   Enemyattack();
-            /////////////////////////////////////////////////////////
-            /////////////////////////////////////////////////////////
-            /////////////////////////////////////////////////////////
-            /////////////////////////////////////////////////////////
-            /////////////////////////////////////////////////////////
-            /////////////////////////////////////////////////////////
-            /////////////////////////////////////////////////////////
+            //Enemyattack();
+            //TODO Rausnehmen
+
         }
         /*
          * Der erste Menu Entwurf
@@ -1768,6 +1778,10 @@ namespace Fallout
                     Console.Write(game.player.QuestLog[i].Name);
                 }
                 Console.ResetColor();
+                Console.Write( "(");
+                Yellow(game.player.QuestLog[i].Hint);
+                Console.ResetColor();
+                Console.Write( ")");
             }
         }
         public void Playerborder()
@@ -1830,9 +1844,8 @@ namespace Fallout
             game.player.Name = Console.ReadLine();
             if(game.player.Name != string.Empty && game.player.Name.Any(char.IsLetter) && !game.player.Name.Contains(" "))
             {
-                game.player.CurrentRoom = game.roomA[3];
+                game.player.CurrentRoom = game.roomB[5];
                 game.player.Home = game.roomB[5];
-                Welcome();
             } else
             {
                 Console.WriteLine("Nur Buchstaben und keine Leerzeichen");
@@ -1840,6 +1853,13 @@ namespace Fallout
                 Console.Clear();
                 NewPlayer();
             }
+        }
+        public void Spoiler(string color)
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.BackgroundColor = ConsoleColor.White;
+            Console.WriteLine(color);
+            Console.ResetColor();
         }
         public void PressAnyKey()
         {
@@ -1855,7 +1875,7 @@ namespace Fallout
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Red;
-            string s = "WARNING";
+            string s = "WARNUNG";
             Console.SetCursorPosition((Console.WindowWidth - s.Length) / 2, Console.CursorTop);
             Console.WriteLine(s);
             Console.ResetColor();
@@ -1868,16 +1888,52 @@ namespace Fallout
             text.Add("\t\t\t\t \\   ^  /   ");
             text.Add("\t\t\t\t  |||||   ");
             text.Add("\t\t\t\t  ||||| ");
+            /*
+             * ASCII geliehen von:
+             * http://www.asciiworld.com/-Death-Co-.html
+             */
 
             Console.ForegroundColor = ConsoleColor.Yellow;
             for (int i = 0; i < text.Count; i++)
             {
                 Console.WriteLine(text[i]);
             }
-            Console.ForegroundColor = ConsoleColor.Green;
             Console.ResetColor();
+            Console.WriteLine();
+            Console.WriteLine("Projektkriterien");
+            Green("\nEs soll ein Spiel erstellt werden");
+            Console.Write("\nPassiert beim neuen Spiel");
+            Green("\nEs soll ein Charakter gespielt werden.");
+            Console.Write("\nDieser wird generiert beim neuen Spiel");
+            Green("\nDieser Charakter soll verschiedene Attribute / Eigenschaften besitzen");
+            Console.Write("\nSind vorhanden. \n- Stärke = (3 * W6 (Würfel mit 6Augen)) \n- Geschicklichkeit 3 * W6 \n- Konstitution 3*W6 \n- Lebenspunkte (Stärke + Konstitution) / 2 \n-Tragegewicht (Stärke + 5) *2 \n- Die selben Werte gelten auch für NPC und Monster, aber nur der Spieler würfelt 3 W6, die anderen nur 2");
+            Green("\nDiese Attribute/ Eigenschaften sollen im Spiel relevant sein");
+            Console.Write("\ns.O. Geschicklichkeit wird noch für das Ausweichen benutzt bei einem Angriff");
+            Green("\nDer Charakter soll sich feldbasierend fortbewegen");
+            Console.Write("\n zur Hilfestellung habe ich die \"Koordinaten\" mitgegeben um sich zu orientieren");
+            Green("\nEs sollen Gegenstände im Raum und im Inventar existieren (Inventar muss eingesammelt werden)");
+            Console.Write("\n Per Zufall wird es im Raum (nur im commomwealth) items geben. Diese werden immer wieder neu generiert, wenn der Spieler zurück in ein Vault geht. Gegenstände können bis zu einer Obergrenze des Gewichtes eingesammelt weden und wieder im aktuellen Raum fallen gelassen werden");
+            Green("\nEs sollen Gegenstände verbrauchbar(wie z.B.Tränke) sein");
+            Console.Write("\nEs gibt Essen und trinken sowie auch Heiltränke (stimpack) die nicht nur die HP wieder herstellen sondern auch die Strahlung runterziehen können");
+            Green("\nEs sollen Gegenstände benutzbar in einem bestimmten Kontext sein");
+            Console.Write("\nHaarklammern werden gebraucht um Truhen zu öffnen");
+            Red("\nDer Spielstand soll abgespeichert und geladen werden können.");
+            Console.Write("\nTODO");
+            Green("\nEs sollen friedliche und nicht - friedliche Nicht - Spieler - Charaktere geben.");
+            Console.Write("\nIn den Vault gibt es je 2 NPC (einen Arzt und einen nicht Arzt, der Arzt soll einen hochheilen TODO und der andere sol dafür da sein um Sachen zu verkaufen).");
+            Green("\nDie nicht-friedlichen Charaktere sollen den Spieler angreifen können.");
+            Console.Write("\nIm Commomwealth werden immer wieder Monster generiert sobald man das Commomwealth betritt. Diese können einen auch angreifen oder man hat Glück und kommt so dran vorbei. Donnerkuppel Regel!!! 2 Mann rein, 1 Mann raus. Es wird gekämpft bis zum Tod. Man kann auch NPC angreifen, diese respawnen nicht (\"Er ist Tod Jim\") also wenn keine Lust besteht die Hammer Quest zu beenden ....");
+            Green("\nEs soll ein Kampf mit nicht-friedlichen Charakteren möglich sein.");
+            Console.Write("\ns.O. TL;DR greif alles an was sich bewegt");
+            Green("\nEs soll mindestens eine Handlungslinie existieren, welche abgeschlossen werden kann.");
+            Console.Write("\n**********************Spoiler Warnung**********************\n");
+            Spoiler(" Gehe von A3, nach dem reden nach A1");
+            Spoiler(" Gehe von B1, nach dem reden nach A7");
+            Spoiler(" Gehe von B7, nach dem reden nach A3");
+            Console.WriteLine();
             PressAnyKey();
             Console.Clear();
-        }    
+             
+        }
     }
 }                                   

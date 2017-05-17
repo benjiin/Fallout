@@ -19,6 +19,7 @@ namespace Fallout
         public Room CurrentRoom { get; set; }
         public LivingCreature Enemy { get; set; }
         public Stuff FindThisItem { get; set; }
+        public string Hint { get; set; }
 
 
         public void Complete()
