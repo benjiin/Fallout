@@ -20,8 +20,8 @@ namespace Fallout
         */
         public void Start()
         {
-            Console.SetBufferSize(120, 100);
-            Console.SetWindowSize(100, 80);
+            Console.SetBufferSize(200, 100);
+            Console.SetWindowSize(150, 80);
             Welcome();
             MenuBorder(39, 40);
 
