@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Fallout
 {
+    [Serializable()]
     class Player : LivingCreature
     {
         Dice dice = new Dice();

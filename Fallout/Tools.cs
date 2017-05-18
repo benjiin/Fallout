@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Fallout
 {
+    [Serializable()]
     class Tools : Stuff   
     {
         static List<Tools> AllTools = new List<Tools>();

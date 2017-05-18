@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace Fallout
 {
+    [Serializable()]
+
     abstract class LivingCreature
     {
         public List<Stuff> Inventory { get; set; }

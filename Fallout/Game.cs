@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -463,26 +465,25 @@ namespace Fallout
                 /*
                  * Quest erstellen 
                  */
-                Quest q1 = new Quest_Location(roomA[1], "Finde " + roomA[1].NPC[0].Name);
-                q1.ID = 1;
+                Quest q1 = new Quest_Location(roomB[3], "Finde " + roomB[1].NPC[0].Name);
                 q1.Hint = roomG[1].Description;
                 if(roomA[3].NPC != null)
                 {
-                    roomA[3].NPC[0].Quest.Add(q1);                          
+                    roomA[3].NPC[0].Quest.Add(q1);
                 }
 
-                Quest q2 = new Quest_Location(roomA[7], "Finde " + roomA[7].NPC[0].Name);
+                Quest q2 = new Quest_Location(roomB[7], "Finde " + roomB[7].NPC[0].Name);
                 q2.Hint = roomC[5].Description;
-                if (roomB[1].NPC != null)
+                if (roomA[1].NPC != null)
                 {
-                    roomB[1].NPC[0].Quest.Add(q2);
+                    roomA[1].NPC[0].Quest.Add(q2);
                 }
 
                 Quest q3 = new Quest_Location(roomB[3], "Finde " + roomB[3].NPC[0].Name);
                 q3.Hint = roomF[9].Description;
-                if (roomB[7].NPC != null)
+                if (roomA[7].NPC != null)
                 {
-                    roomB[7].NPC[0].Quest.Add(q3);
+                    roomA[7].NPC[0].Quest.Add(q3);
                 }
 
 
@@ -707,6 +708,13 @@ namespace Fallout
             roomF[9].Description = "Lemonenbaum (Lukeneingang zum Vault 3)";
         }
 
+        public void Sagegame()
+        {
+            FileStream filestream = new FileStream("savegame.sav", FileMode.Create);
+            BinaryFormatter formatter = new BinaryFormatter();
+
+            formatter.Serialize(filestream, this.player);
+        }
     }
 }
 

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -103,11 +105,13 @@ namespace Fallout
                     Menuitem.Add(talk);
                 }
             }
-            if (game.player.CurrentRoom.Place == "Vault")
+            if (game.player.CurrentRoom.Place.StartsWith("V"))
             {
                 Option save = new Option('S', "Speichern");
                 Menuitem.Add(save);
-            }       
+            }
+            Option mainmenu = new Option('X', "Hauptmenu");
+            Menuitem.Add(mainmenu);
             ShowOption();
             ConsoleKeyInfo inputGame = Console.ReadKey();
             Console.Clear();
@@ -165,6 +169,14 @@ namespace Fallout
                         }
                     }
                     break;
+                case ConsoleKey.S:
+                    Console.WriteLine("save");
+                    Save();
+                    PressAnyKey();
+                    break;
+                case ConsoleKey.X:
+                    Start();
+                    break;
                 default:
                     Console.WriteLine("Ich habe Ihre Eingabe nicht verstanden");
                     Console.Read();
@@ -172,6 +184,10 @@ namespace Fallout
                     break;
             }
             GameMenu();
+        }
+        public void Save()
+        {
+            game.Sagegame();
         }
         public void DoSomeWithNPC()
         {
@@ -265,7 +281,7 @@ namespace Fallout
                             break;  
                         default:
                             Console.WriteLine("Ich habe Ihre Eingabe nicht verstanden");
-                            Console.Read();
+                            PressAnyKey();
                             InteractionWithNPC(npc);
                             break;
                     }
@@ -274,14 +290,23 @@ namespace Fallout
         }
         public void Talkmaster(NPC npc)
         {
-            Console.Clear();
-            Playerborder();
-            Console.Write("Seid gegrüsst Reisender mein Name ist ");
-            Red(npc.Name);
-            Console.Write(" (Zeit lassen fuer Lacher. Ich bitte Dich ");
-            Green(npc.Quest[0].Name);
-            Console.WriteLine(". Auf dich warten grosse Preise");
-            Console.ReadKey();
+            if (npc.Quest.Count != 0)
+            {
+                Console.Clear();
+                Playerborder();
+                Console.Write("Seid gegrüsst Reisender mein Name ist ");
+                Red(npc.Name);
+                Console.Write(" Ich bitte Dich ");
+                Green(npc.Quest[0].Name);
+                Console.WriteLine(". Auf dich warten grosse Preise");
+                Console.ReadKey();
+            }
+            else
+            {
+                Console.WriteLine("Ich habe Dir leider nicht viel zu sagen");
+                PressAnyKey();
+                DoSomeWithNPC();
+            }
         }
         public void UseNPCAbility(LivingCreature npc)
         {
@@ -344,15 +369,51 @@ namespace Fallout
         }
         public void SellfromNPC()
         {
-
+            Console.Clear();
+            Console.WriteLine("Ich stecke noch in der BETA Phase und kann noch nix kaufen");
+            PressAnyKey();
+            DoSomeWithNPC();
         }
         public void RemoveRad()
         {
-
+            Console.Clear();
+            Playerborder();
+            if (game.player.Money != 0)
+            {
+                if (game.player.Money >= 0 && game.player.Money >= 50)
+                {
+                    if (game.player.XrayRadiation > 0)
+                    {
+                        game.player.Money -= 50;
+                        game.player.XrayRadiation = 0;
+                        Console.WriteLine("Deine Strahlung wurde entfernt");
+                        PressAnyKey();
+                    }
+                    else
+                    {
+                        Console.WriteLine("Du bist nicht mehr verstrahlt");
+                        PressAnyKey();
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Kein Geld");
+                    PressAnyKey();
+                }
+            }
+            else
+            {
+                Console.WriteLine("Kein Geld");
+                PressAnyKey();
+            }
+            DoSomeWithNPC();
         }
         public void BuyfromNPC()
         {
-
+            Console.Clear();
+            Console.WriteLine("Ich stecke noch in der BETA Phase und kann noch nix verkaufen");
+            PressAnyKey();
+            DoSomeWithNPC();
         }
         public void HealNPC()
         {
@@ -383,35 +444,23 @@ namespace Fallout
                     PressAnyKey();
                 }
             }
+            else
+            {
+                Console.WriteLine("Kein Geld");
+                PressAnyKey();
+            }
             DoSomeWithNPC();
         }
         public void GetQuest()
         {
             Console.Clear();
-
-   
-            game.player.QuestLog.Add(game.player.CurrentRoom.NPC[0].Quest[0]);
-            game.player.CurrentRoom.NPC[0].Quest[0] = null;
-            Playerborder();
-            DoSomeWithNPC();
-        }
-        public void Yellow(string color)
-        {
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write(color);
-            Console.ResetColor();  
-        }
-        public void Red(string color)
-        {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write(color);
-            Console.ResetColor();  
-        }
-        public void Green(string color)
-        {
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write(color);
-            Console.ResetColor();
+            if(game.player.CurrentRoom.NPC[0].Quest.Count != 0)
+            {
+                game.player.QuestLog.Add(game.player.CurrentRoom.NPC[0].Quest[0]);
+                game.player.CurrentRoom.NPC[0].Quest[0] = null;
+                Playerborder();
+                DoSomeWithNPC();
+            }   
         }
         public void CheckLocationQuest()
         {
@@ -422,6 +471,14 @@ namespace Fallout
                     if(item.CurrentRoom == game.player.CurrentRoom)
                     {
                         item.IsCompleted = true;
+                        //Questcomplete(quest);
+                        ///////////////////
+                        ///////////////////
+                        ///////////////////
+                        ///////////////////
+                        ///////////////////
+                        ///////////////////
+                        ///////////////////
                     }
                 }      
             }
@@ -653,7 +710,7 @@ namespace Fallout
         {
             Console.Clear();
             Playerborder();
-            Console.WriteLine("Du kämpst bis aufs Blut Nephalem");
+            Console.WriteLine("2 Mann rein, 1 Mann raus! Wer zuerst stirbt hat verloren.");
             Console.ReadKey();
             bool alive = true;
             do
@@ -758,6 +815,7 @@ namespace Fallout
             if(game.player.HealthPoints <= 0)
             {
                 Console.WriteLine("Du hast verloren");
+                Thread.Sleep(500);
                 IsDead();
             }
             game.player.CurrentRoom.IsChecked = true;
@@ -1106,7 +1164,6 @@ namespace Fallout
          */
         public void ShowRooms()
         {
-            //test
 
             Console.WriteLine("(Orientierungshilfe) Koordinaten: {0}",game.player.CurrentRoom.Name);
 
@@ -1453,6 +1510,7 @@ namespace Fallout
             {
                 Console.Clear();
                 Console.WriteLine("Das Spiel ist jetzt vorbei. Ganz toll ");
+                PressAnyKey();
                 Start();
             }
         } 
@@ -1538,7 +1596,6 @@ namespace Fallout
             Console.WriteLine();
             PressAnyKey();
             //Enemyattack();
-            //TODO Rausnehmen
 
         }
         /*
@@ -1589,6 +1646,10 @@ namespace Fallout
                 Console.ResetColor();
                 Console.Write( ")");
             }
+        }
+        public void Questcomplete(Quest quest)
+        {
+
         }
         public void Playerborder()
         {          
@@ -1650,13 +1711,12 @@ namespace Fallout
             game.player.Name = Console.ReadLine();
             if(game.player.Name != string.Empty && game.player.Name.Any(char.IsLetter) && !game.player.Name.Contains(" "))
             {
-                game.player.CurrentRoom = game.roomG[3];
+                game.player.CurrentRoom = game.roomB[3];
                 game.player.Home = game.roomB[5];
             } else
             {
                 Console.WriteLine("Nur Buchstaben und keine Leerzeichen");
                 PressAnyKey();
-                Console.Clear();
                 NewPlayer();
             }
         }
@@ -1706,32 +1766,35 @@ namespace Fallout
             }
             Console.ResetColor();
             Console.WriteLine();
-            Console.WriteLine("Projektkriterien");
-            Green("\nEs soll ein Spiel erstellt werden");
-            Console.Write("\nPassiert beim neuen Spiel");
-            Green("\nEs soll ein Charakter gespielt werden.");
-            Console.Write("\nDieser wird generiert beim neuen Spiel");
-            Green("\nDieser Charakter soll verschiedene Attribute / Eigenschaften besitzen");
-            Console.Write("\nSind vorhanden. \n- Stärke = (3 * W6 (Würfel mit 6Augen)) \n- Geschicklichkeit 3 * W6 \n- Konstitution 3*W6 \n- Lebenspunkte (Stärke + Konstitution) / 2 \n-Tragegewicht (Stärke + 5) *2 \n- Die selben Werte gelten auch für NPC und Monster, aber nur der Spieler würfelt 3 W6, die anderen nur 2");
-            Green("\nDiese Attribute/ Eigenschaften sollen im Spiel relevant sein");
-            Console.Write("\ns.O. Geschicklichkeit wird noch für das Ausweichen benutzt bei einem Angriff");
-            Green("\nDer Charakter soll sich feldbasierend fortbewegen");
-            Console.Write("\n zur Hilfestellung habe ich die \"Koordinaten\" mitgegeben um sich zu orientieren");
-            Green("\nEs sollen Gegenstände im Raum und im Inventar existieren (Inventar muss eingesammelt werden)");
-            Console.Write("\n Per Zufall wird es im Raum (nur im commomwealth) items geben. Diese werden immer wieder neu generiert, wenn der Spieler zurück in ein Vault geht. Gegenstände können bis zu einer Obergrenze des Gewichtes eingesammelt weden und wieder im aktuellen Raum fallen gelassen werden");
-            Green("\nEs sollen Gegenstände verbrauchbar(wie z.B.Tränke) sein");
-            Console.Write("\nEs gibt Essen und trinken sowie auch Heiltränke (stimpack) die nicht nur die HP wieder herstellen sondern auch die Strahlung runterziehen können");
-            Green("\nEs sollen Gegenstände benutzbar in einem bestimmten Kontext sein");
-            Console.Write("\nHaarklammern werden gebraucht um Truhen zu öffnen");
-            Red("\nDer Spielstand soll abgespeichert und geladen werden können.");
-            Console.Write("\nTODO");
-            Green("\nEs sollen friedliche und nicht - friedliche Nicht - Spieler - Charaktere geben.");
-            Console.Write("\nIn den Vault gibt es je 2 NPC (einen Arzt und einen nicht Arzt, der Arzt soll einen hochheilen TODO und der andere sol dafür da sein um Sachen zu verkaufen).");
-            Green("\nDie nicht-friedlichen Charaktere sollen den Spieler angreifen können.");
-            Console.Write("\nIm Commomwealth werden immer wieder Monster generiert sobald man das Commomwealth betritt. Diese können einen auch angreifen oder man hat Glück und kommt so dran vorbei. Donnerkuppel Regel!!! 2 Mann rein, 1 Mann raus. Es wird gekämpft bis zum Tod. Man kann auch NPC angreifen, diese respawnen nicht (\"Er ist Tod Jim\") also wenn keine Lust besteht die Hammer Quest zu beenden ....");
-            Green("\nEs soll ein Kampf mit nicht-friedlichen Charakteren möglich sein.");
-            Console.Write("\ns.O. TL;DR greif alles an was sich bewegt");
-            Green("\nEs soll mindestens eine Handlungslinie existieren, welche abgeschlossen werden kann.");
+            /*
+             *             Projektkriterien
+            Es soll ein Spiel erstellt werden
+            - Passiert beim neuen Spiel
+            Es soll ein Charakter gespielt werden.
+            - Dieser wird generiert beim neuen Spiel
+            Dieser Charakter soll verschiedene Attribute / Eigenschaften besitzen
+            - Sind vorhanden. \n- Stärke = (3 * W6 (Würfel mit 6Augen)) \n- Geschicklichkeit 3 * W6 \n- Konstitution 3*W6 \n- Lebenspunkte (Stärke + Konstitution) / 2 \n-Tragegewicht (Stärke + 5) *2 \n- Die selben Werte gelten auch für NPC und Monster, aber nur der Spieler würfelt 3 W6, die anderen nur 2
+            Diese Attribute/ Eigenschaften sollen im Spiel relevant sein
+            - s.O. Geschicklichkeit wird noch für das Ausweichen benutzt bei einem Angriff
+            Der Charakter soll sich feldbasierend fortbewegen
+            -  zur Hilfestellung habe ich die \"Koordinaten\" mitgegeben um sich zu orientieren
+            Es sollen Gegenstände im Raum und im Inventar existieren (Inventar muss eingesammelt werden)
+            -  Per Zufall wird es im Raum (nur im commomwealth) items geben. Diese werden immer wieder neu generiert, wenn der Spieler zurück in ein Vault geht. Gegenstände können bis zu einer Obergrenze des Gewichtes eingesammelt weden und wieder im aktuellen Raum fallen gelassen werden
+            Es sollen Gegenstände verbrauchbar(wie z.B.Tränke) sein
+            - Es gibt Essen und trinken sowie auch Heiltränke (stimpack) die nicht nur die HP wieder herstellen sondern auch die Strahlung runterziehen können
+            Es sollen Gegenstände benutzbar in einem bestimmten Kontext sein
+            - Haarklammern werden gebraucht um Truhen zu öffnen
+			RED
+            Der Spielstand soll abgespeichert und geladen werden können.
+            - TODO
+            Es sollen friedliche und nicht - friedliche Nicht - Spieler - Charaktere geben.
+            - In den Vault gibt es je 2 NPC (einen Arzt und einen nicht Arzt, der Arzt soll einen hochheilen TODO und der andere sol dafür da sein um Sachen zu verkaufen).
+            Die nicht-friedlichen Charaktere sollen den Spieler angreifen können.
+            - Im Commomwealth werden immer wieder Monster generiert sobald man das Commomwealth betritt. Diese können einen auch angreifen oder man hat Glück und kommt so dran vorbei. Donnerkuppel Regel!!! 2 Mann rein, 1 Mann raus. Es wird gekämpft bis zum Tod. Man kann auch NPC angreifen, diese respawnen nicht (\"Er ist Tod Jim\") also wenn keine Lust besteht die Hammer Quest zu beenden ....
+            Es soll ein Kampf mit nicht-friedlichen Charakteren möglich sein.
+            - s.O. TL;DR greif alles an was sich bewegt
+            Es soll mindestens eine Handlungslinie existieren, welche abgeschlossen werden kann. 
+             */
             Console.Write("\n**********************Spoiler Warnung**********************\n");
             Spoiler(" Gehe von A3, nach dem reden nach A1");
             Spoiler(" Gehe von B1, nach dem reden nach A7");
@@ -1740,6 +1803,24 @@ namespace Fallout
             PressAnyKey();
             Console.Clear();
              
+        }
+        public void Yellow(string color)
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write(color);
+            Console.ResetColor();  
+        }
+        public void Red(string color)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write(color);
+            Console.ResetColor();  
+        }
+        public void Green(string color)
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write(color);
+            Console.ResetColor();
         }
     }
 }                                   
