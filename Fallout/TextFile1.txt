@@ -1,114 +1,27 @@
-﻿     public void PickupItems()
-        {
-            Console.Clear();
-            Playerborder();
-            Menuitem = new List<Option>();
-
-                if (game.player.CurrentRoom.Things.Count != 0)
-                {
-                    for(int i=0; i<game.player.CurrentRoom.Things.Count; i++)
-                    {
-                        Option stuff = new Option((char)(49 + i), game.player.CurrentRoom.Things[i].Name);
-                        if(game.player.CurrentRoom.Things[i].ID == 2 || game.player.CurrentRoom.Things[i].ID == 3)
-                        {
-                            stuff.MenuChoice += "(" + game.player.CurrentRoom.Things[i].Amount + ")";
-                        }
-                        Menuitem.Add(stuff);
-                    }
-                }
-                Option back = new Option('X', "Zurück");
-                Menuitem.Add(back);
-                ShowOption();
-            /* 
-             * Do While Schleife: Habe sonst eine Argument out of range Exception wenn ich den Index der Liste 
-             * wähle wo nix vorhanden ist.
-             */
-            bool invalidInput = false;
-            do
-            {
-                ConsoleKeyInfo input = Console.ReadKey();
-                Console.Clear();
-                Menuitem.RemoveRange(0, Menuitem.Count);
-                invalidInput = false;
-                try
-                {
-                    switch (input.Key)
-                    {
-                        case ConsoleKey.D1:
-                            if(game.player.CurrentRoom.Things[0] != null)
-                            {
-                                if(game.player.CarryWeight < game.player.CarryWeightMax)
-                                {
-                                    game.player.AddInventar(game.player.CurrentRoom.Things[0]);
-                                    game.player.CurrentRoom.Things.RemoveAt(0);
-                                }
-                                else if(game.player.CurrentRoom.Things[0].ID ==2)
-                                {
-                                    game.player.AddInventar(game.player.CurrentRoom.Things[0]);
-                                    game.player.CurrentRoom.Things.RemoveAt(0);
-                                }
-                            }
-                            break;
-                        case ConsoleKey.D2:
-                            if (game.player.CurrentRoom.Things[1] != null)
-                            {
-                                if (game.player.CarryWeight < game.player.CarryWeightMax)
-                                {
-                                    game.player.AddInventar(game.player.CurrentRoom.Things[1]);
-                                    game.player.CurrentRoom.Things.RemoveAt(1);
-                                }
-                                else if (game.player.CurrentRoom.Things[1].ID == 2)
-                                {
-                                    game.player.AddInventar(game.player.CurrentRoom.Things[1]);
-                                    game.player.CurrentRoom.Things.RemoveAt(1);
-                                }
-                            }
-                            break;
-                        case ConsoleKey.D3:
-                            if (game.player.CurrentRoom.Things[2] != null)
-                            {
-                                if (game.player.CarryWeight < game.player.CarryWeightMax)
-                                {
-                                    game.player.AddInventar(game.player.CurrentRoom.Things[2]);
-                                    game.player.CurrentRoom.Things.RemoveAt(2);
-                                }
-                                else if (game.player.CurrentRoom.Things[2].ID == 2)
-                                {
-                                    game.player.AddInventar(game.player.CurrentRoom.Things[2]);
-                                    game.player.CurrentRoom.Things.RemoveAt(2);
-                                }
-                            }
-                            break;
-                        case ConsoleKey.D4:
-                            if (game.player.CurrentRoom.Things[3] != null)
-                            {
-                                if (game.player.CarryWeight < game.player.CarryWeightMax)
-                                {
-                                    game.player.AddInventar(game.player.CurrentRoom.Things[3]);
-                                    game.player.CurrentRoom.Things.RemoveAt(3);
-                                }
-                                else if (game.player.CurrentRoom.Things[3].ID == 2)
-                                {
-                                    game.player.AddInventar(game.player.CurrentRoom.Things[3]);
-                                    game.player.CurrentRoom.Things.RemoveAt(3);
-                                }
-                            }
-                            break;
-                        case ConsoleKey.X:
-                            GameMenu();
-                            break;
-                        default:
-                            Console.WriteLine("Ich habe sie nicht verstanden.");
-                            break;
-                    }
-                    PickupItems();
-                }
-                catch (ArgumentOutOfRangeException)
-                {
-                    Console.WriteLine("An dieser Stelle gibt es nix.");
-                    Console.ReadKey();
-                    PickupItems();
-                    invalidInput = true;
-                }
-            } while (invalidInput);
-        }
+﻿            Projektkriterien
+            Es soll ein Spiel erstellt werden
+            - Passiert beim neuen Spiel
+            Es soll ein Charakter gespielt werden.
+            - Dieser wird generiert beim neuen Spiel
+            Dieser Charakter soll verschiedene Attribute / Eigenschaften besitzen
+            - Sind vorhanden. \n- Stärke = (3 * W6 (Würfel mit 6Augen)) \n- Geschicklichkeit 3 * W6 \n- Konstitution 3*W6 \n- Lebenspunkte (Stärke + Konstitution) / 2 \n-Tragegewicht (Stärke + 5) *2 \n- Die selben Werte gelten auch für NPC und Monster, aber nur der Spieler würfelt 3 W6, die anderen nur 2
+            Diese Attribute/ Eigenschaften sollen im Spiel relevant sein
+            - s.O. Geschicklichkeit wird noch für das Ausweichen benutzt bei einem Angriff
+            Der Charakter soll sich feldbasierend fortbewegen
+            -  zur Hilfestellung habe ich die \"Koordinaten\" mitgegeben um sich zu orientieren
+            Es sollen Gegenstände im Raum und im Inventar existieren (Inventar muss eingesammelt werden)
+            -  Per Zufall wird es im Raum (nur im commomwealth) items geben. Diese werden immer wieder neu generiert, wenn der Spieler zurück in ein Vault geht. Gegenstände können bis zu einer Obergrenze des Gewichtes eingesammelt weden und wieder im aktuellen Raum fallen gelassen werden
+            Es sollen Gegenstände verbrauchbar(wie z.B.Tränke) sein
+            - Es gibt Essen und trinken sowie auch Heiltränke (stimpack) die nicht nur die HP wieder herstellen sondern auch die Strahlung runterziehen können
+            Es sollen Gegenstände benutzbar in einem bestimmten Kontext sein
+            - Haarklammern werden gebraucht um Truhen zu öffnen
+			RED
+            Der Spielstand soll abgespeichert und geladen werden können.
+            - TODO
+            Es sollen friedliche und nicht - friedliche Nicht - Spieler - Charaktere geben.
+            - In den Vault gibt es je 2 NPC (einen Arzt und einen nicht Arzt, der Arzt soll einen hochheilen TODO und der andere sol dafür da sein um Sachen zu verkaufen).
+            Die nicht-friedlichen Charaktere sollen den Spieler angreifen können.
+            - Im Commomwealth werden immer wieder Monster generiert sobald man das Commomwealth betritt. Diese können einen auch angreifen oder man hat Glück und kommt so dran vorbei. Donnerkuppel Regel!!! 2 Mann rein, 1 Mann raus. Es wird gekämpft bis zum Tod. Man kann auch NPC angreifen, diese respawnen nicht (\"Er ist Tod Jim\") also wenn keine Lust besteht die Hammer Quest zu beenden ....
+            Es soll ein Kampf mit nicht-friedlichen Charakteren möglich sein.
+            - s.O. TL;DR greif alles an was sich bewegt
+            Es soll mindestens eine Handlungslinie existieren, welche abgeschlossen werden kann.

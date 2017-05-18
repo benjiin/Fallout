@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Fallout
 {
+    [Serializable()]
     class Quest_Location : Quest
     {
         public Quest_Location(Room room, string name)

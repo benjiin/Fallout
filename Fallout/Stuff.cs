@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Fallout
 {
+    [Serializable()]
     class Stuff
     {
         public string  Name { get; set; }

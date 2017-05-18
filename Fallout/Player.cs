@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Fallout
 {
+    [Serializable()]
     class Player : LivingCreature
     {
         Dice dice = new Dice();
@@ -78,7 +79,7 @@ namespace Fallout
         }
 
 
-        public  void GetallInventar()
+        public void GetallInventar()
         {
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("Inventar: ");

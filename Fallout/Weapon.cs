@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Fallout
 {
+    [Serializable()]
     class Weapon : Stuff
     {
 

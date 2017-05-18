@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Fallout
 {
+    [Serializable()]
     abstract class Quest 
     {
         public int ID { get; set; }
