@@ -718,4 +718,4 @@ namespace Fallout
     }
 }
 
-                                          //df  f
+                                          //df
