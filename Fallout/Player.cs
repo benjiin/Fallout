@@ -78,7 +78,7 @@ namespace Fallout
         }
 
 
-        public  void GetallInventar()
+        public void GetallInventar()
         {
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("Inventar: ");
