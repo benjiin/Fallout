@@ -22,8 +22,7 @@ namespace Fallout
         */
         public void Start()
         {
-            //Console.SetBufferSize(120, 100);
-            //Console.SetWindowSize(100, 100);
+            Console.SetWindowSize(100, 50);
             Welcome();
             game = new Game();
 
@@ -1713,7 +1712,7 @@ namespace Fallout
             if(name != string.Empty && !name.Any(char.IsDigit) && !name.Contains(" "))
             {
                 game.player.Name = name;
-                game.player.CurrentRoom = game.roomC[5];
+                game.player.CurrentRoom = game.roomB[5];
                 game.player.Home = game.roomB[5];
             } else
             {
