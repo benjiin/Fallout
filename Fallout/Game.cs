@@ -714,8 +714,26 @@ namespace Fallout
             BinaryFormatter formatter = new BinaryFormatter();
 
             formatter.Serialize(filestream, this.player);
+
+            filestream.Close();
         }
+
+        public void LoadGame()
+        {
+            if (File.Exists("savegame.sav"))
+            {
+
+                FileStream fileStream = new FileStream("savegame.sav", FileMode.Open);
+                BinaryFormatter formatter = new BinaryFormatter();
+
+
+                this.player = (Player)formatter.Deserialize(fileStream);
+
+                fileStream.Close();
+            }
+        }
+
+
     }
 }
 
-                                          //df

@@ -25,6 +25,9 @@ namespace Fallout
             //Console.SetBufferSize(120, 100);
             //Console.SetWindowSize(100, 100);
             Welcome();
+            game = new Game();
+
+
             MenuBorder(39, 40);
 
             Menuitem = new List<Option>();
@@ -48,8 +51,8 @@ namespace Fallout
                     GameMenu();
                     break;
                 case ConsoleKey.D2:
-                    Console.WriteLine("Spiel laden in development");
-                    PressAnyKey();
+                    game.LoadGame();
+                    GameMenu();
                     break;
                 case ConsoleKey.X:
                     Environment.Exit(0);
@@ -170,8 +173,8 @@ namespace Fallout
                     }
                     break;
                 case ConsoleKey.S:
-                    Console.WriteLine("save");
-                    Save();
+                    Console.WriteLine("Ihr Spiel wurde gespeichert.");
+                    game.Sagegame();
                     PressAnyKey();
                     break;
                 case ConsoleKey.X:
@@ -185,10 +188,7 @@ namespace Fallout
             }
             GameMenu();
         }
-        public void Save()
-        {
-            game.Sagegame();
-        }
+
         public void DoSomeWithNPC()
         {
             if(game.player.CurrentRoom.NPC != null)
@@ -1595,7 +1595,7 @@ namespace Fallout
             Console.ResetColor();
             Console.WriteLine();
             PressAnyKey();
-            //Enemyattack();
+            Enemyattack();
 
         }
         /*
@@ -1705,13 +1705,15 @@ namespace Fallout
          */
         public void NewPlayer()
         {
-            game = new Game();
+            
+
             Console.Clear();
             Console.WriteLine("Bitte geben Sie Ihren Namen ein. \n(max 7 Zeichen, keine Leerzeichen oder Zahlen ala xXCuntdestroyer96Xx)");
-            game.player.Name = Console.ReadLine();
-            if(game.player.Name != string.Empty && game.player.Name.Any(char.IsLetter) && !game.player.Name.Contains(" "))
+            string name = Console.ReadLine();
+            if(name != string.Empty && !name.Any(char.IsDigit) && !name.Contains(" "))
             {
-                game.player.CurrentRoom = game.roomB[3];
+                game.player.Name = name;
+                game.player.CurrentRoom = game.roomC[5];
                 game.player.Home = game.roomB[5];
             } else
             {
