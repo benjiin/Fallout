@@ -39,8 +39,7 @@ namespace Fallout
             this.XrayRadiation = 0;
             this.MaxXrayRadiation = 100;
             this.Money = 0;
-        }
-
+        }       
 
         public void AddInventar(Stuff item)
         {
@@ -69,16 +68,14 @@ namespace Fallout
             }            
         }
 
-        public void RemoveInventar(Stuff item)
+        public void RemoveInventory(Stuff item)
         {
             if(this.Inventory.Contains(item))
             {
                 this.Inventory.Remove(item);
                 this.CarryWeight -= item.Weight;
             }
-        }
-
-
+        }          
         public void GetallInventar()
         {
             Console.ForegroundColor = ConsoleColor.White;
@@ -177,18 +174,7 @@ namespace Fallout
             return false;
         }
 
-        public void RemoveItem(Stuff thing)
-        {
-            //this.
-            //for(int i = 0; i < this.Inventory.Count; i++)
-            //{
-            //    if(this.Inventory[i] is Potions)
-            //    {
 
-            //    }
-            //}
-
-        }
 
         public override void GetStats(int start, int end)
         {

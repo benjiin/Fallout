@@ -465,9 +465,9 @@ namespace Fallout
                 /*
                  * Quest erstellen 
                  */
-                Quest q1 = new Quest_Location(roomB[3], "Finde " + roomB[1].NPC[0].Name);
+                Quest q1 = new Quest_Location(roomB[1], "Finde " + roomB[1].NPC[0].Name);  //b1 b1 
                 q1.Hint = roomG[1].Description;
-                if(roomA[3].NPC != null)
+                if (roomA[3].NPC != null)
                 {
                     roomA[3].NPC[0].Quest.Add(q1);
                 }

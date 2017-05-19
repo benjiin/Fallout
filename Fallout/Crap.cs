@@ -16,13 +16,5 @@ namespace Fallout
             this.Weight = weight;
             this.DropChance = dropChance;
         }
-
-
-
-
-
-
-
-
     }
 }

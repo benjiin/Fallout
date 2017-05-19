@@ -9,10 +9,8 @@ namespace Fallout
     [Serializable()]
     class Container : Stuff
     {
-
         public bool Locked { get; set; }
         public List<Stuff> HaveStuff { get; set; } = new List<Stuff>();
-
         public Container(string name, bool locked, int id)
         {
             this.Name = name;
@@ -20,6 +18,12 @@ namespace Fallout
             this.HaveStuff = HaveStuff;
             this.ID = id;
         }
+        /*
+         * Zeige mir die Items in diesem Behälter an, ist das Item ID ==2 (Kronkorken) dann zeige mir die Menge an
+         * z.B.
+         * Kronkorken (23) 
+         * Sieht schöner aus 
+         */ 
         public void GetStuff()
         {
             foreach (var item in HaveStuff)
@@ -33,12 +37,13 @@ namespace Fallout
                     Console.WriteLine(item.Name);
                 }
             }
-        }
-
+        } 
+        /*
+         * Einfache Methode zum entfernen des jeweiligen Items in einem Behälter
+         */ 
         public void RemoveCrap(int index)
         {
             this.HaveStuff.RemoveAt(index);
-        }
-
+        }  
     }
 }

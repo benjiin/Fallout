@@ -23,10 +23,9 @@ namespace Fallout
         public void Start()
         {
             Console.SetBufferSize(120, 100);
-            Console.SetWindowSize(100, 80);
+            Console.SetWindowSize(100, 63);
             Welcome();
-            game = new Game();
-
+            game = new Game();   
 
             MenuBorder(39, 40);
 
@@ -80,7 +79,7 @@ namespace Fallout
             Menuitem.Add(search);
             Option inv = new Option('2', "Inventar");
             Menuitem.Add(inv);
-            if(game.player.CurrentRoom.IsChecked == true)
+            if (game.player.CurrentRoom.IsChecked == true)
             {
                 Option move = new Option('3', "Bewegen");
                 Menuitem.Add(move);
@@ -131,7 +130,7 @@ namespace Fallout
                     ShowInventory();
                     break;
                 case ConsoleKey.D3: //bewegen
-                    if(game.player.CurrentRoom.IsChecked == true)
+                    if (game.player.CurrentRoom.IsChecked == true)
                     {
                         MovePlayer();
                     }
@@ -195,6 +194,7 @@ namespace Fallout
             {
                 if (game.player.CurrentRoom.IsChecked == true)
                 {
+
                     Console.Clear();
                     Playerborder();
                     Menuitem = new List<Option>();
@@ -268,7 +268,10 @@ namespace Fallout
                     {
                         case ConsoleKey.D1:
                             Talkmaster(game.player.CurrentRoom.NPC[0]);
-                            GetQuest();
+                            if (game.player.CurrentRoom.NPC[0].Quest.Count != 0)
+                            {
+                                GetQuest();
+                            }
                             break;
                         case ConsoleKey.D2:
                             UseNPCAbility(npc);
@@ -293,15 +296,23 @@ namespace Fallout
             if (npc.Quest.Count != 0)
             {
                 Console.Clear();
-                Playerborder();
-                Console.Write("Seid gegrüsst Reisender mein Name ist ");
-                Red(npc.Name);
-                Console.Write(" Ich bitte Dich ");
-                Green(npc.Quest[0].Name);
-                Console.WriteLine(". Auf dich warten grosse Preise");
-                Console.ReadKey();
+                if (npc.ID == 1 && game.player.CurrentRoom == game.roomA[3])
+                {
+                    Console.WriteLine("erklären");
+                    PressAnyKey();
+                }
+                else if(npc.ID == 1 && game.player.CurrentRoom != game.roomA[3])
+                { 
+                    Console.Write("Seid gegrüsst Reisender mein Name ist asdasdasdasda");
+                    Red(npc.Name);
+                    Console.Write(" Ich bitte Dich ");
+                    Green(npc.Quest[0].Name);
+                    Console.WriteLine(". Auf dich warten grosse Preise");
+                    Console.ReadKey();
+                    PressAnyKey();
+                }
             }
-            else
+            if (npc.ID ==2)
             {
                 Console.WriteLine("Ich habe Dir leider nicht viel zu sagen");
                 PressAnyKey();
@@ -471,14 +482,9 @@ namespace Fallout
                     if(item.CurrentRoom == game.player.CurrentRoom)
                     {
                         item.IsCompleted = true;
-                        //Questcomplete(quest);
-                        ///////////////////
-                        ///////////////////
-                        ///////////////////
-                        ///////////////////
-                        ///////////////////
-                        ///////////////////
-                        ///////////////////
+                        Questcomplete();
+
+
                     }
                 }      
             }
@@ -597,7 +603,7 @@ namespace Fallout
         }
         public void LevelUp()
         {
-            if (game.player.Experience >= game.player.NeedExperience)
+            if (game.player.Experience >= game.player.NeedExperience-1)
             {
                 game.player.Experience -= game.player.NeedExperience;
                 int diceStr = dice.DiceTrow(6),
@@ -607,6 +613,10 @@ namespace Fallout
                 game.player.Strength += diceStr;
                 game.player.Dexterity += diceDex;
                 game.player.Constitution += diceCon;
+                game.player.Dodge = game.player.Dexterity * 2;
+                game.player.MaxHealthPoints = (game.player.Strength + game.player.Constitution) / 2;
+                game.player.HealthPoints = game.player.MaxHealthPoints;
+                game.player.CarryWeightMax = (game.player.Strength + 5) * 2;
                 Console.WriteLine("Glückwunsch Du hast einen neuen Level erreicht");
                 Console.WriteLine("Deine Stärke hast sich um {0} erhöht und auch deine Geschicklichkeit ist um {1} " +
                     "gestiegen. Ausserdem erhöht sich deine Konstitution um {2} was Dich mehr tragen lässt. Mach weiter " +
@@ -724,7 +734,7 @@ namespace Fallout
                     Playerborder();
                     Console.WriteLine("Du holst aus...");
                     Thread.Sleep(1500);
-                    if (dice.DiceTrow(50) < (game.player.Strength)) 
+                    if (dice.DiceTrow(game.player.Strength * 3) < (game.player.Strength)) 
                     {
                         if (dice.DiceTrow(50) < creature.Dodge)
                         {
@@ -1260,63 +1270,63 @@ namespace Fallout
                             if (game.player.Inventory[0] != null)
                             {
                                 game.player.CurrentRoom.Things.Add(game.player.Inventory[0]);
-                                game.player.RemoveInventar(game.player.Inventory[0]);
+                                game.player.RemoveInventory(game.player.Inventory[0]);
                             }
                             break;
                         case ConsoleKey.D2:
                             if (game.player.Inventory[1] != null)
                             {
                                 game.player.CurrentRoom.Things.Add(game.player.Inventory[1]);
-                                game.player.RemoveInventar(game.player.Inventory[1]);
+                                game.player.RemoveInventory(game.player.Inventory[1]);
                             }
                             break;
                         case ConsoleKey.D3:
                             if (game.player.Inventory[2] != null)
                             {
                                 game.player.CurrentRoom.Things.Add(game.player.Inventory[2]);
-                                game.player.RemoveInventar(game.player.Inventory[2]);
+                                game.player.RemoveInventory(game.player.Inventory[2]);
                             }
                             break;
                         case ConsoleKey.D4:
                             if (game.player.Inventory[3] != null)
                             {
                                 game.player.CurrentRoom.Things.Add(game.player.Inventory[3]);
-                                game.player.RemoveInventar(game.player.Inventory[3]);
+                                game.player.RemoveInventory(game.player.Inventory[3]);
                             }
                             break;
                         case ConsoleKey.D5:
                             if (game.player.Inventory[4] != null)
                             {
                                 game.player.CurrentRoom.Things.Add(game.player.Inventory[4]);
-                                game.player.RemoveInventar(game.player.Inventory[4]);
+                                game.player.RemoveInventory(game.player.Inventory[4]);
                             }
                             break;
                         case ConsoleKey.D6:
                             if (game.player.Inventory[4] != null)
                             {
                                 game.player.CurrentRoom.Things.Add(game.player.Inventory[5]);
-                                game.player.RemoveInventar(game.player.Inventory[5]);
+                                game.player.RemoveInventory(game.player.Inventory[5]);
                             }
                             break;
                         case ConsoleKey.D7:
                             if (game.player.Inventory[4] != null)
                             {
                                 game.player.CurrentRoom.Things.Add(game.player.Inventory[6]);
-                                game.player.RemoveInventar(game.player.Inventory[6]);
+                                game.player.RemoveInventory(game.player.Inventory[6]);
                             }
                             break;
                         case ConsoleKey.D8:
                             if (game.player.Inventory[4] != null)
                             {
                                 game.player.CurrentRoom.Things.Add(game.player.Inventory[7]);
-                                game.player.RemoveInventar(game.player.Inventory[7]);
+                                game.player.RemoveInventory(game.player.Inventory[7]);
                             }
                             break;
                         case ConsoleKey.D9:
                             if (game.player.Inventory[4] != null)
                             {
                                 game.player.CurrentRoom.Things.Add(game.player.Inventory[8]);
-                                game.player.RemoveInventar(game.player.Inventory[8]);
+                                game.player.RemoveInventory(game.player.Inventory[8]);
                             }
                             break;
                         case ConsoleKey.X:
@@ -1480,7 +1490,6 @@ namespace Fallout
                     game.player.HealthPoints -= 1;
                 }
             }
-            CheckLocationQuest();
             IsDead();
 
 
@@ -1527,6 +1536,8 @@ namespace Fallout
             Playerborder();
             ShowRooms();
             Console.WriteLine();
+            CheckLocationQuest();
+
             if (game.player.CurrentRoom.Things.Count != 0)
             {
                 Console.ResetColor();
@@ -1595,7 +1606,7 @@ namespace Fallout
             Console.ResetColor();
             Console.WriteLine();
             PressAnyKey();
-            Enemyattack();
+            //Enemyattack();
 
         }
         /*
@@ -1630,10 +1641,11 @@ namespace Fallout
                 Console.ResetColor();
                 Console.WriteLine("] ");
                 Console.SetCursorPosition(14, 28);
-                if(game.player.QuestLog[i].IsCompleted)
+                if(game.player.QuestLog[i].IsCompleted == true)
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.Write(game.player.QuestLog[i].Name);
+                    
                 }
                 else
                 {
@@ -1647,9 +1659,23 @@ namespace Fallout
                 Console.Write( ")");
             }
         }
-        public void Questcomplete(Quest quest)
+        public void Questcomplete()
         {
+            Console.Clear();
+            Console.WriteLine("Glückwunsch du hast die Quest beendet");
+            foreach (var item in game.player.QuestLog)
+            {
+                if(item.IsCompleted == true)
+                {
+                    game.player.Experience += item.RewardXP;
+                    game.player.Money += item.RewardGold;
+                    Console.WriteLine("Du erhältst {0} XP und {1} Kronkorken",item.RewardXP, item.RewardGold);
+                    LevelUp();
 
+                    PressAnyKey();
+                        
+                }
+            }
         }
         public void Playerborder()
         {          
@@ -1713,7 +1739,7 @@ namespace Fallout
             if(name != string.Empty && !name.Any(char.IsDigit) && !name.Contains(" "))
             {
                 game.player.Name = name;
-                game.player.CurrentRoom = game.roomB[5];
+                game.player.CurrentRoom = game.roomA[3];
                 game.player.Home = game.roomB[5];
             } else
             {
@@ -1722,17 +1748,10 @@ namespace Fallout
                 NewPlayer();
             }
         }
-        public void Spoiler(string color)
-        {
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.BackgroundColor = ConsoleColor.White;
-            Console.WriteLine(color);
-            Console.ResetColor();
-        }
         public void PressAnyKey()
         {
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("Drücken Sie eine beliebe Taste . . .");
+            Console.WriteLine("Drücken Sie eine beliebige Taste . . .");
             Console.ReadKey();
             Console.ResetColor();
         }
@@ -1747,7 +1766,7 @@ namespace Fallout
             Console.SetCursorPosition((Console.WindowWidth - s.Length) / 2, Console.CursorTop);
             Console.WriteLine(s);
             Console.ResetColor();
-            Console.WriteLine("Das folgene Spiel hat den einen oder anderen Bug, geschrieben von Programierer  oder unter der Anleitung von \"Programmierer\". Der Erfinder dieser Grütze und alle die hinter ihm stehen müssen darauf bestehen das keiner dieses Spiel oder ähnliche Bezüge hierraus nachahmt.");
+            Console.WriteLine("Das folgene Spiel hat den einen oder anderen Bug, geschrieben von Programmierer  oder unter der Anleitung von \"Programmierer\". Der Erfinder dieser Grütze und alle die hinter ihm stehen müssen darauf bestehen das keiner dieses Spiel oder ähnliche Bezüge hierraus nachahmt.");
             
             List<String> text = new List<string>();
             text.Add("\t\t\t\t  _____      ");
@@ -1805,6 +1824,13 @@ namespace Fallout
             PressAnyKey();
             Console.Clear();
              
+        }
+        public void Spoiler(string color)
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.BackgroundColor = ConsoleColor.White;
+            Console.WriteLine(color);
+            Console.ResetColor();
         }
         public void Yellow(string color)
         {

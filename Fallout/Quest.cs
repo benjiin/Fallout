@@ -22,10 +22,10 @@ namespace Fallout
         public Stuff FindThisItem { get; set; }
         public string Hint { get; set; }
 
-
-        public void Complete()
+        public Quest()
         {
-
+            this.RewardXP = 100;
+            this.RewardGold = 100;
         }
     }
 

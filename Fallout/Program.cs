@@ -10,14 +10,12 @@ namespace Fallout
     class Program
     {
         static void Main(string[] args)
-        {
-
+        {     
+            /*
+             * Kleine Main ist klein :3 
+             */
             Menu menu = new Menu();
-            menu.Start();
-
-
-
-
+            menu.Start();  
         }
 
     }
