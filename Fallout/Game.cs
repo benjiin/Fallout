@@ -68,8 +68,7 @@ namespace Fallout
              * Spalte 7 8 9 10 = Vault 3
              * 
              *Die Vaults sind NICHT kontaminiert mit der Strahlung während es im Commonwealth zufällig zu Strahlung kommen kann.
-             */
-
+             */     
             for (int i = 0; i <= 10; i++)
             {
                 roomA[i] = new Room("A" + (i), 1 + i);
@@ -652,8 +651,7 @@ namespace Fallout
                     for (int k = 1; k < dice.DiceTrow(4); k++)
                     {
                         allRoom[i][j].HasStuff = true;
-                        allRoom[i][j].Things.Add(allCrap[dice.DiceTrow(allCrap.Count() - 1)]);
-
+                        allRoom[i][j].Things.Add(allCrap[dice.DiceTrow(allCrap.Count() - 1)]); 
                     }
                     if (dice.DiceTrow(100) < 50)
                     {
@@ -754,26 +752,19 @@ namespace Fallout
         public void Sagegame()
         {
             FileStream filestream = new FileStream("savegame.sav", FileMode.Create);
-            BinaryFormatter formatter = new BinaryFormatter();
-
-            formatter.Serialize(filestream, this.player);
-
+            BinaryFormatter formatter = new BinaryFormatter();   
+            formatter.Serialize(filestream, this.player);    
             filestream.Close();
         } 
         public void LoadGame()
         {
             if (File.Exists("savegame.sav"))
-            {
-
+            {            
                 FileStream fileStream = new FileStream("savegame.sav", FileMode.Open);
-                BinaryFormatter formatter = new BinaryFormatter();
-
-
-                this.player = (Player)formatter.Deserialize(fileStream);
-
+                BinaryFormatter formatter = new BinaryFormatter();    
+                this.player = (Player)formatter.Deserialize(fileStream);   
                 fileStream.Close();
             }
         }  
     }
-}
-
+}     
