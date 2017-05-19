@@ -14,7 +14,6 @@ namespace Fallout
         Game game;
         public List<Option> Menuitem { get; set; }
         Dice dice = new Dice();
-
         /*
         * Menü erstellen und anschliessend mit den jeweiligen Optionen fühlen"
         * Mit ShowOption() wird dann die Option ausgegeben wobei die Zahl farbig hervorgehoben
@@ -26,6 +25,11 @@ namespace Fallout
             Console.SetWindowSize(100, 63);
             Welcome();
             game = new Game();
+            IntheMiddle("Fallout");
+            Console.WriteLine();
+            IntheMiddle("C# Projektarbeit");
+            Console.WriteLine();
+            IntheMiddle("Von Benjamin Rosenkranz");
             MenuBorder(39, 40);
             Menuitem = new List<Option>();
             Option first = new Option('1', "Neues Spiel");
@@ -33,11 +37,8 @@ namespace Fallout
             Option second = new Option('2', "Spiel Laden");   
             Menuitem.Add(second);                               
             Option close = new Option('X', "Beenden");
-            Menuitem.Add(close);
-
-            ShowOption();
-
-
+            Menuitem.Add(close); 
+            ShowOption(); 
             ConsoleKeyInfo input = Console.ReadKey();
             Console.Clear();
             Menuitem.RemoveRange(0, Menuitem.Count);
@@ -837,8 +838,7 @@ namespace Fallout
          * 
          * Wenn man Haarklammern im Besitz hat, wird ein Wurf unter der Geschicklichkeit gewürfelt. Ist dieser Bestanden öffnet sich die Truhe. 
          * Andernfalls bleibt sie geschlossen. In beiden Fällen wird eine Haarklammer aus dem Inventar entfernt.
-         */
-
+         */  
         public void OpenContainer()
         {
             Console.Clear();
@@ -958,8 +958,7 @@ namespace Fallout
                 PressAnyKey();
                 Lockpick(container);
             }
-        }
-
+        }  
         public void Lockpick(Container container)
         {
             Console.Clear();
@@ -1755,14 +1754,14 @@ namespace Fallout
          */
         public void Welcome()
         {
+            /* 
+             * Spielerein 
+             */
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Red;
-            string s = "WARNUNG";
-            Console.SetCursorPosition((Console.WindowWidth - s.Length) / 2, Console.CursorTop);
-            Console.WriteLine(s);
+            IntheMiddle("WARNUNG");
             Console.ResetColor();
-            Console.WriteLine("Das folgene Spiel hat den einen oder anderen Bug, geschrieben von Programmierer  oder unter der Anleitung von \"Programmierer\". Der Erfinder dieser Grütze und alle die hinter ihm stehen müssen darauf bestehen das keiner dieses Spiel oder ähnliche Bezüge hierraus nachahmt.");
-            
+            Console.WriteLine("Das folgene Spiel hat den einen oder anderen Bug, geschrieben von Programmierer  oder unter der Anleitung von \"Programmierer\". Der Erfinder dieser Grütze und alle die hinter ihm stehen müssen darauf bestehen das keiner dieses Spiel oder ähnliche Bezüge hierraus nachahmt.");   
             List<String> text = new List<string>();
             text.Add("\t\t\t\t  _____      ");
             text.Add("\t\t\t\t /      \\    ");
@@ -1773,8 +1772,7 @@ namespace Fallout
             /*
              * ASCII geliehen von:
              * http://www.asciiworld.com/-Death-Co-.html
-             */
-
+             */   
             Console.ForegroundColor = ConsoleColor.Yellow;
             for (int i = 0; i < text.Count; i++)
             {
@@ -1786,10 +1784,15 @@ namespace Fallout
             Spoiler(" Gehe von A3, nach dem reden nach A1");
             Spoiler(" Gehe von B1, nach dem reden nach A7");
             Spoiler(" Gehe von B7, nach dem reden nach A3");
-            Console.WriteLine();
             PressAnyKey();
-            Console.Clear();               
+            Console.Clear();
+            Console.WriteLine("„…du erwachst aus einen schlimmen Traum.\nDas letzte was du aus dem Traum noch weißt ist die Atombombe die explodierte und \ndie Welt in eine Apokalypse verwandelt.Menschen sterben, Tiere mutieren und \ndie Welt ist unbewohnbar geworden. Einige letzte überlebende haben sich wie \nMaulwürfe unter der Erde in Bunkern versteckt.\n\n\nLeider war das kein Traum.“"); 
+            PressAnyKey();
+            Console.Clear();
         }
+        /* 
+         * Mal 3 Methoden mit denen ich einen String als Farbe zurück bekomme. ( Leider erst zu spät eingebaut und wollte mir das verplücken sparen) 
+         */
         public void Spoiler(string color)
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
@@ -1814,6 +1817,12 @@ namespace Fallout
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write(color);
             Console.ResetColor();
+        }
+        public void IntheMiddle(string text)
+        {
+            string s = text;
+            Console.SetCursorPosition((Console.WindowWidth - text.Length) / 2, Console.CursorTop);
+            Console.WriteLine(text);
         }
     }
 }                                   
