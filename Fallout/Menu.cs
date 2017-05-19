@@ -21,8 +21,7 @@ namespace Fallout
         */
         public void Start()
         {
-            Console.SetBufferSize(120, 100);
-            Console.SetWindowSize(100, 63);
+            Console.SetWindowSize(80, 30);
             Welcome();
             game = new Game();
             IntheMiddle("Fallout");
@@ -61,14 +60,15 @@ namespace Fallout
                     Start();
                     break;
             }           
-        }
+        }     
         /*
          * Der Dreh und Angelpunkt des Spieles das Spielmenu 
          */
         public void GameMenu()
         {
             Console.Clear();
-            if(game.player.CurrentRoom.IsChecked == true)
+            StartRoom(game.player.Home);
+            if (game.player.CurrentRoom.IsChecked == true)
             {
                 Console.WriteLine(game.player.CurrentRoom.Place);
             }
@@ -191,24 +191,19 @@ namespace Fallout
             if(game.player.CurrentRoom.NPC != null)
             {
                 if (game.player.CurrentRoom.IsChecked == true)
-                {
-
+                {     
                     Console.Clear();
                     Playerborder();
-                    Menuitem = new List<Option>();
-
+                    Menuitem = new List<Option>();  
                     for (int i = 0; i < game.player.CurrentRoom.NPC.Count; i++)
                     {
                         Option npc = new Option((char)(49 + i), game.player.CurrentRoom.NPC[i].Name);
                         Menuitem.Add(npc);
                     }
                     Option back = new Option('X', "Zurück");
-                    Menuitem.Add(back);
-
-                    ShowOption();
-
-                    bool InvalidInput = true;
-
+                    Menuitem.Add(back); 
+                    ShowOption();   
+                    bool InvalidInput = true; 
                     do
                     {
                         ConsoleKeyInfo inputNPC = Console.ReadKey();
@@ -294,7 +289,9 @@ namespace Fallout
                 Console.Clear();
                 if (npc.ID == 1 && game.player.CurrentRoom == game.roomA[3])
                 {
-                    Console.WriteLine("erklären");
+                    Console.WriteLine("Zuhören: mein Name ist ");
+                    Red(game.roomA[3].NPC[0].Name);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+                    Console.WriteLine("Ich erkläre es Dir nur einmal: Ich möchte das meinen Kollegen suchst. Sobald wir fertig sind mit reden, wird es über deine Anzeige eine Quest Anzeige geben. Diese zeigt Dir wie die Quest heisst, was du zu tun hast und einen Hinweis wo du den Ort findest ich hoffe mal du schaffst nur eine Quest zur Zeit und das GUI wird nicht rumspinnen unser Gott hat es nicht richtig testen können.....Auf jeden Fall möchte ich Dich warnen. Die Welt ist gefährlich ausserhalb des Bunker. Es gibt gefährliche Monster die Dich angreifen, aber auch tolle Güter. Ich hörte Gott sorgte dafür, das diese immer wieder neu generiert werden(wow) Leider hat unser Gott nicht die Strahlung vom Commonwealth entfernt. Das bedeutet wenn deine Strahlung einen bestimmten Wert erreicht(5) verlierst du einen Lebenspunkt. Aber keine Sorge. Ich heile Dich wieder und entferne Strahlung, wenn du das nötige Kleingeld hast");
                     PressAnyKey();
                 }
                 else if(npc.ID == 1 && game.player.CurrentRoom != game.roomA[3])
@@ -980,8 +977,7 @@ namespace Fallout
                 Playerborder();
 
                 switch (inputLP.Key) 
-                {
-
+                {    
                     case ConsoleKey.D1:
 
                         if(game.player.HasTools(3))
@@ -1017,8 +1013,7 @@ namespace Fallout
                             else
                             {
                                 Console.WriteLine("...Schloss konnte nicht geöffnet werden");
-                                PressAnyKey();
-
+                                PressAnyKey();  
                             }
                         }
                         break;
@@ -1224,16 +1219,13 @@ namespace Fallout
                 {
                     Console.WriteLine("(" + game.player.CurrentRoom.PathDown.Description + ")");
                 }
-            }
-
-
+            }     
         }
         public void DropItems()
         {
             Console.Clear();
             Playerborder();
-            Menuitem = new List<Option>();
-
+            Menuitem = new List<Option>();  
             if (game.player.Inventory.Count != 0)
             {
                 for (int i = 0; i < game.player.Inventory.Count; i++)
@@ -1351,7 +1343,7 @@ namespace Fallout
         {
             Console.Clear();
             Playerborder();
-            ShowRooms();        
+            ShowRooms();       
             game.ClearRooms();
             try
             {
@@ -1484,9 +1476,7 @@ namespace Fallout
                     game.player.HealthPoints -= 1;
                 }
             }
-            IsDead();
-
-
+            IsDead(); 
         }
         /*
          * Zeige mir alle Optionen für mein Menu an
@@ -1600,8 +1590,7 @@ namespace Fallout
             Console.ResetColor();
             Console.WriteLine();
             PressAnyKey();
-            //Enemyattack();
-
+            Enemyattack();      
         }
         /*
          * Der erste Menu Entwurf
@@ -1725,8 +1714,6 @@ namespace Fallout
          */
         public void NewPlayer()
         {
-            
-
             Console.Clear();
             Console.WriteLine("Bitte geben Sie Ihren Namen ein. \n(max 7 Zeichen, keine Leerzeichen oder Zahlen ala xXCuntdestroyer96Xx)");
             string name = Console.ReadLine();
@@ -1761,7 +1748,7 @@ namespace Fallout
             Console.ForegroundColor = ConsoleColor.Red;
             IntheMiddle("WARNUNG");
             Console.ResetColor();
-            Console.WriteLine("Das folgene Spiel hat den einen oder anderen Bug, geschrieben von Programmierer  oder unter der Anleitung von \"Programmierer\". Der Erfinder dieser Grütze und alle die hinter ihm stehen müssen darauf bestehen das keiner dieses Spiel oder ähnliche Bezüge hierraus nachahmt.");   
+            Console.WriteLine("Das folgene Spiel hat den einen oder anderen Bug, geschrieben von Programmierer  oder unter der Anleitung von \"Programmierer\". Der Erfinder dieser Grütze und \nalle die hinter ihm stehen müssen darauf bestehen das keiner dieses Spiel oder \nähnliche Bezüge hierraus nachahmt.");   
             List<String> text = new List<string>();
             text.Add("\t\t\t\t  _____      ");
             text.Add("\t\t\t\t /      \\    ");
@@ -1786,7 +1773,10 @@ namespace Fallout
             Spoiler(" Gehe von B7, nach dem reden nach A3");
             PressAnyKey();
             Console.Clear();
-            Console.WriteLine("„…du erwachst aus einen schlimmen Traum.\nDas letzte was du aus dem Traum noch weißt ist die Atombombe die explodierte und \ndie Welt in eine Apokalypse verwandelt.Menschen sterben, Tiere mutieren und \ndie Welt ist unbewohnbar geworden. Einige letzte überlebende haben sich wie \nMaulwürfe unter der Erde in Bunkern versteckt.\n\n\nLeider war das kein Traum.“"); 
+            Console.WriteLine("...du erwachst aus einen schlimmen Traum. \n\nDas letzte was du aus dem Traum noch weißt ist die Atombombe die explodierte" +
+                "\nund die Welt in eine Apokalypse verwandelt. Menschen sterben, Tiere mutieren" +
+                "\nund die Welt ist unbewohnbar geworden. Einige letzte überlebende haben sich" +
+                "\nwie Maulwürfe unter der Erde in Bunkern versteckt.\n.\n.\n.\nLeider war das kein Traum."); 
             PressAnyKey();
             Console.Clear();
         }
@@ -1823,6 +1813,13 @@ namespace Fallout
             string s = text;
             Console.SetCursorPosition((Console.WindowWidth - text.Length) / 2, Console.CursorTop);
             Console.WriteLine(text);
+        }
+        public void StartRoom(Room room)
+        {
+            if (game.player.CurrentRoom.Name == room.Name)
+            {
+                Console.WriteLine("Dies ist dein Startraum. Diese Info und auch die Tatsache darüber sowie dieser Text \nmachen keinen Sinn. Regel Nr. 1 für dieses Spiel: nicht sterben");
+            }
         }
     }
 }                                   
