@@ -25,10 +25,8 @@ namespace Fallout
             Console.SetBufferSize(120, 100);
             Console.SetWindowSize(100, 63);
             Welcome();
-            game = new Game();   
-
+            game = new Game();
             MenuBorder(39, 40);
-
             Menuitem = new List<Option>();
             Option first = new Option('1', "Neues Spiel");
             Menuitem.Add(first);
@@ -187,7 +185,6 @@ namespace Fallout
             }
             GameMenu();
         }
-
         public void DoSomeWithNPC()
         {
             if(game.player.CurrentRoom.NPC != null)
@@ -233,10 +230,8 @@ namespace Fallout
                                 Console.Read();
                                 DoSomeWithNPC();
                                 break;
-                        }
-
-                    } while (InvalidInput);
-
+                        }    
+                    } while (InvalidInput);  
                 }
             }
         }
@@ -1739,7 +1734,7 @@ namespace Fallout
             if(name != string.Empty && !name.Any(char.IsDigit) && !name.Contains(" "))
             {
                 game.player.Name = name;
-                game.player.CurrentRoom = game.roomA[3];
+                game.player.CurrentRoom = game.roomB[5];
                 game.player.Home = game.roomB[5];
             } else
             {
@@ -1786,44 +1781,14 @@ namespace Fallout
                 Console.WriteLine(text[i]);
             }
             Console.ResetColor();
-            Console.WriteLine();
-            /*
-             *             Projektkriterien
-            Es soll ein Spiel erstellt werden
-            - Passiert beim neuen Spiel
-            Es soll ein Charakter gespielt werden.
-            - Dieser wird generiert beim neuen Spiel
-            Dieser Charakter soll verschiedene Attribute / Eigenschaften besitzen
-            - Sind vorhanden. \n- Stärke = (3 * W6 (Würfel mit 6Augen)) \n- Geschicklichkeit 3 * W6 \n- Konstitution 3*W6 \n- Lebenspunkte (Stärke + Konstitution) / 2 \n-Tragegewicht (Stärke + 5) *2 \n- Die selben Werte gelten auch für NPC und Monster, aber nur der Spieler würfelt 3 W6, die anderen nur 2
-            Diese Attribute/ Eigenschaften sollen im Spiel relevant sein
-            - s.O. Geschicklichkeit wird noch für das Ausweichen benutzt bei einem Angriff
-            Der Charakter soll sich feldbasierend fortbewegen
-            -  zur Hilfestellung habe ich die \"Koordinaten\" mitgegeben um sich zu orientieren
-            Es sollen Gegenstände im Raum und im Inventar existieren (Inventar muss eingesammelt werden)
-            -  Per Zufall wird es im Raum (nur im commomwealth) items geben. Diese werden immer wieder neu generiert, wenn der Spieler zurück in ein Vault geht. Gegenstände können bis zu einer Obergrenze des Gewichtes eingesammelt weden und wieder im aktuellen Raum fallen gelassen werden
-            Es sollen Gegenstände verbrauchbar(wie z.B.Tränke) sein
-            - Es gibt Essen und trinken sowie auch Heiltränke (stimpack) die nicht nur die HP wieder herstellen sondern auch die Strahlung runterziehen können
-            Es sollen Gegenstände benutzbar in einem bestimmten Kontext sein
-            - Haarklammern werden gebraucht um Truhen zu öffnen
-			RED
-            Der Spielstand soll abgespeichert und geladen werden können.
-            - TODO
-            Es sollen friedliche und nicht - friedliche Nicht - Spieler - Charaktere geben.
-            - In den Vault gibt es je 2 NPC (einen Arzt und einen nicht Arzt, der Arzt soll einen hochheilen TODO und der andere sol dafür da sein um Sachen zu verkaufen).
-            Die nicht-friedlichen Charaktere sollen den Spieler angreifen können.
-            - Im Commomwealth werden immer wieder Monster generiert sobald man das Commomwealth betritt. Diese können einen auch angreifen oder man hat Glück und kommt so dran vorbei. Donnerkuppel Regel!!! 2 Mann rein, 1 Mann raus. Es wird gekämpft bis zum Tod. Man kann auch NPC angreifen, diese respawnen nicht (\"Er ist Tod Jim\") also wenn keine Lust besteht die Hammer Quest zu beenden ....
-            Es soll ein Kampf mit nicht-friedlichen Charakteren möglich sein.
-            - s.O. TL;DR greif alles an was sich bewegt
-            Es soll mindestens eine Handlungslinie existieren, welche abgeschlossen werden kann. 
-             */
+            Console.WriteLine();          
             Console.Write("\n**********************Spoiler Warnung**********************\n");
             Spoiler(" Gehe von A3, nach dem reden nach A1");
             Spoiler(" Gehe von B1, nach dem reden nach A7");
             Spoiler(" Gehe von B7, nach dem reden nach A3");
             Console.WriteLine();
             PressAnyKey();
-            Console.Clear();
-             
+            Console.Clear();               
         }
         public void Spoiler(string color)
         {

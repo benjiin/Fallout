@@ -8,8 +8,7 @@ namespace Fallout
 {
     [Serializable()]
     class Potions : Stuff
-    {
-
+    { 
         public Potions(string name, double value, double weight, int dropChance, int radiation, int healthback, int radiationRestore, int id)
         {
             this.Name = name;

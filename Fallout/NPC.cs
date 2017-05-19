@@ -10,14 +10,17 @@ namespace Fallout
     class NPC : LivingCreature
     {
         Dice dice = new Dice();
+        /* 
+         * Ability? 
+         * Ich gebe den NPC die Möglichkeit ein Arzt zu sein (Heile dich für Kronkorken, Entferne Strahlung gegen Kronkorken) oder ein Händler (verkaufe Schrott, kaufe Items)
+         */
         public string Ability { get; set; }
         private List<Quest> quest;
         public List<Quest> Quest
         {
             get { return quest; }
             set { quest = value; }
-        }
-
+        }    
         public NPC(string name, int str, int dex, int con, string abi, int id)
         {
             quest = new List<Quest>();
@@ -31,8 +34,7 @@ namespace Fallout
             this.Name = name;
             this.Ability = abi;
             this.ID = id;
-        }
-
+        }   
         public override void GetStats(int start, int end)
         {
             Console.ForegroundColor = ConsoleColor.White;

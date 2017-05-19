@@ -27,8 +27,7 @@ namespace Fallout
             this.HealthPoints = this.MaxHealthPoints;
             this.RewardGold = Strength + rGold;
             this.RewardExperiencePoints = dice.DiceTrow(Strength) * xpmult;
-        }
-
+        } 
         public override  void GetStats(int start, int end)
         {
             Console.ForegroundColor = ConsoleColor.White;

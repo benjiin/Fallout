@@ -17,9 +17,6 @@ namespace Fallout
         public int ID { get; set; }
         public int HealthRestore { get; set; }
         public int Radiation { get; set; }
-        public int RadiationRestore { get; set; }
-
-
-
+        public int RadiationRestore { get; set; }     
     }
 }

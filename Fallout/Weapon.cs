@@ -8,8 +8,7 @@ namespace Fallout
 {
     [Serializable()]
     class Weapon : Stuff
-    {
-
+    {         
         public int DamageBoost { get; set; }
         public Weapon(string name, double value, double weight, int dropchance, int damageBoost)
         {

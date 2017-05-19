@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Fallout
 {
-    [Serializable] // fsdklflksdfjklsdfjklsdfj klsd f
+    [Serializable] 
     class Room 
     {
         private List<Stuff> things = new List<Stuff>();
@@ -14,9 +14,7 @@ namespace Fallout
         {
             get { return things; }
             set { things = value; }
-        }
-
-
+        } 
         private List<Container> container = new List<Container>();
         public List<Container> Container
         {
@@ -28,16 +26,13 @@ namespace Fallout
         {
             get { return monster; }
             set { monster = value; }
-        }
-
+        } 
         private List<NPC> npc = new List<NPC>();
-
         public List<NPC> NPC
         {
             get { return npc ; }
             set { npc = value; }
         }
-
 
         public int ID { get; set; }
         public bool HasSomeToFight { get; set; } = false;
@@ -61,39 +56,6 @@ namespace Fallout
             this.Name = name;
             this.IsContaminated = false;
             this.ID = id;
-        }
-
-        public void GetStuff()
-        {
-            foreach (var item in things)
-                if (item.Amount > 2)
-                {
-                    Console.WriteLine(item.Name + " (" + item.Amount + ")");
-                }
-                else
-                {
-                    Console.WriteLine(item.Name);
-                }
-
-            foreach (var item in container)
-                if (item.Amount > 2)
-                {
-                    Console.WriteLine(item.Name + " (" + item.Amount + ")");
-                }
-                else
-                {
-                    Console.WriteLine(item.Name);
-                }
-            foreach (var item in monster)
-            {
-                Console.WriteLine("MosbterCon: " + item.Constitution + " Monstername: " + item.Name + " Monsterstrength: " + item.Strength +
-                    " MonsterXP: " + item.RewardExperiencePoints + " MOnstergold:     " + item.RewardGold +
-                    " MonsterHP: " + item.MaxHealthPoints);
-            }
-        }
-
-
-
-
+        }  
     }
 }

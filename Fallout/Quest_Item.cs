@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace Fallout
 {
+    /*
+     * TODO: Finde für mich Item XY
+     *  
+     */
     class Quest_Item : Quest
     {
 

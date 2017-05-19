@@ -27,6 +27,5 @@ namespace Fallout
             this.RewardXP = 100;
             this.RewardGold = 100;
         }
-    }
-
+    }  
 }

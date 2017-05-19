@@ -29,12 +29,9 @@ namespace Fallout
         public int RewardExperiencePoints { get; set; }
         public int RewardGold { get; set; }
         public int ID { get; set; }
-
-
-
+        /*
+         * Die zu übergebene Methode an alle Klassen, die von dieser erben werden (Monster, player, npc) 
+         */
         public abstract void GetStats(int start, int end);
-        
-
-
     }
 }

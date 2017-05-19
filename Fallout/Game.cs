@@ -14,7 +14,27 @@ namespace Fallout
         Dice dice = new Dice();
         public Player player = new Player();
         /*
-         * 7 Reihen Felder & 11 Spalten in Array gepackt  
+         * Das Herz des Spieles die Räume
+         * 
+         *  [ÖL] [ÖL] [ÖL] [ÖL] [ÖL] [ÖL] [ÖL] [ÖL] [ÖL] [ÖL] 
+         *  
+         *  [ÖL] [ÖL] [ÖL] [ÖL] [ÖL] [ÖL] [ÖL] [ÖL] [ÖL] [ÖL] 
+         *  
+         *  [ÖL] [ÖL] [ÖL] [ÖL] [ÖL] [ÖL] [ÖL] [ÖL] [ÖL] [ÖL] 
+         *  
+         *  [ÖL] [ÖL] [ÖL] [ÖL] [ÖL] [ÖL] [ÖL] [ÖL] [ÖL] [ÖL] 
+         *  
+         *  [ÖL] [ÖL] [ÖL] [ÖL] [ÖL] [ÖL] [ÖL] [ÖL] [ÖL] [ÖL] 
+         *  
+         *  [V2] [V2] [V2] [V1] [V1] [V1] [V1] [V3] [V3] [V3] 
+         *  
+         *  [V2] [V2] [V2] [V1] [V1] [V1] [V1] [V3] [V3] [V3] 
+         *  
+         *  ÖL = Ödland
+         *  V1 = Vault1
+         *  V2 = Vault2
+         *  V3 = Vault3
+         *   
          */
         public Room[] roomA = new Room[11];
         public Room[] roomB = new Room[11];
@@ -23,6 +43,9 @@ namespace Fallout
         public Room[] roomE = new Room[11];
         public Room[] roomF = new Room[11];
         public Room[] roomG = new Room[11];
+        /*
+         * Die Liste Crap habe ich Public gesetzt um dauf zugreifen zu können, wenn ein Monster stirbt. Dieser Zugriff wird geändert
+         */
         public  List<Crap> allCrap = new List<Crap>();
         List<Potions> allPotions = new List<Potions>();
         List<Weapon> allWeapon = new List<Weapon>();
@@ -432,20 +455,22 @@ namespace Fallout
                 Potions radaway = new Potions("Radaway", 20, 0, 50, 0, 0, 10, 4);
                 allPotions.Add(radaway);
                 /*
-                 * Weapons  Einfache Waffen, erstmal ohne Schusswaffen sondern nur Verbesseung der Stats. 
+                 *  Weapons  Einfache Waffen, erstmal ohne Schusswaffen sondern nur Verbesseung der Stats. 
                  *  Weapons = Name, Wert der Einheit, Gewicht, Dropchance, Schadenmultiplikator
-                 * 
+                 *  Wurden aber noch nicht einmal benutzt.
+                 *  Wollte nur eine weitere Zeile schrieben um den Satz 
+                 *  Wieder mit einem grossen W beginnen
+                 *  Werder
                  */
                 Weapon bat = new Weapon("Knüppel", 10, 1, 25, dice.DiceTrow(3));
                 allWeapon.Add(bat);
                 Weapon knuckleduster = new Weapon("Schlagring", 10, 1, 25, dice.DiceTrow(5));
-                allWeapon.Add(knuckleduster);
-
+                allWeapon.Add(knuckleduster); 
                 /*
                  * Erstellen der ersten NPC
                  * 
                  * Erstmal 6 Stück = 2 Für jedes Vault.
-                 * Einer der Sachen verkauft und Quest vergibt 
+                 * Einer der Sachen verkauft und gefunden werden muss (Quest) 
                  * Und ein Arzt um gegen Geld heilen oder Rad heilen zu lassen
                  */
                 //Ärzte
@@ -464,8 +489,15 @@ namespace Fallout
                 roomB[7].HasSomeToFight = true;
                 /*
                  * Quest erstellen 
+                 * 
+                 * An jede Quest eine Beschreibung anhängen, die auch gleichzeitg als "Wegweiser" und Hilfe dient. Da die Vaults unterirdisch sind, gebe ich als "Quest Hilfe" die Beschreibung eines Raumes mit.
+                 * 
+                 * Um es zu verdeutlichen habe ich den Räumen eine Beschreibung gegeben und die Eingänge der Vault liegen unter Feldern.
+                 * 
+                 * Ein Raum wird überprüft ob ein NPC drin ist und diesen wird dann eine Quest übergeben.
+                 * 
                  */
-                Quest q1 = new Quest_Location(roomB[1], "Finde " + roomB[1].NPC[0].Name);  //b1 b1 
+                Quest q1 = new Quest_Location(roomB[1], "Finde " + roomB[1].NPC[0].Name); 
                 q1.Hint = roomG[1].Description;
                 if (roomA[3].NPC != null)
                 {
@@ -485,8 +517,9 @@ namespace Fallout
                 {
                     roomA[7].NPC[0].Quest.Add(q3);
                 }
-
-
+                /* 
+                 * Ein Spiel erstellen ohne das die Räume gefüllt werden? Nicht mir mir  
+                 */
                 FillRooms();
             }
         }
@@ -521,7 +554,7 @@ namespace Fallout
         public void FillRooms()
         {
             /* 
-             * Alle Raumelemente in eine weiteres Array zum angreifen 
+             * Alle Raumelemente in eine weiteres Array zum anfassen 
              */
             Room[][] allRoom = { roomA, roomB, roomC, roomD, roomE, roomF, roomG };
             Tools code = new Tools("Zugangscode", 50, 10, 1, 1);
@@ -628,7 +661,7 @@ namespace Fallout
                     }
                     /*
                      * Ausloten ob dieser Raum ein Monster hat 
-                     * 4 Arten von Monster erstmal. Wurf gibt an welches Monster es gibt.
+                     * 4 Arten von Monster "erstmal". Wurf gibt an welches Monster es gibt.
                      * Wurf unter 1 - 25 = Ghul (sehr schwer)
                      * Wurf unter 26 - 50 = Skorpion ( schwere gegner)
                      * Wurf unter 51 - 75 =  Käfer ( normale)
@@ -655,31 +688,35 @@ namespace Fallout
                      *      RewardGold = W10
                      *      XPMultiplikator = 4    
                      *  
-                     *  RewardGold
+                     *  
+                     *  TODO:
+                     *  
+                     *  Balance  
+                     *  
                      */
                     Monster rat;
                     Monster bug;
                     Monster scorpion;
                     Monster ghul;
-                    if (dice.DiceTrow(100) < 50)  // 50
+                    if (dice.DiceTrow(100) < 50)
                     {
                         int whichMonster = dice.DiceTrow(100);
-                        if (whichMonster <= 25) // 25
+                        if (whichMonster <= 100)
                         {
                             allRoom[i][j].Monster.Add(rat = new Monster("Ratte", dice.DiceTrow(6), dice.DiceTrow(6), dice.DiceTrow(30), 1));
                             allRoom[i][j].HasSomeToFight = true;
                         }
-                        else if (whichMonster <= 50)
+                        else if (whichMonster <= 75)
                         {
                             allRoom[i][j].Monster.Add(bug = new Monster("Käfer", dice.DiceTrow(6) + 1, dice.DiceTrow(6), dice.DiceTrow(40), 2));
                             allRoom[i][j].HasSomeToFight = true;
                         }
-                        else if (whichMonster <= 75)
+                        else if (whichMonster <= 50)
                         {
                             allRoom[i][j].Monster.Add(scorpion = new Monster("Skorpion", dice.DiceTrow(6) + 2, dice.DiceTrow(6), dice.DiceTrow(80), 3));
                             allRoom[i][j].HasSomeToFight = true;
                         }
-                        else if (whichMonster <= 100)
+                        else if (whichMonster <= 25)
                         {
                             allRoom[i][j].Monster.Add(ghul = new Monster("Ghul", dice.DiceTrow(6) + 3, dice.DiceTrow(6), dice.DiceTrow(100), 4));
                             allRoom[i][j].HasSomeToFight = true;
@@ -690,6 +727,7 @@ namespace Fallout
         }
         /*
          * Den Räumen eine Beschreibung mit auf dem Weg geben 
+         * Um einiges ein bischen einfacher zu machen
          */
         public void MakeDescription()
         {
@@ -707,7 +745,12 @@ namespace Fallout
             roomC[5].Description = "Agavenfeld (Lukeneingang zum Vault 1)";
             roomF[9].Description = "Lemonenbaum (Lukeneingang zum Vault 3)";
         }
-
+        /* 
+         * Hilfe von Klassenkameraden Thomasz
+         * 
+         * Speichern
+         * Gespeichert wird  an dem Ort, wo auch die *.exe liegt 
+         */
         public void Sagegame()
         {
             FileStream filestream = new FileStream("savegame.sav", FileMode.Create);
@@ -716,8 +759,7 @@ namespace Fallout
             formatter.Serialize(filestream, this.player);
 
             filestream.Close();
-        }
-
+        } 
         public void LoadGame()
         {
             if (File.Exists("savegame.sav"))
@@ -731,9 +773,7 @@ namespace Fallout
 
                 fileStream.Close();
             }
-        }
-
-
+        }  
     }
 }
 

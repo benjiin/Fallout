@@ -12,15 +12,17 @@ namespace Fallout
     {
         Dice dice = new Dice();
         public List<Quest> QuestLog { get; set; }
-        
+        /* 
+         * Hilfe vom Dozenten
+         * Ich wollte die fehlende Xp immer errechen lassen. Diese ist der spieler level mal 100 
+         */
         public int NeedExperience {
             get
             {
                 return this.Level * 100;
             }
 
-        }
-
+        }   
         public Room Home { get; set; }
         public Player()
         {
@@ -39,8 +41,10 @@ namespace Fallout
             this.XrayRadiation = 0;
             this.MaxXrayRadiation = 100;
             this.Money = 0;
-        }       
-
+        }
+        /* 
+         * Diese Methode packt mir gefundene Items ins Inventar. Wenn es Kronkorken sind (die ja nix wiegen) wird die Menge erhöht. 
+         */         
         public void AddInventar(Stuff item)
         {
             if(item is Tools)
@@ -66,8 +70,7 @@ namespace Fallout
                     Console.WriteLine("Zu schwer");
                 }
             }            
-        }
-
+        }  
         public void RemoveInventory(Stuff item)
         {
             if(this.Inventory.Contains(item))
@@ -118,9 +121,9 @@ namespace Fallout
         }
         /*
          * Beste Methode ... Überprüfe mein Inventar ob es bestimmte Items hat
-         * 2 == Kronkorken
-         * 3 == Tools
-         * 4 == Potions 
+         * ID 2 == Kronkorken
+         * ID 3 == Tools
+         * ID 4 == Potions 
          */
         public bool HasTools(int id)
         {
@@ -173,9 +176,14 @@ namespace Fallout
             }
             return false;
         }
-
-
-
+        /*
+         * Hilfe vom Dozenten:
+         * Diese Methode sollen alle "LivingCreature"-Klassen besitzen, aber auch mit verschiedenen "Werten"
+         *  
+         * Für den Player möchte ich alles ausgeben.
+         * 
+         * Ich übergebe einen Start und Endpunkt als Integer um mit der "Methode?" Console.SetCursorPosition den Text dorthin zu setzen wo ich möchte
+         */
         public override void GetStats(int start, int end)
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -216,8 +224,9 @@ namespace Fallout
             Console.Write(this.XrayRadiation);
             Console.ResetColor();
         }
-
-
+        /*
+         * Für jeden Versuch eine verschlossene Truhe zu öffnen, wird eine Haarklammer (BobbyPin) entfernt 
+         */  
         public void RemoveBobby()
         {
             if (this.Inventory != null)
@@ -230,13 +239,6 @@ namespace Fallout
                         return;
                     }
                 }
-            }
-        }
-        public void CheckQuest()
-        {
-            foreach (var item in QuestLog)
-            {
-                
             }
         }
     }

@@ -16,7 +16,6 @@ namespace Fallout
              */
             Menu menu = new Menu();
             menu.Start();  
-        }
-
+        }   
     }
 }
