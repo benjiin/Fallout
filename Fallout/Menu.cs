@@ -354,6 +354,7 @@ namespace Fallout
                         else if(npc.ID ==2)
                         {
                             SellfromNPC();
+                            invalidinput = false;
                         }
                         break;
                     default:
@@ -369,9 +370,35 @@ namespace Fallout
         public void SellfromNPC()
         {
             Console.Clear();
-            Console.WriteLine("Ich stecke noch in der BETA Phase und kann noch nix kaufen");
-            PressAnyKey();
-            DoSomeWithNPC();
+            game.player.GetallInventar();
+            Playerborder();
+            Menuitem = new List<Option>();
+            Option back = new Option('X', "Zurück");
+            for(int i=0; i<game.player.Inventory.Count; i++)
+            {
+                Option stuff = new Option((char)(97 + i), game.player.Inventory[i].Name.Length > 12 ? game.player.Inventory[i].Name + "\tWert: " + game.player.Inventory[i].Value : game.player.Inventory[i].Name + "\t\tWert: " + game.player.Inventory[i].Value); 
+                Menuitem.Add(stuff);
+            }
+            Menuitem.Add(back);
+            ConsoleKeyInfo inputSFN = Console.ReadKey();
+            ShowOption();
+            Menuitem.RemoveRange(0, Menuitem.Count);
+            bool invalidinput = true;
+            do
+            {
+                switch (inputSFN.Key)
+                {
+                    case ConsoleKey.D1:
+                        Console.WriteLine("sds");
+                        PressAnyKey();
+                        break;
+                    default:
+                        Console.WriteLine("Ich habe Ihre Eingabe nicht verstanden");
+                        Console.Read();
+                        SellfromNPC();
+                        break;
+                }
+            } while (invalidinput);
         }
         public void RemoveRad()
         {
@@ -576,7 +603,24 @@ namespace Fallout
                     switch (inputUseItem.Key)
                     {
                         case ConsoleKey.D1:
-                            EatItem(game.player.Inventory[0]);
+                            if(game.player.Inventory[0].ID == 4)
+                            {
+                                EatItem(game.player.Inventory[0]);
+                            }
+                            InvalidInput = false;
+                            break;
+                        case ConsoleKey.D2:
+                            if (game.player.Inventory[1].ID == 4)
+                            {
+                                EatItem(game.player.Inventory[1]);
+                            }
+                            InvalidInput = false;
+                            break;
+                        case ConsoleKey.D3:
+                            if (game.player.Inventory[2].ID == 4)
+                            {
+                                EatItem(game.player.Inventory[2]);
+                            }
                             InvalidInput = false;
                             break;
                         case ConsoleKey.X:
@@ -1712,7 +1756,7 @@ namespace Fallout
             if(name != string.Empty && !name.Any(char.IsDigit) && !name.Contains(" "))
             {
                 game.player.Name = name;
-                game.player.CurrentRoom = game.roomB[5];
+                game.player.CurrentRoom = game.roomG[1];
                 game.player.Home = game.roomB[5];
             } else
             {
